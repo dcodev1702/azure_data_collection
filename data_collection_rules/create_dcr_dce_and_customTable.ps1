@@ -36,9 +36,7 @@ function Invoke-DCR-API {
         [Parameter(Mandatory=$false)][string]$DCRLogFilePattern = "C:\\mde\\mde*.json"
     )
 
-    # !!! CHANGE ME !!!
-
-    # No need to change these variables
+    # !!! CHANGE THESE VARIABLES AS REQUIRED !!!
     [string]$dceName     = "acedev-dce"
     [string]$dcrName     = "acedev-dcr"
     [string]$customTable = "ACEDEV_CL"
