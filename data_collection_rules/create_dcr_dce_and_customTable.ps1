@@ -13,10 +13,11 @@ Usage:
 3. Run the PowerShell script
 
     . ./create-ct-dce-dcr-api.ps1
-    
-    
-    Invoke-DCR-API -Action Provision -ResourceGroup "sec_telem_law_1" -WorkspaceName "aad-telem" -Location "eastus2" -RetainCustomTable $true -DCRLogFilePattern "C:\mde\mde*.json"
-    Invoke-DCR-API -Action Delete -ResourceGroup "sec_telem_law_1" -WorkspaceName "aad-telem" -Location "eastus2" -RetainCustomTable $true -DCRLogFilePattern "C:\mde\mde*.json"
+    Invoke-DCR-API -Action Provision -ResourceGroup "sec_telem_law_1" -WorkspaceName "aad-telem" -Location "eastus2" -DCRLogFilePattern "C:\mde\mde*.json"
+    Invoke-DCR-API -Action Provision -ResourceGroup "sec_telem_law_1" -WorkspaceName "aad-telem" -Location "eastus2"
+
+    Invoke-DCR-API -Action Delete -ResourceGroup "sec_telem_law_1" -WorkspaceName "aad-telem" -Location "eastus2" -RetainCustomTable $true
+    Invoke-DCR-API -Action Delete -ResourceGroup "sec_telem_law_1" -WorkspaceName "aad-telem" -Location "eastus2" -RetainCustomTable $false
 
 #>
 
@@ -29,7 +30,9 @@ function Invoke-DCR-API {
         [Parameter(Mandatory=$true)][string]$ResourceGroup,
         [Parameter(Mandatory=$true)][string]$WorkspaceName,
         [Parameter(Mandatory=$true)][string]$Location,
-        [Parameter(Mandatory=$false)][boolean]$RetainCustomTable = $true,
+        [Parameter(Mandatory=$false)]
+        [ValidateSet($true,$false)]
+        [boolean]$RetainCustomTable = $true,
         [Parameter(Mandatory=$false)][string]$DCRLogFilePattern = "C:\\mde\\mde*.json"
     )
 
