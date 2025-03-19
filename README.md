@@ -65,7 +65,7 @@ In order for data to be ingested correctly into a Log Analytics Custom Table the
 
 ## EXAMPLE 1
 
-`$currentTime = Get-Date ([datetime]::UtcNow) -Format O`
+`$TimeGenerated = Get-Date ([datetime]::UtcNow) -Format O`
 
 ------------
 File: mde_log_original_100.json
@@ -135,7 +135,7 @@ jq -c '.[]' mde_log_details_100.json
 
 Python Solution
 ---------------
-```console
+```python
 import json
 
 # Read the file from the provided path
@@ -156,7 +156,7 @@ with open("mde_log_output_01.json", "w") as outfile:
 CUSTOM TEXT LOGS
 Kind: Windows/Linux
 ------------------------
-```console
+```json
 "dataSources": {
     "logFiles": [
         {
@@ -182,7 +182,7 @@ Kind: Windows/Linux
 CUSTOM JSON LOGS
 Kind: Windows/Linux
 -------------------------
-```console
+```json
 "dataSources": {
     "logFiles": [
         {
