@@ -89,7 +89,7 @@ File: mde_log_original_100.json
       "CloudEnabled": "True"
   },
   {
-      "Time": "$currentTime",
+      "TimeGenerated": "$currentTime",
       "Computer": "PC-$(Get-Random)",
       "AdditionalContext": {
           "InstanceName": "user21",
