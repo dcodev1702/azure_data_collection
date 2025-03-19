@@ -111,7 +111,7 @@
                         "destinations": [
                             "myworkspace"
                         ],
-                        "transformKql": "source | extend TimeGenerated = Time",
+                        "transformKql": "source",
                         "outputStream": "[concat('Custom-', parameter('customLog'), '_CL')]"
                     }
                 ]
