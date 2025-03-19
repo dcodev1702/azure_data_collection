@@ -1,4 +1,4 @@
-# ASSUMPTIONS
+## ASSUMPTIONS
 
 1. You have an Azure subscription and access with the requisite permissions (RBAC)
 2. You have access to the Azure WebShell or PowerShell with the Az module installed
@@ -6,7 +6,7 @@
 
 ---
 
-# CUSTOM TABLE, DCE, DCR CREATION VIA USER INTERFACE (UI) INSTRUCTIONS
+## CUSTOM TABLE, DCE, DCR CREATION VIA USER INTERFACE (UI) INSTRUCTIONS
 
 1. Create the Data Collection Endpoint (DCE)
 2. Have JSON data available for import via UI when creating Custom Table via DCR
@@ -26,7 +26,7 @@
 
 ---
 
-# CUSTOM TABLE, DCE, DCR CREATION VIA COMMAND LINE INTERFACE (CLI) INSTRUCTIONS
+## CUSTOM TABLE, DCE, DCR CREATION VIA COMMAND LINE INTERFACE (CLI) INSTRUCTIONS
 
 1. The script allows you the ability to create DCE's and DCR's w/o deleting the Custom Log (CL) table via CmdLet switch `-RetainCustomTable $true`
 2. Download this [create_dcr_dce_and_customTable.ps1] script to a location where it run (Cloud Shell, VM, or Machine)
@@ -45,7 +45,7 @@
 
 ---
 
-# SENDING DATA (JSON) TO A CUSTOM TABLE WITHIN A LOG ANALYTICS WORKSPACE
+## SENDING DATA (JSON) TO A CUSTOM TABLE WITHIN A LOG ANALYTICS WORKSPACE
 
 [https://learn.microsoft.com/en-us/azure/azure-monitor/vm/data-collection-log-json](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/data-collection-log-json)
 
