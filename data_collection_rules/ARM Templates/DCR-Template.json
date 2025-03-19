@@ -8,6 +8,13 @@
                 "description": "Specifies the name of the Data Collection Rule to create."
             }
         },
+        "customLog": {
+            "type": "string",
+            "defaultValue": "PJL_HAWK",
+            "metadata": {
+                "description": "Specifies the location in which to create the Data Collection Rule."
+            }
+        },
         "location": {
             "type": "string",
             "defaultValue": "eastus2",
@@ -41,24 +48,49 @@
                     "Custom-MyTableRawData": {
                         "columns": [
                             {
-                                "name": "Time",
-                                "type": "datetime"
+                                "name": "TimeGenerated",
+                                "type": "dateTime",   
+                                "description": "The time the event was generated"
                             },
                             {
-                                "name": "Computer",
-                                "type": "string"
+                                "name": "Name",
+                                "type": "string",
+                                "description": "The name of the Hacker"
                             },
                             {
-                                "name": "AdditionalContext",
-                                "type": "dynamic"
+                                "name": "Version",
+                                "type": "string",
+                                "description": "The computer they use to hack"
                             },
                             {
-                                "name": "CounterName",
-                                "type": "string"
+                                "name": "OS",
+                                "type": "string",
+                                "description": "The OS they use to hack with"
                             },
                             {
-                                "name": "CounterValue",
-                                "type": "real"
+                                "name": "Hardare",
+                                "type": "dynamic",
+                                "description": "The hardware they use to hack with"
+                            },
+                            {
+                                "name": "Distro",
+                                "type": "dynamic",
+                                "description": "Linux distro of choice"
+                            },
+                            {
+                                "name": "OSVersion",
+                                "type": "string",
+                                "description": "The version of the OS"
+                            },
+                            {
+                                "name": "OSArchitecture",
+                                "type": "string",
+                                "description": "The architecture of the OS"
+                            },
+                            {
+                                "name": "GenAI",
+                                "type": "string",
+                                "description": "The GenAI they use to hack with"
                             }
                         ]
                     }
@@ -80,7 +112,8 @@
                             "myworkspace"
                         ],
                         "transformKql": "source | extend TimeGenerated = Time",
-                        "outputStream": "Custom-MyTable_CL"
+                        "outputStream": "[concat('Custom-', parameter('customLog'), '_CL')]"
+"
                     }
                 ]
             }
