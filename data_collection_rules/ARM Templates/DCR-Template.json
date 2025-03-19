@@ -8,7 +8,7 @@
                 "description": "Specifies the name of the Data Collection Rule to create."
             }
         },
-        "customLog": {
+        "customLogName": {
             "type": "string",
             "defaultValue": "PJL_HAWK",
             "metadata": {
@@ -112,7 +112,7 @@
                             "myworkspace"
                         ],
                         "transformKql": "source",
-                        "outputStream": "[concat('Custom-', parameters('customLog'), '_CL')]"
+                        "outputStream": "[concat('Custom-', parameters('customLogName'), '_CL')]"
                     }
                 ]
             }
