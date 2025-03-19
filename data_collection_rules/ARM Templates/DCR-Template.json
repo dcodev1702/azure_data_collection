@@ -45,7 +45,7 @@
             "properties": {
                 "dataCollectionEndpointId": "[parameters('endpointResourceId')]",
                 "streamDeclarations": {
-                    "Custom-MyTableRawData": {
+                    "[concat('Custom-', parameters('customLogName'), '_CL')]": {
                         "columns": [
                             {
                                 "name": "TimeGenerated",
@@ -106,7 +106,7 @@
                 "dataFlows": [
                     {
                         "streams": [
-                            "Custom-MyTableRawData"
+                            "[concat('Custom-', parameters('customLogName'), '_CL')]"
                         ],
                         "destinations": [
                             "myworkspace"
