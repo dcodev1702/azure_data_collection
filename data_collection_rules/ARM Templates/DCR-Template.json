@@ -12,7 +12,7 @@
             "type": "string",
             "defaultValue": "PJL_HAWK",
             "metadata": {
-                "description": "Specifies the location in which to create the Data Collection Rule."
+                "description": "Enter in the name of your table. 'Custom-' and '_CL' are already supplied."
             }
         },
         "location": {
