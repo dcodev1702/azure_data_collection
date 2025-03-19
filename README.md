@@ -139,6 +139,7 @@ jq -c '.[]' mde_log_details_100.json
 
 
 Python Solution
+Turn a JSON array of objects into single inline objects
 ---------------
 ```python
 import json
