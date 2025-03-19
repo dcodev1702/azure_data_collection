@@ -8,6 +8,8 @@
 
 ## RESOURCES:
 [Data Collection Rules](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-overview) </br>
+[Data Collection Rule - Structure](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-structure)
+[Create & Edit Data Collection Rules](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-create-edit?tabs=arm)
 [Logs Ingestion API](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-ingestion-api-overview) </br>
 [Sample Code Ingestion](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/tutorial-logs-ingestion-code?tabs=powershell) </br>
 
