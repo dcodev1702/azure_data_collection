@@ -1,7 +1,7 @@
 ### Data Collection Endpoint & Rule creation via ARM Template Deployment (Azure UI)
 ---------------------------------------
 - DCR's of Kind: Direct DO NOT REQUIRE A DCE! </br>
-  You have to select the latest API: 2023-03-11 to see the LogIngestion REST API Endpoint (Direct: Endpoint -> logIngestion) </br>
+  **You have to select the latest API: 2023-03-11 to see the LogIngestion REST API Endpoint (Direct: Endpoint -> logIngestion) </br>
   ![image](https://github.com/user-attachments/assets/995dab2d-1fbc-4337-a9b5-ed9425cd4e69)
 
 - [Data Stream](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-ingestion-api-overview#endpoint) names within a DCR matter when it comes to sending data via REST API
