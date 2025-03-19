@@ -1,0 +1,32 @@
+[
+    {
+       
+        "Name": "DCODEV - Cloud Hunter",
+        "Version": "14.8.0987",
+        "OS": "Gentoo - GNU/Linux",
+        "OSVersion": "6.8.0-1052-azure",
+        "OSArchitecture": "x86_64",
+        "GenAI": "OpenAI / GPT-4.5 Turbo"
+       
+    },
+    {
+       
+        "Name": "T0pCyber - Hawk",
+        "Version": "8.8.6.2304",
+        "OS": "Macbook Pro",
+        "OSVersion": "15.3.26100.3476",
+        "OSArchitecture": "arm64",
+        "GenAI": "Grok 3"
+       
+    },
+    {
+       
+        "Name": "JJ-BOTTLES - Hawk",
+        "Version": "3.7.6.0004",
+        "OS": "Windows 11 24H2",
+        "OSVersion": "10.0.26100.3476",
+        "OSArchitecture": "x86_32",
+        "GenAI": "Anthropic / Claude 3.7 Sonnet"
+       
+    }
+]
