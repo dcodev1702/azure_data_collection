@@ -11,8 +11,9 @@
 [Data Collection Rule - Structure](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-structure) </br>
 [Create & Edit Data Collection Rules](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-create-edit?tabs=arm) </br>
 [Logs Ingestion API](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-ingestion-api-overview) </br>
-[Logs Ingestion API - Tutorial](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/tutorial-logs-ingestion-api?tabs=dcr)
+[Logs Ingestion API - Tutorial](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/tutorial-logs-ingestion-api?tabs=dcr) </br>
 [Sample Code Ingestion](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/tutorial-logs-ingestion-code?tabs=powershell) </br>
+[How-To send Custom Text & JSON Logs](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-samples) </br>
 
 ## CUSTOM TABLE, DCE, DCR CREATION VIA USER INTERFACE (UI) INSTRUCTIONS
 
