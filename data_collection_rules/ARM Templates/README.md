@@ -2,7 +2,8 @@
 ---------------------------------------
 - DCR's of Kind: Direct DO NOT REQUIRE A DCE! </br>
    * In Azure Monitor -> Data Collection Rules -> Your DCR. You have to select the latest API: 2023-03-11 to see the LogIngestion REST API Endpoint. </br>
-  ![image](https://github.com/user-attachments/assets/995dab2d-1fbc-4337-a9b5-ed9425cd4e69)
+   ![image](https://github.com/user-attachments/assets/d81ab64e-75c2-4601-87d0-4197143f9d2d)
+
 
 - [Data Stream](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-ingestion-api-overview#endpoint) names within a DCR matter when it comes to sending data via REST API
   ![image](https://github.com/user-attachments/assets/a70122bf-94d3-47f0-9b78-ce59640fc623)
