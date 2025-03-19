@@ -30,7 +30,7 @@ $logIngestionEp = "ENTER YOUR DCE OR LOG INGESTION URI/ENDPOINT HERE"
 $dcrImmutableId = "ENTER YOUR DCR IMMUTABLE ID HERE"
 
 $currentTime    = (Get-Date).ToString("yyyy-MM-ddTHH:mm:ssZ") # current time in UTC format
-$streamName     = "Custom-ACEDCO_CL" # name of the stream in the DCR that represents the destination table
+$streamName     = "Custom-PJL_HAWK_CL" # name of the stream in the DCR that represents the destination table
 
 ### Step 1: Obtain a bearer token used later to authenticate against the DCE.
 ### The App Registration must have the "Metrics Publishing" RBAC role assigned to the DCR and the DCE must be linked to the DCR.
