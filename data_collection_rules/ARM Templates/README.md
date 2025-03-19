@@ -1,7 +1,7 @@
 ### Data Collection Endpoint & Rule creation via ARM Template Deployment (Azure UI)
 ---------------------------------------
 - DCR's of Kind: Direct DO NOT REQUIRE A DCE! </br>
-   * In Azure Monitor -> Data Collection Rules -> Your DCR. You have to select the latest API: 2023-03-11 to see the LogIngestion REST API Endpoint. </br>
+   * Azure Monitor -> Data Collection Rules -> Your DCR. Select the latest API: 2023-03-11 to see the LogIngestion REST API Endpoint. </br>
    ![image](https://github.com/user-attachments/assets/d81ab64e-75c2-4601-87d0-4197143f9d2d)
 
 
