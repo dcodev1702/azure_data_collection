@@ -43,7 +43,7 @@ $bearerToken = (Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $h
 
 ### Step 2: Import Dummy JSON data from file.
 #$JSONData = Get-Content -Path ".\mde_data\mde_log_05_sl.json" -Raw
-$JSONData = Get-Content -Path ".\mde_data\mde_log_original_100.json" -Raw
+$JSONData = Get-Content -Path ".\data\dummy_data.json" -Raw
 
 ## The JSON data must be in the same format as the CL in the DCR.
 ## The JSON data must be in SINGLE LINE format (no line breaks).
