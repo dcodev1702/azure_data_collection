@@ -112,7 +112,7 @@
                             "myworkspace"
                         ],
                         "transformKql": "source",
-                        "outputStream": "[concat('Custom-', parameter('customLog'), '_CL')]"
+                        "outputStream": "[concat('Custom-', parameters('customLog'), '_CL')]"
                     }
                 ]
             }
