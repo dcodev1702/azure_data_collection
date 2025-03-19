@@ -1,6 +1,6 @@
 ## ASSUMPTIONS
 
-1. You have an Azure subscription and access with the requisite permissions (RBAC)
+1. You have an [Azure](https://azure.microsoft.com/en-us/) subscription and access with the requisite permissions (RBAC)
 2. You have access to the Azure WebShell or PowerShell with the Az module installed
 3. PowerShell knowledge to include an understanding of REST APIs, DCR, DCE, and Custom Table Schemas.
 
