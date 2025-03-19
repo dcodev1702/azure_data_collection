@@ -127,7 +127,7 @@ IT WILL INJEST INTO LOG-A JUST FINE.
 ```json
 [
     {"TimeGenerated":"$currentTime","Computer":"PC-$(Get-Random)","AdditionalContext":{"InstanceName":"user14","TimeZone":"Pacific Time","Level":4,"CounterValue":15.3},"Location":"Hybrid","CloudEnabled":"True"},
-    {"Time":"$currentTime","Computer":"PC-$(Get-Random)","AdditionalContext":{"InstanceName":"user21","TimeZone":"Central Time","Level":3,"CounterValue":23.5},"Location":"On-Site","CloudEnabled":"False"}
+    {"TimeGenerated":"$currentTime","Computer":"PC-$(Get-Random)","AdditionalContext":{"InstanceName":"user21","TimeZone":"Central Time","Level":3,"CounterValue":23.5},"Location":"On-Site","CloudEnabled":"False"}
 ]
 ```
 
