@@ -69,7 +69,7 @@ In order for data to be ingested correctly into a Log Analytics Custom Table the
 
 ------------
 File: mde_log_original_100.json
-```console
+```json
 [
   {
       "TimeGenerated": "$currentTime",
@@ -102,7 +102,7 @@ File: mde_log_original_100.json
 -------------------
 THIS JSON (ABOVE) HAS TO BE ENCAPSULATED IN A STRING OR ELSE LOG-A WILL DROP IT.
 
-```console
+```python
 $JSONData = Get-Content -Path ".\mde_data\mde_log_original_100.json" -Raw
 
 $body = @"
@@ -119,7 +119,7 @@ EXAMPLE 2:
 ----------
 THIS JSON DOES NOT REQUIRE TO BE ENCAPSULATED IN A STRING BEC THE OBJECTS ARE SINGLE LINE. 
 IT WILL INJEST INTO LOG-A JUST FINE.
-```console
+```json
 [
     {"TimeGenerated":"$currentTime","Computer":"PC-$(Get-Random)","AdditionalContext":{"InstanceName":"user14","TimeZone":"Pacific Time","Level":4,"CounterValue":15.3},"Location":"Hybrid","CloudEnabled":"True"},
     {"Time":"$currentTime","Computer":"PC-$(Get-Random)","AdditionalContext":{"InstanceName":"user21","TimeZone":"Central Time","Level":3,"CounterValue":23.5},"Location":"On-Site","CloudEnabled":"False"}
@@ -128,7 +128,7 @@ IT WILL INJEST INTO LOG-A JUST FINE.
 
 Convert JSON to single line JSON using JQ
 -----------------------------------------
-```console
+```bash
 jq -c '.[]' mde_log_details_100.json
 ```
 
