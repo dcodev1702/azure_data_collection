@@ -48,11 +48,6 @@
                     "[concat('Custom-', parameters('customLogName'), '_CL')]": {
                         "columns": [
                             {
-                                "name": "TimeGenerated",
-                                "type": "datetime",   
-                                "description": "The time the event was generated"
-                            },
-                            {
                                 "name": "Name",
                                 "type": "string",
                                 "description": "The name of the Hacker"
@@ -111,7 +106,7 @@
                         "destinations": [
                             "myworkspace"
                         ],
-                        "transformKql": "source",
+                        "transformKql": "source | extend TimeGenerated = now()",
                         "outputStream": "[concat('Custom-', parameters('customLogName'), '_CL')]"
                     }
                 ]
