@@ -10,6 +10,7 @@
         },
         "location": {
             "type": "string",
+            "defaultValue": "eastus2",
             "metadata": {
                 "description": "Specifies the location in which to create the Data Collection Rule."
             }
