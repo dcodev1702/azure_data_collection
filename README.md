@@ -6,6 +6,9 @@
 
 ---
 
+## RESOURCES:
+[Data Collection Rules](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-overview)
+
 ## CUSTOM TABLE, DCE, DCR CREATION VIA USER INTERFACE (UI) INSTRUCTIONS
 
 1. Create the Data Collection Endpoint (DCE)
