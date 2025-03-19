@@ -113,7 +113,6 @@
                         ],
                         "transformKql": "source | extend TimeGenerated = Time",
                         "outputStream": "[concat('Custom-', parameter('customLog'), '_CL')]"
-"
                     }
                 ]
             }
