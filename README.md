@@ -160,7 +160,7 @@ with open("mde_log_output_01.json", "w") as outfile:
 
 ------------------------
 #### CUSTOM TEXT LOGS  
-Kind: Windows/Linux
+[Kind](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-structure#kind): Windows/Linux
 
 ------------------------
 ```json
@@ -187,7 +187,7 @@ Kind: Windows/Linux
 
 -------------------------
 #### CUSTOM JSON LOGS  
-Kind: Windows/Linux
+[Kind](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-structure#kind): Windows/Linux
 
 -------------------------
 ```json
