@@ -49,7 +49,7 @@
                         "columns": [
                             {
                                 "name": "TimeGenerated",
-                                "type": "dateTime",   
+                                "type": "datetime",   
                                 "description": "The time the event was generated"
                             },
                             {
