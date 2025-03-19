@@ -7,7 +7,8 @@
 <#
 Pre-requisites:
 1. Ensure you have an Azure subscription and appropriate role based access.
-2. Create a Data Collection Endpoint (DCE) in the Azure portal.
+2. IF your DCR is 'kind' = 'direct', you do NOT need a DCE. You can use the log ingestion uri (API: 2023-03-11)
+   - Create a Data Collection Endpoint (DCE) in the Azure portal.
    - The DCE must be in the same region as the Log Analytics workspace.
    - The DCE must be assigned to a Data Collection Rule (DCR).
 3. Create a Data Collection Rule (DCR) in the Azure portal and assign it to the DCE.
@@ -25,7 +26,7 @@ $appId     = "ENTER YOUR APP ID HERE"
 $appSecret = "ENTER YOUR APP SECRET HERE"
 
 # information needed to send data to the DCR endpoint
-$dceEndpoint    = "ENTER YOUR DCE LOG INGESTION URI/ENDPOINT HERE"
+$logIngestionEp = "ENTER YOUR DCE OR LOG INGESTION URI/ENDPOINT HERE"
 $dcrImmutableId = "ENTER YOUR DCR IMMUTABLE ID HERE"
 
 $currentTime    = (Get-Date).ToString("yyyy-MM-ddTHH:mm:ssZ") # current time in UTC format
