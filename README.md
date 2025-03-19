@@ -24,8 +24,8 @@
      - [https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-transformations-kql](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-transformations-kql)
    - The UI will create the DCR columns **AND** Custom Log columns with matching names and dataTypes
    - <span style="color: yellow;">**THE CUSTOM LOG TABLE AND DCR COLUMN NAMES AND DATATYPES HAVE TO MATCH!!!!!**</span>
-   - <span style="color: yellow;">**YOU CANNOT MAKE CHANGES TO ONE WITHOUT CHANGING THE OTHER TO THE EXACT SAME DATATYPE!!!**</span>
-     - <span style="color: green;">THIS THEORY WAS TESTED & VALIDATED ON MARCH 16 2025</span>
+  - <span style="color: yellow;">**YOU CANNOT MAKE CHANGES TO ONE WITHOUT CHANGING THE OTHER TO THE EXACT SAME DATATYPE!!!**</span>
+    - <span style="color: green;">THIS THEORY WAS TESTED & VALIDATED ON MARCH 16 2025</span>
 4. Assign the Application Registration to the DCR with the 'Log Metrics Publisher' role (RBAC)
 5. Associate VM's to the Data Collection Rule (DCR)
 
