@@ -153,8 +153,9 @@ with open("mde_log_output_01.json", "w") as outfile:
 ```
 
 ------------------------
-CUSTOM TEXT LOGS
+#### CUSTOM TEXT LOGS  
 Kind: Windows/Linux
+
 ------------------------
 ```json
 "dataSources": {
@@ -179,8 +180,9 @@ Kind: Windows/Linux
 ```
 
 -------------------------
-CUSTOM JSON LOGS
+#### CUSTOM JSON LOGS  
 Kind: Windows/Linux
+
 -------------------------
 ```json
 "dataSources": {
