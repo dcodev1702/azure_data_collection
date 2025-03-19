@@ -20,12 +20,12 @@ Pre-requisites:
    -- The JSON file MUST be in SINGLE LINE format (no line breaks).
 #>
 
-# information needed to authenticate to Entra ID and obtain a bearer token
+# Information needed to authenticate to Entra ID and obtain a bearer token
 $tenantId  = "$((Get-AzContext).Tenant.Id)"
 $appId     = "ENTER YOUR APP ID HERE"
 $appSecret = "ENTER YOUR APP SECRET HERE"
 
-# information needed to send data to the DCR endpoint
+# Information needed to send data to the DCR endpoint
 $logIngestionEp = "ENTER YOUR DCE OR LOG INGESTION URI/ENDPOINT HERE"
 $dcrImmutableId = "ENTER YOUR DCR IMMUTABLE ID HERE"
 
