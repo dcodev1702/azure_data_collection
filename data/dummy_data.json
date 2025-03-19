@@ -4,6 +4,19 @@
         "Name": "DCODEV - Cloud Hunter",
         "Version": "14.8.0987",
         "OS": "Gentoo - GNU/Linux",
+        "hardware": {
+            "model": "Dell XPS 15",
+            "chip": "Intel Core i9-13900H",
+            "ram": "96GB",
+            "storage": "4TB SSD",
+            "release_year": 2025
+        },
+        "distro": {
+            "name": "Gentoo",
+            "version": "Rolling Release",
+            "init": "OpenRC",
+            "package_manager": "Portage"
+        },
         "OSVersion": "6.8.0-1052-azure",
         "OSArchitecture": "x86_64",
         "GenAI": "OpenAI / GPT-4.5 Turbo"
@@ -14,8 +27,15 @@
         "Name": "T0pCyber - Hawk",
         "Version": "8.8.6.2304",
         "OS": "Macbook Pro",
-        "OSVersion": "15.3.26100.3476",
+        "OSVersion": "macOS Ventura - 15.3.26100.3476",
         "OSArchitecture": "arm64",
+        "hardware": {
+            "model": "Macbook Pro 16-inch",
+            "chip": "Apple M3 Pro",
+            "ram": "128GB",
+            "storage": "4TB SSD",
+            "release_year": 2024
+        },
         "GenAI": "Grok 3"
        
     },
@@ -26,6 +46,13 @@
         "OS": "Windows 11 24H2",
         "OSVersion": "10.0.26100.3476",
         "OSArchitecture": "x86_32",
+        "hardware": {
+            "manufacturer": "HP",
+            "model": "Spectre x760",
+            "ram": "96GB",
+            "storage": "2TB SSD",
+            "release_year": 2023
+        },
         "GenAI": "Anthropic / Claude 3.7 Sonnet"
        
     }
