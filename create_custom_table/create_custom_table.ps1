@@ -20,37 +20,56 @@ $subscription = $(Get-AzContext).Subscription.Id
 $rgName = 'RCC-E'
 $wsName = 'rccelab-law'
 
-
 $tableParams = @'
 {
     "properties": {
         "schema": {
-            "name": "MyTable_CL",
+            "name": "PJL_HAWK_CL",
             "columns": [
                 {
                     "name": "TimeGenerated",
-                    "type": "datetime",
-                    "description": "The time at which the data was generated"
+                    "type": "datetime",   
+                    "description": "The time the event was generated"
+                },
+                {
+                    "name": "Name",
+                    "type": "string",
+                    "description": "The name of the Hacker"
                 },
                {
-                    "name": "Computer",
+                    "name": "Version",
                     "type": "string",
-                    "description": "The computer that generated the data"
+                    "description": "The computer they use to hack"
                 },
                 {
-                    "name": "AdditionalContext",
+                    "name": "OS",
+                    "type": "string",
+                    "description": "The OS they use to hack with"
+                },
+                {
+                    "name": "Hardare",
                     "type": "dynamic",
-                    "description": "Additional message properties"
+                    "description": "The hardware they use to hack with"
                 },
                 {
-                    "name": "CounterName",
+                    "name": "Distro",
+                    "type": "dynamic",
+                    "description": "Linux distro of choice"
+                },
+                {
+                    "name": "OSVersion",
                     "type": "string",
-                    "description": "Name of the computer"
+                    "description": "The version of the OS"
                 },
                 {
-                    "name": "CounterValue",
-                    "type": "real",
-                    "description": "Value collected for the counter"
+                    "name": "OSArchitecture",
+                    "type": "string",
+                    "description": "The architecture of the OS"
+                },
+                {
+                    "name": "GenAI",
+                    "type": "string",
+                    "description": "The GenAI they use to hack with"
                 }
             ]
         }
@@ -58,4 +77,4 @@ $tableParams = @'
 }
 '@
 
-Invoke-AzRestMethod -Path "/subscriptions/$subscription/resourcegroups/$rgName/providers/microsoft.operationalinsights/workspaces/$wsName/tables/MyTable_CL?api-version=2022-10-01" -Method PUT -payload $tableParams
+Invoke-AzRestMethod -Path "/subscriptions/$subscription/resourcegroups/$rgName/providers/microsoft.operationalinsights/workspaces/$wsName/tables/PJL_HAWK_CL?api-version=2025-02-01" -Method PUT -payload $tableParams
