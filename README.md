@@ -1,7 +1,7 @@
 ## ASSUMPTIONS
 
 1. You have an [Azure](https://azure.microsoft.com/en-us/) subscription and access with the requisite permissions (RBAC)
-2. You have access to the Azure WebShell or PowerShell with the Az module installed
+2. You have access to the Azure WebShell or [PowerShell](https://learn.microsoft.com/en-us/powershell/) with the [Az](https://learn.microsoft.com/en-us/powershell/azure/new-azureps-module-az?view=azps-13.2.0) module installed
 3. PowerShell knowledge to include an understanding of REST APIs, DCR, DCE, and Custom Table Schemas.
 
 ---
