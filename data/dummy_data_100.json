@@ -1043,7 +1043,7 @@
     },
     {
         "Name":  "PhantomPhreak - PhantomPhreak",
-        "Version":  "NEW.3575.5538",
+        "Version":  "3575.5538",
         "OS":  "Solaris",
         "OSVersion":  "8.8.6.2304",
         "OSArchitecture":  "x86_64",
@@ -1058,7 +1058,7 @@
     },
     {
         "Name":  "ZeroCool - AcidBurn",
-        "Version":  "NEW.4433.5013",
+        "Version":  "4433.5013",
         "OS":  "Arch Linux",
         "OSVersion":  "14.8.0987",
         "OSArchitecture":  "SPARC",
@@ -1079,7 +1079,7 @@
     },
     {
         "Name":  "AgentSmith - ThePlague",
-        "Version":  "NEW.8209.4084",
+        "Version":  "8209.4084",
         "OS":  "Windows 10 Pro",
         "OSVersion":  "macOS Ventura - 15.3.26100.3476",
         "OSArchitecture":  "x86_32",
@@ -1094,7 +1094,7 @@
     },
     {
         "Name":  "AcidBurn - CerealKiller",
-        "Version":  "NEW.8109.4741",
+        "Version":  "8109.4741",
         "OS":  "Debian - GNU/Linux",
         "OSVersion":  "12.6.1",
         "OSArchitecture":  "arm64",
@@ -1115,7 +1115,7 @@
     },
     {
         "Name":  "Oracle - LordNikon",
-        "Version":  "NEW.2325.5348",
+        "Version":  "2325.5348",
         "OS":  "Fedora - GNU/Linux",
         "OSVersion":  "37",
         "OSArchitecture":  "SPARC",
@@ -1136,7 +1136,7 @@
     },
     {
         "Name":  "Merovingian - Morpheus",
-        "Version":  "NEW.8675.3627",
+        "Version":  "8675.3627",
         "OS":  "FreeBSD",
         "OSVersion":  "Rolling Release",
         "OSArchitecture":  "SPARC",
@@ -1151,7 +1151,7 @@
     },
     {
         "Name":  "Merovingian - CrashOverride",
-        "Version":  "NEW.8217.4975",
+        "Version":  "8217.4975",
         "OS":  "Windows 11",
         "OSVersion":  "5.11",
         "OSArchitecture":  "x86_32",
@@ -1166,7 +1166,7 @@
     },
     {
         "Name":  "Niobe - Tank",
-        "Version":  "NEW.3500.9630",
+        "Version":  "3500.9630",
         "OS":  "Solaris",
         "OSVersion":  "10.0.19042",
         "OSArchitecture":  "arm64",
@@ -1181,7 +1181,7 @@
     },
     {
         "Name":  "Tank - Cypher",
-        "Version":  "NEW.8501.2412",
+        "Version":  "8501.2412",
         "OS":  "Ubuntu - GNU/Linux",
         "OSVersion":  "22.04 LTS",
         "OSArchitecture":  "x86_64",
@@ -1202,7 +1202,7 @@
     },
     {
         "Name":  "AgentSmith - Morpheus",
-        "Version":  "NEW.3393.8112",
+        "Version":  "3393.8112",
         "OS":  "Ubuntu - GNU/Linux",
         "OSVersion":  "Rolling Release",
         "OSArchitecture":  "x86_64",
@@ -1223,7 +1223,7 @@
     },
     {
         "Name":  "Neo - Tank",
-        "Version":  "NEW.3949.6730",
+        "Version":  "3949.6730",
         "OS":  "Fedora - GNU/Linux",
         "OSVersion":  "3.7.6.0004",
         "OSArchitecture":  "x86_64",
@@ -1244,7 +1244,7 @@
     },
     {
         "Name":  "CerealKiller - ZeroCool",
-        "Version":  "NEW.3016.3449",
+        "Version":  "3016.3449",
         "OS":  "Ubuntu - GNU/Linux",
         "OSVersion":  "3.7.6.0004",
         "OSArchitecture":  "RISC-V",
@@ -1265,7 +1265,7 @@
     },
     {
         "Name":  "CrashOverride - Niobe",
-        "Version":  "NEW.5104.8664",
+        "Version":  "5104.8664",
         "OS":  "Solaris",
         "OSVersion":  "8.8.6.2304",
         "OSArchitecture":  "MIPS",
@@ -1280,7 +1280,7 @@
     },
     {
         "Name":  "Niobe - Switch",
-        "Version":  "NEW.4837.8545",
+        "Version":  "4837.8545",
         "OS":  "Windows 10 Pro",
         "OSVersion":  "11.6.5",
         "OSArchitecture":  "SPARC",
@@ -1295,7 +1295,7 @@
     },
     {
         "Name":  "Merovingian - ZeroCool",
-        "Version":  "NEW.3840.3628",
+        "Version":  "3840.3628",
         "OS":  "Solaris",
         "OSVersion":  "37",
         "OSArchitecture":  "x86_32",
@@ -1310,7 +1310,7 @@
     },
     {
         "Name":  "Cypher - Morpheus",
-        "Version":  "NEW.8496.2369",
+        "Version":  "8496.2369",
         "OS":  "FreeBSD",
         "OSVersion":  "8.4",
         "OSArchitecture":  "RISC-V",
@@ -1325,7 +1325,7 @@
     },
     {
         "Name":  "AgentSmith - Trinity",
-        "Version":  "NEW.8015.8374",
+        "Version":  "8015.8374",
         "OS":  "Debian - GNU/Linux",
         "OSVersion":  "37",
         "OSArchitecture":  "arm64",
@@ -1346,7 +1346,7 @@
     },
     {
         "Name":  "PhantomPhreak - Cypher",
-        "Version":  "NEW.8928.2451",
+        "Version":  "8928.2451",
         "OS":  "Fedora - GNU/Linux",
         "OSVersion":  "macOS Ventura - 15.3.26100.3476",
         "OSArchitecture":  "MIPS",
@@ -1367,7 +1367,7 @@
     },
     {
         "Name":  "Dozer - ThePlague",
-        "Version":  "NEW.8896.8534",
+        "Version":  "8896.8534",
         "OS":  "FreeBSD",
         "OSVersion":  "Rolling Release",
         "OSArchitecture":  "MIPS",
@@ -1382,7 +1382,7 @@
     },
     {
         "Name":  "AgentSmith - AgentSmith",
-        "Version":  "NEW.4291.9138",
+        "Version":  "4291.9138",
         "OS":  "Debian - GNU/Linux",
         "OSVersion":  "10.0.22000",
         "OSArchitecture":  "x86_32",
@@ -1403,7 +1403,7 @@
     },
     {
         "Name":  "Tank - Tank",
-        "Version":  "NEW.8442.2620",
+        "Version":  "8442.2620",
         "OS":  "macOS Monterey",
         "OSVersion":  "37",
         "OSArchitecture":  "arm64",
@@ -1418,7 +1418,7 @@
     },
     {
         "Name":  "CrashOverride - ThePlague",
-        "Version":  "NEW.8512.8102",
+        "Version":  "8512.8102",
         "OS":  "Windows 10 Pro",
         "OSVersion":  "14.8.0987",
         "OSArchitecture":  "MIPS",
@@ -1433,7 +1433,7 @@
     },
     {
         "Name":  "Niobe - CrashOverride",
-        "Version":  "NEW.5919.7087",
+        "Version":  "5919.7087",
         "OS":  "Solaris",
         "OSVersion":  "22.04 LTS",
         "OSArchitecture":  "MIPS",
@@ -1448,7 +1448,7 @@
     },
     {
         "Name":  "CerealKiller - Dozer",
-        "Version":  "NEW.8530.9006",
+        "Version":  "8530.9006",
         "OS":  "Windows 10 Pro",
         "OSVersion":  "Rolling Release",
         "OSArchitecture":  "MIPS",
@@ -1463,7 +1463,7 @@
     },
     {
         "Name":  "Cypher - CrashOverride",
-        "Version":  "NEW.3504.6602",
+        "Version":  "3504.6602",
         "OS":  "Debian - GNU/Linux",
         "OSVersion":  "37",
         "OSArchitecture":  "x86_64",
@@ -1484,7 +1484,7 @@
     },
     {
         "Name":  "Switch - Niobe",
-        "Version":  "NEW.9485.2663",
+        "Version":  "9485.2663",
         "OS":  "macOS Monterey",
         "OSVersion":  "8.8.6.2304",
         "OSArchitecture":  "SPARC",
@@ -1499,7 +1499,7 @@
     },
     {
         "Name":  "LordNikon - Switch",
-        "Version":  "NEW.9715.7055",
+        "Version":  "9715.7055",
         "OS":  "FreeBSD",
         "OSVersion":  "37",
         "OSArchitecture":  "arm64",
@@ -1514,7 +1514,7 @@
     },
     {
         "Name":  "Neo - Neo",
-        "Version":  "NEW.2603.2492",
+        "Version":  "2603.2492",
         "OS":  "Debian - GNU/Linux",
         "OSVersion":  "11.6.5",
         "OSArchitecture":  "x86_64",
@@ -1535,7 +1535,7 @@
     },
     {
         "Name":  "Neo - ZeroCool",
-        "Version":  "NEW.8504.8147",
+        "Version":  "8504.8147",
         "OS":  "FreeBSD",
         "OSVersion":  "13.0",
         "OSArchitecture":  "arm64",
@@ -1550,7 +1550,7 @@
     },
     {
         "Name":  "Neo - ZeroCool",
-        "Version":  "NEW.3460.3083",
+        "Version":  "3460.3083",
         "OS":  "Debian - GNU/Linux",
         "OSVersion":  "12.6.1",
         "OSArchitecture":  "RISC-V",
@@ -1571,7 +1571,7 @@
     },
     {
         "Name":  "Trinity - Switch",
-        "Version":  "NEW.4639.8853",
+        "Version":  "4639.8853",
         "OS":  "Solaris",
         "OSVersion":  "Rolling Release",
         "OSArchitecture":  "RISC-V",
@@ -1586,7 +1586,7 @@
     },
     {
         "Name":  "Dozer - Morpheus",
-        "Version":  "NEW.9456.6450",
+        "Version":  "9456.6450",
         "OS":  "FreeBSD",
         "OSVersion":  "8.8.6.2304",
         "OSArchitecture":  "MIPS",
@@ -1601,7 +1601,7 @@
     },
     {
         "Name":  "Dozer - Morpheus",
-        "Version":  "NEW.3836.2359",
+        "Version":  "3836.2359",
         "OS":  "Debian - GNU/Linux",
         "OSVersion":  "3.7.6.0004",
         "OSArchitecture":  "MIPS",
@@ -1622,7 +1622,7 @@
     },
     {
         "Name":  "LordNikon - AcidBurn",
-        "Version":  "NEW.3494.3585",
+        "Version":  "3494.3585",
         "OS":  "Windows 10 Pro",
         "OSVersion":  "14.8.0987",
         "OSArchitecture":  "x86_32",
@@ -1637,7 +1637,7 @@
     },
     {
         "Name":  "AgentSmith - ThePlague",
-        "Version":  "NEW.4088.3678",
+        "Version":  "4088.3678",
         "OS":  "Windows 10 Pro",
         "OSVersion":  "37",
         "OSArchitecture":  "SPARC",
@@ -1652,7 +1652,7 @@
     },
     {
         "Name":  "Morpheus - Merovingian",
-        "Version":  "NEW.7027.7321",
+        "Version":  "7027.7321",
         "OS":  "Fedora - GNU/Linux",
         "OSVersion":  "10.0.19042",
         "OSArchitecture":  "SPARC",
@@ -1673,7 +1673,7 @@
     },
     {
         "Name":  "Morpheus - Cypher",
-        "Version":  "NEW.1783.3914",
+        "Version":  "1783.3914",
         "OS":  "Ubuntu - GNU/Linux",
         "OSVersion":  "12.6.1",
         "OSArchitecture":  "x86_32",
@@ -1694,7 +1694,7 @@
     },
     {
         "Name":  "Neo - CrashOverride",
-        "Version":  "NEW.3187.8074",
+        "Version":  "3187.8074",
         "OS":  "Windows 10 Pro",
         "OSVersion":  "macOS Ventura - 15.3.26100.3476",
         "OSArchitecture":  "SPARC",
@@ -1709,7 +1709,7 @@
     },
     {
         "Name":  "Neo - Niobe",
-        "Version":  "NEW.7844.8043",
+        "Version":  "7844.8043",
         "OS":  "Ubuntu - GNU/Linux",
         "OSVersion":  "8.8.6.2304",
         "OSArchitecture":  "MIPS",
@@ -1730,7 +1730,7 @@
     },
     {
         "Name":  "Oracle - Niobe",
-        "Version":  "NEW.3496.1548",
+        "Version":  "3496.1548",
         "OS":  "Ubuntu - GNU/Linux",
         "OSVersion":  "8.8.6.2304",
         "OSArchitecture":  "MIPS",
@@ -1751,7 +1751,7 @@
     },
     {
         "Name":  "Trinity - Tank",
-        "Version":  "NEW.5297.4775",
+        "Version":  "5297.4775",
         "OS":  "FreeBSD",
         "OSVersion":  "10.0.19042",
         "OSArchitecture":  "RISC-V",
@@ -1766,7 +1766,7 @@
     },
     {
         "Name":  "PhantomPhreak - Oracle",
-        "Version":  "NEW.5797.2064",
+        "Version":  "5797.2064",
         "OS":  "Windows 10 Pro",
         "OSVersion":  "5.11",
         "OSArchitecture":  "SPARC",
@@ -1781,7 +1781,7 @@
     },
     {
         "Name":  "ZeroCool - PhantomPhreak",
-        "Version":  "NEW.3113.6679",
+        "Version":  "3113.6679",
         "OS":  "FreeBSD",
         "OSVersion":  "8.8.6.2304",
         "OSArchitecture":  "MIPS",
