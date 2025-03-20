@@ -167,14 +167,14 @@ Turn a JSON array of objects into single inline objects (JQ / PWSH / Python) </b
 Convert JSON to single line JSON using JQ
 -----------------------------------------
 ```bash
-jq -c '.[]' mde_log_details_100.json
+jq -c '.[]' .\data\dummy_data_100.json
 ```
 
 PowerShell Solution
 -------------------
 ```powershell
 # Read the JSON file as a single string and convert it to objects
-$data = Get-Content ".\data\dummy_data.json" -Raw | ConvertFrom-Json
+$data = Get-Content ".\data\dummy_data_100.json" -Raw | ConvertFrom-Json
 
 # Convert each object to a compact JSON string
 $compactEntries = $data | ForEach-Object { $_ | ConvertTo-Json -Compress }
@@ -185,7 +185,7 @@ $output += ($compactEntries -join ",`n")
 $output += ("]")
 
 # Write the output to a new file
-$output | Set-Content ".\data\dummy_data_sl.json"
+$output | Set-Content ".\data\dummy_data_100_sl.json"
 ```
 
 Python Solution
@@ -194,14 +194,14 @@ Python Solution
 import json
 
 # Read the file from the provided path
-with open(".\data\dummy_data.json", "r") as f:
+with open(".\data\dummy_data_100.json", "r") as f:
     data = json.load(f)
 
 # Convert each entry to a compact (single-line) JSON string
 compact_entries = [json.dumps(entry, separators=(",", ":")) for entry in data]
 
 # Write the compact entries as a JSON array to a file
-with open(".\data\dummy_data_sl.json", "w") as outfile:
+with open(".\data\dummy_data_100_sl.json", "w") as outfile:
     outfile.write("[\n")
     outfile.write(",\n".join(compact_entries))
     outfile.write("\n]\n")
