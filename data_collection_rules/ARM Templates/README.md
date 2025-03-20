@@ -15,7 +15,8 @@
 - [Data Stream](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-ingestion-api-overview#endpoint) names within a DCR matter when it comes to sending data via REST API </br>
 
   When sending telemetry via REST API, it's vitally important to ensure the STREAMS match!! (highlighted in red) </br>
-  ![image](https://github.com/user-attachments/assets/feacc6dd-1773-415b-99c0-fdb6ab35e6e9)
+  ![image](https://github.com/user-attachments/assets/3b8fb6f1-82a0-497c-8325-9fd686358999)
+
 
 
   ![image](https://github.com/user-attachments/assets/a70122bf-94d3-47f0-9b78-ce59640fc623)
