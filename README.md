@@ -73,9 +73,6 @@ In order for data to be ingested correctly into a Log Analytics Custom Table the
 ---
 
 ## EXAMPLE 1
-
-`$currentTime = Get-Date ([datetime]::UtcNow) -Format O`
-
 ------------
 File: dummy_data.json
 ```json
