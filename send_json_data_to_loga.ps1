@@ -15,9 +15,8 @@ Pre-requisites:
 4. Create a Custom Log (CL) in the Azure portal and assign it to the DCR. The CL must have the same name as the stream name in the DCR.
 5. Create an application registration in Entra ID and assign it the Metrics Publishing RBAC role to the DCR.
 6. Create a secret for the application registration and copy it to the $appSecret variable in this script.
-7. Create a JSON file with the data you want to send to the CL and copy it to the $staticData variable in this script.
-   -- The JSON file MUST be in the same format/schema as the CL in the DCR.
-   -- The JSON file MUST be in SINGLE LINE format (no line breaks).
+7. Create a NDJSON file with the data you want to send to the CL and copy it to the $staticData variable in this script.
+   -- The NDJSON file MUST be in the same format/schema as the CL in the DCR.
 #>
 
 # Information needed to authenticate to Entra ID and obtain a bearer token
@@ -42,28 +41,37 @@ $uri = "https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token"
 
 $bearerToken = (Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers).access_token
 
-### Step 2: Import Dummy JSON data from file.
+### Step 2: Import Dummy NDJSON data from file.
 #$JSONData = Get-Content -Path ".\mde_data\mde_log_05_sl.json" -Raw
-$JSONData = Get-Content -Path ".\data\dummy_data.json" -Raw
+$NDJSONData = Get-Content -Path ".\data\dummy_data.ndjson"
 
+#------------ ONLY NEED IF DATA IS NOT IN NDJSON FORMAT  ----------------
 ## The JSON data must be in the same format as the CL in the DCR.
 ## The JSON data must be in SINGLE LINE format (no line breaks).
-$staticData = @"
-    $JSONData
-"@
+#$staticData = @"
+#    $JSONData
+#"@
 
 ### Step 3: Send the data to the Log Analytics workspace via the DCE.
-$body    = $staticData
+#$body    = $staticData
+#------------ ONLY NEED IF DATA IS NOT IN NDJSON FORMAT  ----------------
 
 $headers = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/json"}
-$uri     = "${dceEndpoint}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
+$uri     = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
 
-Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers -ErrorVariable $RestError
-
-if ($RestError) {
-    Write-Host "Error uploading data to the Log Analytics Custom Table `"$streamName`". Error: $RestError" -ForegroundColor Red
-    exit 1
-} else {
-    Write-Host "CX dummy data was successfully uploaded to the Log Analytics Custom Table: `"$streamName`"." -ForegroundColor Green
-
+# Loop over each NDJSON object individually and make a stream REST API call
+foreach ($NDJSONObj in $NDJSONData) {
+    
+    # Wrap the single line in square brackets to make it a valid JSON array
+    # This required (documented) to send a JSON array via the Log Analytics API. Not needed for AMA but for DCR
+    $body = "[${NDJSONObj}]"  
+    Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers -ErrorVariable RestError
+    
+    if ($RestError) {
+        Write-Host "Error uploading: $body to the Log-A Custom Table `"$streamName`". Error: $RestError" -ForegroundColor Red
+        exit 1
+    } else {
+        Write-Host "CX dummy data $body - successfully uploaded to the Log-A Custom Table: `"$streamName`"." -ForegroundColor Green
+    
+    }
 }
