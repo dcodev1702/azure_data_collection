@@ -163,7 +163,7 @@ IT WILL INJEST INTO LOG-A JUST FINE.
 ]
 ```
 
-Turn a JSON array of objects into single inline objects (JQ / PowerShell / Python)
+Turn a JSON array of objects into single inline objects (JQ / PWSH / Python) </br>
 Convert JSON to single line JSON using JQ
 -----------------------------------------
 ```bash
