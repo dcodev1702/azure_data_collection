@@ -80,30 +80,57 @@ In order for data to be ingested correctly into a Log Analytics Custom Table the
 File: mde_log_original_100.json
 ```json
 [
-  {
-      "TimeGenerated": "$currentTime",
-      "Computer": "PC-$(Get-Random)",
-      "AdditionalContext": {
-          "InstanceName": "user14",
-          "TimeZone": "Pacific Time",
-          "Level": 4,
-          "CounterValue": 15.3    
-      },
-      "Location": "Hybrid",
-      "CloudEnabled": "True"
-  },
-  {
-      "TimeGenerated": "$currentTime",
-      "Computer": "PC-$(Get-Random)",
-      "AdditionalContext": {
-          "InstanceName": "user21",
-          "TimeZone": "Central Time",
-          "Level": 3,
-          "CounterValue": 23.5     
-      },
-      "Location": "On-Site",
-      "CloudEnabled": "False"
-  }
+    {
+        "Name": "DCODEV - Cloud Hunter",
+        "Version": "14.8.0987",
+        "OS": "Gentoo - GNU/Linux",
+        "Hardware": {
+            "model": "Dell XPS 15",
+            "chip": "Intel Core i9-13900H",
+            "ram": "96GB",
+            "storage": "4TB SSD",
+            "release_year": 2025
+        },
+        "Distro": {
+            "name": "Gentoo",
+            "version": "Rolling Release",
+            "init": "OpenRC",
+            "package_manager": "Portage"
+        },
+        "OSVersion": "6.8.0-1052-azure",
+        "OSArchitecture": "x86_64",
+        "GenAI": "OpenAI / GPT-4.5 Turbo"
+    },
+    {
+        "Name": "T0pCyber - Hawk",
+        "Version": "8.8.6.2304",
+        "OS": "Macbook Pro",
+        "OSVersion": "macOS Ventura - 15.3.26100.3476",
+        "OSArchitecture": "arm64",
+        "Hardware": {
+            "model": "Macbook Pro 16-inch",
+            "chip": "Apple M3 Pro",
+            "ram": "128GB",
+            "storage": "4TB SSD",
+            "release_year": 2024
+        },
+        "GenAI": "Grok 3"  
+    },
+    {
+        "Name": "JJ-BOTTLES - Hawk",
+        "Version": "3.7.6.0004",
+        "OS": "Windows 11 24H2",
+        "OSVersion": "10.0.26100.3476",
+        "OSArchitecture": "x86_32",
+        "Hardware": {
+            "manufacturer": "HP",
+            "model": "Spectre x760",
+            "ram": "96GB",
+            "storage": "2TB SSD",
+            "release_year": 2023
+        },
+        "GenAI": "Anthropic / Claude 3.7 Sonnet"  
+    }
 ]
 ```
 
@@ -130,8 +157,9 @@ THIS JSON DOES NOT REQUIRE TO BE ENCAPSULATED IN A STRING BEC THE OBJECTS ARE SI
 IT WILL INJEST INTO LOG-A JUST FINE.
 ```json
 [
-    {"TimeGenerated":"$currentTime","Computer":"PC-$(Get-Random)","AdditionalContext":{"InstanceName":"user14","TimeZone":"Pacific Time","Level":4,"CounterValue":15.3},"Location":"Hybrid","CloudEnabled":"True"},
-    {"TimeGenerated":"$currentTime","Computer":"PC-$(Get-Random)","AdditionalContext":{"InstanceName":"user21","TimeZone":"Central Time","Level":3,"CounterValue":23.5},"Location":"On-Site","CloudEnabled":"False"}
+   {"Name":"DCODEV - Cloud Hunter","Version":"14.8.0987","OS":"Gentoo - GNU/Linux","Hardware":{"model":"Dell XPS 15","chip":"Intel Core i9-13900H","ram":"96GB","storage":"4TB SSD","release_year":2025},"Distro":{"name":"Gentoo","version":"Rolling Release","init":"OpenRC","package_manager":"Portage"},"OSVersion":"6.8.0-1052-azure","OSArchitecture":"x86_64","GenAI":"OpenAI / GPT-4.5 Turbo"},
+   {"Name":"T0pCyber - Hawk","Version":"8.8.6.2304","OS":"Macbook Pro","OSVersion":"macOS Ventura - 15.3.26100.3476","OSArchitecture":"arm64","Hardware":{"model":"Macbook Pro 16-inch","chip":"Apple M3 Pro","ram":"128GB","storage":"4TB SSD","release_year":2024},"GenAI":"Grok 3"},
+   {"Name":"JJ-BOTTLES - Hawk","Version":"3.7.6.0004","OS":"Windows 11 24H2","OSVersion":"10.0.26100.3476","OSArchitecture":"x86_32","Hardware":{"manufacturer":"HP","model":"Spectre x760","ram":"96GB","storage":"2TB SSD","release_year":2023},"GenAI":"Anthropic / Claude 3.7 Sonnet"}
 ]
 ```
 
