@@ -139,7 +139,7 @@ File: mde_log_original_100.json
 THIS JSON (ABOVE) HAS TO BE ENCAPSULATED IN A STRING OR ELSE LOG-A WILL DROP IT.
 
 ```python
-$JSONData = Get-Content -Path ".\mde_data\mde_log_original_100.json" -Raw
+$JSONData = Get-Content -Path ".\mde_data\dummy_data.json" -Raw
 
 $body = @"
     $JSONData
@@ -177,14 +177,14 @@ Turn a JSON array of objects into single inline objects
 import json
 
 # Read the file from the provided path
-with open("mde_log_original_100.json", "r") as f:
+with open(".\data\dummy_data.json", "r") as f:
     data = json.load(f)
 
 # Convert each entry to a compact (single-line) JSON string
 compact_entries = [json.dumps(entry, separators=(",", ":")) for entry in data]
 
 # Write the compact entries as a JSON array to a file
-with open("mde_log_output_01.json", "w") as outfile:
+with open(".\data\dummy_data_sl.json", "w") as outfile:
     outfile.write("[\n")
     outfile.write(",\n".join(compact_entries))
     outfile.write("\n]\n")
