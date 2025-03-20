@@ -1,4 +1,4 @@
-### Data Collection Endpoint & Rule creation via ARM Template Deployment (Azure UI)
+### Data Collection Rule & Endpoint creation via ARM Template Deployment (Azure UI)
 ---------------------------------------
 - [Stream Declarations](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-structure#input-streams) in a DCR HAVE TO MATCH the stream in your REST API call.  Not the Custom Log Table, the Stream! </br>
   ![image](https://github.com/user-attachments/assets/98c4cd7f-0100-4ce9-bcd0-e0f7addeee9a)
