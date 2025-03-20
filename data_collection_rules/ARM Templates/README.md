@@ -12,7 +12,9 @@
    ![image](https://github.com/user-attachments/assets/d81ab64e-75c2-4601-87d0-4197143f9d2d)
 
 
-- [Data Stream](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-ingestion-api-overview#endpoint) names within a DCR matter when it comes to sending data via REST API
+- [Data Stream](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-ingestion-api-overview#endpoint) names within a DCR matter when it comes to sending data via REST API </br>
+  ![image](https://github.com/user-attachments/assets/1b3fafa8-5441-4bb6-a85f-d4ebfae2f515)
+
   ![image](https://github.com/user-attachments/assets/a70122bf-94d3-47f0-9b78-ce59640fc623)
 
 - [DCE / DCR ARM Deployment Tutorial](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/tutorial-logs-ingestion-api?tabs=dce) </br>
