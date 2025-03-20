@@ -163,15 +163,32 @@ IT WILL INJEST INTO LOG-A JUST FINE.
 ]
 ```
 
+Turn a JSON array of objects into single inline objects (JQ / PowerShell / Python)
 Convert JSON to single line JSON using JQ
 -----------------------------------------
 ```bash
 jq -c '.[]' mde_log_details_100.json
 ```
 
+PowerShell Solution
+-------------------
+```powershell
+# Read the JSON file as a single string and convert it to objects
+$data = Get-Content ".\data\dummy_data.json" -Raw | ConvertFrom-Json
+
+# Convert each object to a compact JSON string
+$compactEntries = $data | ForEach-Object { $_ | ConvertTo-Json -Compress }
+
+# Build the output: start with "[", then join entries with ",`n", and close with "]"
+$output = @("[")
+$output += ($compactEntries -join ",`n")
+$output += ("]")
+
+# Write the output to a new file
+$output | Set-Content ".\data\dummy_data_sl.json"
+```
 
 Python Solution
-Turn a JSON array of objects into single inline objects
 ---------------
 ```python
 import json
