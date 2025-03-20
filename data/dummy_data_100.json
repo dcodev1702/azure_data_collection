@@ -1,5 +1,56 @@
 [
   {
+    "Name": "DCODEV - Cloud Hunter",
+    "Version": "14.8.0987",
+    "OS": "Gentoo - GNU/Linux",
+    "Hardware": {
+      "model": "Dell XPS 15",
+      "chip": "Intel Core i9-13900H",
+      "ram": "96GB",
+      "storage": "4TB SSD",
+      "release_year": 2025
+    },
+    "Distro": {
+      "name": "Gentoo",
+      "version": "Rolling Release",
+      "init": "OpenRC",
+      "package_manager": "Portage"
+    },
+    "OSVersion": "6.8.0-1052-azure",
+    "OSArchitecture": "x86_64",
+    "GenAI": "OpenAI / GPT-4.5 Turbo"
+  },
+  {
+    "Name": "T0pCyber - Hawk",
+    "Version": "8.8.6.2304",
+    "OS": "Macbook Pro",
+    "OSVersion": "macOS Ventura - 15.3.26100.3476",
+    "OSArchitecture": "arm64",
+    "Hardware": {
+      "model": "Macbook Pro 16-inch",
+      "chip": "Apple M3 Pro",
+      "ram": "128GB",
+      "storage": "4TB SSD",
+      "release_year": 2024
+    },
+    "GenAI": "Grok 3"
+  },
+  {
+    "Name": "JJ-BOTTLES - Hawk",
+    "Version": "3.7.6.0004",
+    "OS": "Windows 11 24H2",
+    "OSVersion": "10.0.26100.3476",
+    "OSArchitecture": "x86_32",
+    "Hardware": {
+      "manufacturer": "HP",
+      "model": "Spectre x760",
+      "ram": "96GB",
+      "storage": "2TB SSD",
+      "release_year": 2023
+    },
+    "GenAI": "Anthropic / Claude 3.7 Sonnet"
+  },
+  {
     "Name": "ZeroCool - Cloud Hunter",
     "Version": "1.0.3.0123",
     "OS": "Ubuntu - GNU/Linux",
@@ -473,7 +524,7 @@
     "GenAI": "MosaicML MPT-7B"
   },
   {
-    "Name": "ThePlague - Byte Knight",
+    "Name": "ThePlague - Cyber Sentinel",
     "Version": "12.5.6.3161",
     "OS": "Slackware Linux",
     "Hardware": {
@@ -634,7 +685,7 @@
   },
   {
     "Name": "Apoc - Data Phantom",
-    "Version": "6.13.4.4065",
+    "Version": "6.13.4.4065-dup1",
     "OS": "macOS Big Sur",
     "Hardware": {
       "model": "Apple MacBook Pro 16-inch",
@@ -923,7 +974,7 @@
     "GenAI": "Anthropic / Claude 3.7 Sonnet"
   },
   {
-    "Name": "Cypher - Techno Wizard",
+    "Name": "Cypher - Circuit Breaker",
     "Version": "8.29.0.5838",
     "OS": "Solaris",
     "Hardware": {
@@ -989,350 +1040,5 @@
     "OSVersion": "Rolling Release",
     "OSArchitecture": "arm64",
     "GenAI": "Llama 2"
-  },
-  {
-    "Name": "Apoc - Binary Bandit",
-    "Version": "12.33.4.6285",
-    "OS": "Slackware Linux",
-    "Hardware": {
-      "model": "Toshiba Satellite",
-      "chip": "Intel Core i7-8565U",
-      "ram": "64GB",
-      "storage": "1TB SSD",
-      "release_year": 2010,
-      "manufacturer": "Dell"
-    },
-    "Distro": {
-      "name": "Slackware",
-      "version": "15.0",
-      "init": "SysVinit",
-      "package_manager": "pkgtool"
-    },
-    "OSVersion": "15.0",
-    "OSArchitecture": "x86_32",
-    "GenAI": "Grok 3"
-  },
-  {
-    "Name": "Mouse - Quantum Surfer",
-    "Version": "13.34.5.6398",
-    "OS": "Red Hat Enterprise Linux",
-    "Hardware": {
-      "model": "LG Gram",
-      "chip": "AMD Ryzen 9 5950X",
-      "ram": "96GB",
-      "storage": "2TB SSD",
-      "release_year": 2011
-    },
-    "Distro": {
-      "name": "RHEL",
-      "version": "8.4",
-      "init": "systemd",
-      "package_manager": "yum"
-    },
-    "OSVersion": "8.4",
-    "OSArchitecture": "PowerPC",
-    "GenAI": "Llama 2"
-  },
-  {
-    "Name": "AgentSmith - Neon Rebel",
-    "Version": "14.35.6.6509",
-    "OS": "CentOS Linux",
-    "Hardware": {
-      "model": "Dell XPS 15",
-      "chip": "Intel Core i9-13900H",
-      "ram": "16GB",
-      "storage": "256GB SSD",
-      "release_year": 2012,
-      "manufacturer": "Lenovo"
-    },
-    "Distro": {
-      "name": "CentOS",
-      "version": "8.5",
-      "init": "systemd",
-      "package_manager": "yum"
-    },
-    "OSVersion": "8.5",
-    "OSArchitecture": "x86_64",
-    "GenAI": "Anthropic / Claude 3.7 Sonnet"
-  },
-  {
-    "Name": "Oracle - Cyber Sentinel",
-    "Version": "1.36.7.6620",
-    "OS": "Ubuntu - GNU/Linux",
-    "Hardware": {
-      "model": "Dell Inspiron 7000",
-      "chip": "Intel Core i7-10750H",
-      "ram": "32GB",
-      "storage": "512GB SSD",
-      "release_year": 2013
-    },
-    "Distro": {
-      "name": "Ubuntu",
-      "version": "22.04 LTS",
-      "init": "systemd",
-      "package_manager": "apt"
-    },
-    "OSVersion": "22.04 LTS",
-    "OSArchitecture": "arm64",
-    "GenAI": "OpenAI / GPT-4 Turbo"
-  },
-  {
-    "Name": "Merovingian - Code Runner",
-    "Version": "2.37.8.6731",
-    "OS": "Fedora - GNU/Linux",
-    "Hardware": {
-      "model": "Lenovo ThinkPad X1 Carbon",
-      "chip": "Intel Core i5-10300H",
-      "ram": "64GB",
-      "storage": "1TB SSD",
-      "release_year": 2014,
-      "manufacturer": "Apple"
-    },
-    "Distro": {
-      "name": "Fedora",
-      "version": "37",
-      "init": "systemd",
-      "package_manager": "dnf"
-    },
-    "OSVersion": "37",
-    "OSArchitecture": "x86_32",
-    "GenAI": "DeepMind Gemini"
-  },
-  {
-    "Name": "Niobe - Data Shredder",
-    "Version": "3.38.9.6842",
-    "OS": "Debian - GNU/Linux",
-    "Hardware": {
-      "model": "HP Spectre x360",
-      "chip": "AMD Ryzen 9 5900HX",
-      "ram": "96GB",
-      "storage": "2TB SSD",
-      "release_year": 2015
-    },
-    "Distro": {
-      "name": "Debian",
-      "version": "11.7",
-      "init": "systemd",
-      "package_manager": "apt"
-    },
-    "OSVersion": "11.7",
-    "OSArchitecture": "PowerPC",
-    "GenAI": "OpenAI / GPT-4.5 Turbo"
-  },
-  {
-    "Name": "ZeroCool - Digital Shadow",
-    "Version": "4.39.0.6953",
-    "OS": "Windows 10 Pro",
-    "Hardware": {
-      "model": "Acer Predator Helios",
-      "chip": "AMD ThreadRipper 3970X",
-      "ram": "128GB",
-      "storage": "4TB SSD",
-      "release_year": 2016,
-      "manufacturer": "Samsung"
-    },
-    "OSVersion": "10.0.19042",
-    "OSArchitecture": "SPARC",
-    "GenAI": "Llama 2"
-  },
-  {
-    "Name": "AcidBurn - Pixel Pirate",
-    "Version": "5.40.1.7064",
-    "OS": "Windows 11",
-    "Hardware": {
-      "model": "MSI Stealth 15",
-      "chip": "AMD Ryzen 7 5800H",
-      "ram": "256GB",
-      "storage": "8TB HDD",
-      "release_year": 2017
-    },
-    "OSVersion": "10.0.22000",
-    "OSArchitecture": "AMD64",
-    "GenAI": "OpenAI / GPT-4 Turbo"
-  },
-  {
-    "Name": "CrashOverride - Circuit Breaker",
-    "Version": "6.41.2.7175",
-    "OS": "macOS Big Sur",
-    "Hardware": {
-      "model": "Apple MacBook Pro 16-inch",
-      "chip": "Apple M1",
-      "ram": "16GB",
-      "storage": "512GB SSD",
-      "release_year": 2018,
-      "manufacturer": "HP"
-    },
-    "OSVersion": "11.6.5",
-    "OSArchitecture": "MIPS",
-    "GenAI": "Grok 3"
-  },
-  {
-    "Name": "CerealKiller - Hack Master",
-    "Version": "7.42.3.7288",
-    "OS": "macOS Monterey",
-    "Hardware": {
-      "model": "Apple MacBook Air",
-      "chip": "Apple M2",
-      "ram": "32GB",
-      "storage": "1TB SSD",
-      "release_year": 2019
-    },
-    "OSVersion": "12.6.1",
-    "OSArchitecture": "RISC-V",
-    "GenAI": "Anthropic / Claude 3.7 Sonnet"
-  },
-  {
-    "Name": "PhantomPhreak - Cyber Sentinel",
-    "Version": "8.43.4.7399",
-    "OS": "Solaris",
-    "Hardware": {
-      "model": "Asus ROG Zephyrus",
-      "chip": "Sun SPARC T5",
-      "ram": "64GB",
-      "storage": "2TB SSD",
-      "release_year": 2020,
-      "manufacturer": "Dell"
-    },
-    "OSVersion": "5.11",
-    "OSArchitecture": "x86_64",
-    "GenAI": "Anthropic / Claude 4.0"
-  },
-  {
-    "Name": "LordNikon - Code Runner",
-    "Version": "9.44.5.7510",
-    "OS": "OpenBSD",
-    "Hardware": {
-      "model": "Alienware m15",
-      "chip": "IBM POWER9",
-      "ram": "96GB",
-      "storage": "4TB SSD",
-      "release_year": 2021
-    },
-    "OSVersion": "7.0",
-    "OSArchitecture": "arm64",
-    "GenAI": "OpenAI / GPT-4.5 Turbo"
-  },
-  {
-    "Name": "ThePlague - Cyber Sentinel",
-    "Version": "10.45.6.7621",
-    "OS": "FreeBSD",
-    "Hardware": {
-      "model": "Microsoft Surface Laptop",
-      "chip": "Intel Xeon E5-2699",
-      "ram": "16GB",
-      "storage": "256GB SSD",
-      "release_year": 2022,
-      "manufacturer": "HP"
-    },
-    "OSVersion": "13.0",
-    "OSArchitecture": "x86_32",
-    "GenAI": "DeepMind Gemini"
-  },
-  {
-    "Name": "Neo - Data Shredder",
-    "Version": "11.46.7.7732",
-    "OS": "Gentoo - GNU/Linux",
-    "Hardware": {
-      "model": "Samsung Galaxy Book",
-      "chip": "AMD Ryzen 5 4600H",
-      "ram": "32GB",
-      "storage": "512GB SSD",
-      "release_year": 2023
-    },
-    "Distro": {
-      "name": "Gentoo",
-      "version": "Rolling Release",
-      "init": "OpenRC",
-      "package_manager": "Portage"
-    },
-    "OSVersion": "Rolling Release",
-    "OSArchitecture": "arm64",
-    "GenAI": "Llama 2"
-  },
-  {
-    "Name": "Trinity - Byte Knight",
-    "Version": "12.47.8.7843",
-    "OS": "Slackware Linux",
-    "Hardware": {
-      "model": "Toshiba Satellite",
-      "chip": "Intel Core i7-8565U",
-      "ram": "64GB",
-      "storage": "1TB SSD",
-      "release_year": 2010,
-      "manufacturer": "Dell"
-    },
-    "Distro": {
-      "name": "Slackware",
-      "version": "15.0",
-      "init": "SysVinit",
-      "package_manager": "pkgtool"
-    },
-    "OSVersion": "15.0",
-    "OSArchitecture": "x86_32",
-    "GenAI": "OpenAI / GPT-4 Turbo"
-  },
-  {
-    "Name": "Morpheus - Neon Rebel",
-    "Version": "13.48.9.7954",
-    "OS": "Red Hat Enterprise Linux",
-    "Hardware": {
-      "model": "LG Gram",
-      "chip": "AMD Ryzen 9 5950X",
-      "ram": "96GB",
-      "storage": "2TB SSD",
-      "release_year": 2011
-    },
-    "Distro": {
-      "name": "RHEL",
-      "version": "8.4",
-      "init": "systemd",
-      "package_manager": "yum"
-    },
-    "OSVersion": "8.4",
-    "OSArchitecture": "PowerPC",
-    "GenAI": "Grok 3"
-  },
-  {
-    "Name": "Cypher - Circuit Breaker",
-    "Version": "14.49.0.8065",
-    "OS": "CentOS Linux",
-    "Hardware": {
-      "model": "Dell XPS 15",
-      "chip": "Intel Core i9-13900H",
-      "ram": "16GB",
-      "storage": "256GB SSD",
-      "release_year": 2012,
-      "manufacturer": "Lenovo"
-    },
-    "Distro": {
-      "name": "CentOS",
-      "version": "8.5",
-      "init": "systemd",
-      "package_manager": "yum"
-    },
-    "OSVersion": "8.5",
-    "OSArchitecture": "x86_64",
-    "GenAI": "Anthropic / Claude 3.7 Sonnet"
-  },
-  {
-    "Name": "Tank - Code Slinger",
-    "Version": "1.50.1.8176",
-    "OS": "Ubuntu - GNU/Linux",
-    "Hardware": {
-      "model": "Dell Inspiron 7000",
-      "chip": "Intel Core i7-10750H",
-      "ram": "32GB",
-      "storage": "512GB SSD",
-      "release_year": 2013
-    },
-    "Distro": {
-      "name": "Ubuntu",
-      "version": "22.04 LTS",
-      "init": "systemd",
-      "package_manager": "apt"
-    },
-    "OSVersion": "22.04 LTS",
-    "OSArchitecture": "arm64",
-    "GenAI": "OpenAI / GPT-4 Turbo"
   }
 ]
