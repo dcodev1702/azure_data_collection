@@ -3,6 +3,10 @@
 - [Stream Declarations](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-ingestion-api-overview#endpoint) in a DCR HAVE TO MATCH the stream in your REST API call.  Not the Custom Log Table, the Stream! </br>
   ![image](https://github.com/user-attachments/assets/98c4cd7f-0100-4ce9-bcd0-e0f7addeee9a)
 
+- Order of operations when it comes to Application Registration, Custom Log Tables, Data Collection Rules, etc
+  ![image](https://github.com/user-attachments/assets/0f9a6ec0-7e79-4e65-ad75-f297be6c2318)
+
+
 - DCR's of Kind: Direct DO NOT REQUIRE A DCE! </br>
    * Azure Monitor -> Data Collection Rules -> Your DCR. Select the latest API: 2023-03-11 to see the LogIngestion REST API Endpoint. </br>
    ![image](https://github.com/user-attachments/assets/d81ab64e-75c2-4601-87d0-4197143f9d2d)
