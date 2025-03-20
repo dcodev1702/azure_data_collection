@@ -78,4 +78,5 @@ $tableParams = @'
 }
 '@
 
-Invoke-AzRestMethod -Path "/subscriptions/${subscription}/resourcegroups/${rgName}/providers/microsoft.operationalinsights/workspaces/${wsName}/tables/PJL_HAWK_CL?api-version=2025-02-01" -Method PUT -payload $tableParams
+$url = "/subscriptions/${subscription}/resourcegroups/${rgName}/providers/microsoft.operationalinsights/workspaces/${wsName}/tables/PJL_HAWK_CL?api-version=2025-02-01"
+Invoke-AzRestMethod -Path $url -Method PUT -payload $tableParams
