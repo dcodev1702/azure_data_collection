@@ -77,7 +77,7 @@ In order for data to be ingested correctly into a Log Analytics Custom Table the
 `$currentTime = Get-Date ([datetime]::UtcNow) -Format O`
 
 ------------
-File: mde_log_original_100.json
+File: dummy_data.json
 ```json
 [
     {
