@@ -48,7 +48,7 @@ $tableParams = @'
                     "description": "The OS they use to hack with"
                 },
                 {
-                    "name": "Hardare",
+                    "name": "Hardware",
                     "type": "dynamic",
                     "description": "The hardware they use to hack with"
                 },
