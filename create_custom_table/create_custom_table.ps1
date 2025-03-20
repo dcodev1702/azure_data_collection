@@ -5,9 +5,9 @@
   Run script this via the Azure Cloud Shell or PowerShell CLI w/ Az Module installed on your VM/Machine
   Be sure to define your schema (column names and data types) and name of your Custom Log Table
 
-  Provide the name of your resource group and the name of your log analytics workspace
+  1. Provide the name of your resource group and the name of your log analytics workspace
 
-  Lastly, be sure to CHANGE the table name at the bottom towards the end of the REST API call!!
+  2. Be sure to CHANGE the table name at the bottom towards the end of the REST API call!!
 
   Helpful Hints:
   --------------
@@ -19,6 +19,7 @@
 $subscription = $(Get-AzContext).Subscription.Id
 $rgName = 'RCC-E'
 $wsName = 'rccelab-law'
+
 
 $tableParams = @'
 {
@@ -77,4 +78,4 @@ $tableParams = @'
 }
 '@
 
-Invoke-AzRestMethod -Path "/subscriptions/$subscription/resourcegroups/$rgName/providers/microsoft.operationalinsights/workspaces/$wsName/tables/PJL_HAWK_CL?api-version=2025-02-01" -Method PUT -payload $tableParams
+Invoke-AzRestMethod -Path "/subscriptions/${subscription}/resourcegroups/${rgName}/providers/microsoft.operationalinsights/workspaces/${wsName}/tables/PJL_HAWK_CL?api-version=2025-02-01" -Method PUT -payload $tableParams
