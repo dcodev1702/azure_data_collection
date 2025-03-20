@@ -19,7 +19,8 @@
 
 
 
-  ![image](https://github.com/user-attachments/assets/a70122bf-94d3-47f0-9b78-ce59640fc623)
+  ![image](https://github.com/user-attachments/assets/93814f84-d41b-4a05-9f52-28a28e1d0531)
+
 
 - [DCE / DCR ARM Deployment Tutorial](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/tutorial-logs-ingestion-api?tabs=dce) </br>
 
