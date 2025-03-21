@@ -65,12 +65,24 @@
 In order for data to be ingested correctly into a Log Analytics Custom Table there are a couple rules of the road that are in order.
 
 1. **DCR TABLE SCHEMA AND CUSTOM LOG TABLE SCHEMA HAVE TO MATCH (EXACTLY) IN NAME:TYPE**
-2. **JSON objects are not encapsulated as an entire string, they have to be in SINGLE LINE FORMAT.**  
+2. **Log Analytics Workspace processes NDJSON by default, this is the optimal format and method to employ.
+   -- Azure Monitor Agent w/ custom logs will ingest NDJSON w/o any further modification.
+   -- Sending NDJSON via REST API and code requires that EACH NDJSON Object will require square brackets -> "[$NDJSONObj]" in the body of the Rest API call
+4. **Standard JSON objects are not encapsulated as an entire string, they have to be in SINGLE LINE FORMAT.**  
    -- Otherwise Log-A will drop the data at the door and you will ONLY see TimeGenerated, TenantId, and Table Type.
-3. **If JSON is in it's free form, it will have to be encapsulated as a STRING IN ORDER FOR IT TO BE INGESTED PROPERLY!!!**  
-   OTHERWISE, YOU WILL SEE NO DATA IN THE CUSTOM LOG.
+5. **If Standard JSON is in it's free form, it will have to be encapsulated as a STRING IN ORDER FOR IT TO BE INGESTED PROPERLY!!!**  
+   OTHERWISE, YOU WILL SEE NO DATA IN THE CUSTOM LOG TABLE.
 
 ---
+## NDJSON EXAMPLE
+File: dummy_data.ndjson
+```json
+{ "Name": "DCODEV - Cloud Hunter", "Version": "14.8.0987", "OS": "Gentoo - GNU/Linux", "Hardware": { "model": "Dell XPS 15", "chip": "Intel Core i9-13900H", "ram": "96GB", "storage": "4TB SSD", "release_year": 2025 }, "Distro": { "name": "Gentoo", "version": "Rolling Release", "init": "OpenRC", "package_manager": "Portage" }, "OSVersion": "6.8.0-1052-azure", "OSArchitecture": "x86_64", "GenAI": "OpenAI / GPT-4.5 Turbo" }
+{ "Name": "T0pCyber - Hawk", "Version": "8.8.6.2304", "OS": "Macbook Pro", "OSVersion": "macOS Ventura - 15.3.26100.3476", "OSArchitecture": "arm64", "Hardware": { "model": "Macbook Pro 16-inch", "chip": "Apple M3 Pro", "ram": "128GB", "storage": "4TB SSD", "release_year": 2024 }, "GenAI": "Grok 3" }
+{ "Name": "JJ-BOTTLES - Hawk", "Version": "3.7.6.0004", "OS": "Windows 11 24H2", "OSVersion": "10.0.26100.3476", "OSArchitecture": "x86_32", "Hardware": { "manufacturer": "HP", "model": "Spectre x760", "ram": "96GB", "storage": "2TB SSD", "release_year": 2023 }, "GenAI": "Anthropic / Claude 3.7 Sonnet" }
+```
+-- Azure Monitor Agent: No furthre action required
+-- REST API Call to DCR Log Ingestion / DCR Uri: BODY = "[$NDJSONObj]"
 
 ## EXAMPLE 1
 ------------
