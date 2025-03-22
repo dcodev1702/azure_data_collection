@@ -62,8 +62,8 @@ $uri     = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${st
 # Loop over each NDJSON object individually and make a stream REST API call
 foreach ($NDJSONObj in $NDJSONData) {
     
-    # Wrap the single line in square brackets to make it a valid JSON array
-    # This required (documented) to send a JSON array via the Log Analytics API. Not needed for AMA but for DCR
+    # Wrap the single line in square brackets to make it a valid JSON one dimensional array
+    # This is REQUIRED (documented) to send a JSON array via the Log Analytics API. Not needed for AMA but for Stream REST API
     $body = "[${NDJSONObj}]"  
     Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers -ErrorVariable RestError
     
