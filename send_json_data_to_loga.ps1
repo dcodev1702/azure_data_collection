@@ -40,7 +40,7 @@ try {
     $JSONData = $JSONData | ConvertFrom-Json -Depth 25 -ErrorAction Stop
 
     $isValidJson = $true
-    $JSONType = "json"
+    $JSONType    = "json"
 } catch {
     # If not standard JSON, try NDJSON (line-delimited JSON objects)
     try {
@@ -49,7 +49,7 @@ try {
             $_ | ConvertFrom-Json -ErrorAction Stop | Out-Null
         }
         $isValidJson = $true
-        $JSONType = "ndjson"
+        $JSONType    = "ndjson"
     } catch {
         $isValidJson = $false
     }
@@ -95,7 +95,7 @@ $headers = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/j
 #------------ ONLY NEED IF DATA IS NOT IN NDJSON FORMAT  ----------------
 
 # DCR Stream REST API ENDPOINT
-$uri     = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
+$uri   = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
 
 # Loop over each NDJSON object individually and make a stream REST API call
 ### Step 1: Obtain a bearer token used later to authenticate against the DCE.
@@ -104,10 +104,10 @@ $scope = [System.Web.HttpUtility]::UrlEncode("https://monitor.azure.com//.defaul
 $body  = "client_id=${appId}&scope=${scope}&client_secret=${appSecret}&grant_type=client_credentials"
 
 $headers = @{"Content-Type"="application/x-www-form-urlencoded"}
-$uri = "https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token"
+$uri     = "https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token"
 
 $bearerToken = (Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers).access_token
-$headers = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/json"}
+$headers     = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/json"}
 
 
 ### Step 2: Import Dummy NDJSON data from file.
@@ -122,18 +122,11 @@ $headers = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/j
 # DCR Stream (Custom-PJL-HAWK) REST API ENDPOINT
 $uri = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
 
-# Loop over each JSON object individually and make a stream REST API call
-#if ($JSONType -eq 'json') { 
-    # For standard JSON array format, we need to modify the approach
-#    $parsedObjects = $JSONObj | ConvertFrom-Json -Depth 25
-#}
-
 foreach ($JSONObj in $JSONData) {
 
     if ($JSONType -eq 'json') { 
         
-        # Process each object separately
-        # Serialize the entire object to ensure proper formatting
+        # Process each object separately & serialize the entire object to ensure proper formatting
         $JSONObj = $JSONObj | ConvertTo-Json -Depth 25 -Compress
     }
     
@@ -144,10 +137,10 @@ foreach ($JSONObj in $JSONData) {
     Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers -ErrorVariable RestError
     
     if ($RestError) {
-        Write-Host "Error uploading: $body to the Log-A Custom Table `"$streamName`". Error: $RestError" -ForegroundColor Red
+        Write-Host "Error uploading: `n$body to the Log-A Custom Table `"$streamName`". Error: $RestError" -ForegroundColor Red
         exit 1
     } else {
-        Write-Host "CX dummy data $body - successfully uploaded to the Log-A Custom Table: `"$streamName`"." -ForegroundColor Green
+        Write-Host "CX dummy data `n$body - successfully uploaded to the Log-A Custom Table: `"$streamName`"." -ForegroundColor Green
     
     }
 }
