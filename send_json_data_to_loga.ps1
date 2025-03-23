@@ -140,6 +140,5 @@ foreach ($JSONObj in $JSONData) {
         exit 1
     } else {
         Write-Host "CX dummy data: `n$body - successfully uploaded to the Log-A Custom Table: `"$streamName`"." -ForegroundColor Green
-    
     }
 }
