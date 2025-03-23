@@ -4,14 +4,14 @@
         "Name": "DCODEV - Cloud Hunter",
         "Version": "14.8.0987",
         "OS": "Gentoo - GNU/Linux",
-        "hardware": {
+        "Hardware": {
             "model": "Dell XPS 15",
             "chip": "Intel Core i9-13900H",
             "ram": "96GB",
             "storage": "4TB SSD",
             "release_year": 2025
         },
-        "distro": {
+        "Distro": {
             "name": "Gentoo",
             "version": "Rolling Release",
             "init": "OpenRC",
@@ -29,7 +29,7 @@
         "OS": "Macbook Pro",
         "OSVersion": "macOS Ventura - 15.3.26100.3476",
         "OSArchitecture": "arm64",
-        "hardware": {
+        "Hardware": {
             "model": "Macbook Pro 16-inch",
             "chip": "Apple M3 Pro",
             "ram": "128GB",
@@ -46,7 +46,7 @@
         "OS": "Windows 11 24H2",
         "OSVersion": "10.0.26100.3476",
         "OSArchitecture": "x86_32",
-        "hardware": {
+        "Hardware": {
             "manufacturer": "HP",
             "model": "Spectre x760",
             "ram": "96GB",
