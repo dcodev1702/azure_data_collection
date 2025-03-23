@@ -34,13 +34,13 @@ $JSONData = Get-Content -Raw -Path $DataIngestFile
 
 # Determine if it's JSON or NDJSON
 $isValidJson = $false
-$JSONType = $null
+$JSONType    = $null
 # Check if the file is standard JSON or NDJSON (newline-delimited JSON objects)
 try {
     $JSONData = $JSONData | ConvertFrom-Json -Depth 25 -ErrorAction Stop
 
     $isValidJson = $true
-    $JSONType    = "json"
+    $JSONType    = 'json'
 } catch {
     # If not standard JSON, try NDJSON (line-delimited JSON objects)
     try {
@@ -49,7 +49,7 @@ try {
             $_ | ConvertFrom-Json -ErrorAction Stop | Out-Null
         }
         $isValidJson = $true
-        $JSONType    = "ndjson"
+        $JSONType    = 'ndjson'
     } catch {
         $isValidJson = $false
     }
@@ -72,7 +72,7 @@ $logIngestionEp = "ENTER YOUR DCE OR LOG INGESTION URI/ENDPOINT HERE"
 $dcrImmutableId = "ENTER YOUR DCR IMMUTABLE ID HERE"
 
 $currentTime    = (Get-Date).ToString("yyyy-MM-ddTHH:mm:ssZ") # current time in UTC format
-$streamName     = "Custom-PJL_HAWK_CL" # name of the stream in the DCR that represents the destination table
+$streamName     = "Custom-PJL_HAWK" # name of the stream in the DCR that represents the destination table
 
 ### Step 1: Obtain a bearer token used later to authenticate against the DCE.
 ### The App Registration must have the "Metrics Publishing" RBAC role assigned to the DCR and the DCE must be linked to the DCR.
@@ -125,7 +125,6 @@ $uri = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${stream
 foreach ($JSONObj in $JSONData) {
 
     if ($JSONType -eq 'json') { 
-        
         # Process each object separately & serialize the entire object to ensure proper formatting
         $JSONObj = $JSONObj | ConvertTo-Json -Depth 25 -Compress
     }
