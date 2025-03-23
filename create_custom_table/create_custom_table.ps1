@@ -19,6 +19,7 @@
 $subscription = $(Get-AzContext).Subscription.Id
 $rgName = 'RCC-E'
 $wsName = 'rccelab-law'
+$cTable = "PJL_HAWK_CL"
 
 
 $tableParams = @'
@@ -78,5 +79,5 @@ $tableParams = @'
 }
 '@
 
-$url = "/subscriptions/${subscription}/resourcegroups/${rgName}/providers/microsoft.operationalinsights/workspaces/${wsName}/tables/PJL_HAWK_CL?api-version=2025-02-01"
+$url = "/subscriptions/${subscription}/resourcegroups/${rgName}/providers/microsoft.operationalinsights/workspaces/${wsName}/tables/${cTable}?api-version=2025-02-01"
 Invoke-AzRestMethod -Path $url -Method PUT -payload $tableParams
