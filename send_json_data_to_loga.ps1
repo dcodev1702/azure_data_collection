@@ -37,7 +37,8 @@ $isValidJson = $false
 $JSONType = $null
 # Check if the file is standard JSON or NDJSON (newline-delimited JSON objects)
 try {
-    $parsed = $JSONData | ConvertFrom-Json -ErrorAction Stop
+    $JSONData = $JSONData | ConvertFrom-Json -Depth 25 -ErrorAction Stop
+
     $isValidJson = $true
     $JSONType = "json"
 } catch {
@@ -87,11 +88,7 @@ $headers = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/j
 #------------ ONLY NEED IF DATA IS NOT IN NDJSON FORMAT  ----------------
 ## The JSON data must be in the same format as the CL in the DCR.
 ## The JSON data must be in SINGLE LINE format (no line breaks).
-if ($JSONType -eq "json") {
-    $body = @"
-    $JSONData
-"@
-}
+
 
 ### Step 3: Send the data to the Log Analytics workspace via the DCE.
 #$body    = $staticData
@@ -101,15 +98,48 @@ if ($JSONType -eq "json") {
 $uri     = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
 
 # Loop over each NDJSON object individually and make a stream REST API call
-foreach ($NDJSONObj in $NDJSONData) {
-    
-    # Wrap the single line in square brackets to make it a valid JSON one dimensional array
-    # This is REQUIRED (documented) to send a JSON array via the Log Analytics API. Not needed for AMA but for Stream REST API
-    if ($JSONType -eq "ndjson") {
-        $body = "[${JSONObj}]"
-    } else {
-        $body = $JSONObj
+### Step 1: Obtain a bearer token used later to authenticate against the DCE.
+### The App Registration must have the "Metrics Publishing" RBAC role assigned to the DCR and the DCE must be linked to the DCR.
+$scope = [System.Web.HttpUtility]::UrlEncode("https://monitor.azure.com//.default")   
+$body  = "client_id=${appId}&scope=${scope}&client_secret=${appSecret}&grant_type=client_credentials"
+
+$headers = @{"Content-Type"="application/x-www-form-urlencoded"}
+$uri = "https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token"
+
+$bearerToken = (Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers).access_token
+$headers = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/json"}
+
+
+### Step 2: Import Dummy NDJSON data from file.
+#------------ ONLY NEED IF DATA IS NOT IN NDJSON FORMAT  ----------------
+## The JSON data must be in the same format as the CL in the DCR.
+## The JSON data must be in SINGLE LINE format (no line breaks).
+
+### Step 3: Send the data to the Log Analytics workspace via the DCE.
+#$body    = $staticData
+#------------ ONLY NEED IF DATA IS NOT IN NDJSON FORMAT  ----------------
+
+# DCR Stream (Custom-PJL-HAWK) REST API ENDPOINT
+$uri = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
+
+# Loop over each JSON object individually and make a stream REST API call
+#if ($JSONType -eq 'json') { 
+    # For standard JSON array format, we need to modify the approach
+#    $parsedObjects = $JSONObj | ConvertFrom-Json -Depth 25
+#}
+
+foreach ($JSONObj in $JSONData) {
+
+    if ($JSONType -eq 'json') { 
+        
+        # Process each object separately
+        # Serialize the entire object to ensure proper formatting
+        $JSONObj = $JSONObj | ConvertTo-Json -Depth 25 -Compress
     }
+    
+    # Wrap the single line in square brackets to make it a valid JSON array
+    # This required (documented) to send a JSON array via the Log Analytics API. Not needed for AMA but for DCR
+    $body = "[${JSONObj}]"
     
     Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers -ErrorVariable RestError
     
