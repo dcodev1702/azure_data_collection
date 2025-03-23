@@ -82,10 +82,7 @@ $headers = @{"Content-Type"="application/x-www-form-urlencoded"}
 $uri = "https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token"
 
 $bearerToken = (Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers).access_token
-
-### Step 2: Import Dummy NDJSON data from file.
-#$JSONData = Get-Content -Path ".\mde_data\mde_log_05_sl.json" -Raw
-$NDJSONData = Get-Content -Path ".\data\dummy_data.ndjson"
+$headers = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/json"}
 
 #------------ ONLY NEED IF DATA IS NOT IN NDJSON FORMAT  ----------------
 ## The JSON data must be in the same format as the CL in the DCR.
@@ -100,7 +97,7 @@ if ($JSONType -eq "json") {
 #$body    = $staticData
 #------------ ONLY NEED IF DATA IS NOT IN NDJSON FORMAT  ----------------
 
-$headers = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/json"}
+# DCR Stream REST API ENDPOINT
 $uri     = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
 
 # Loop over each NDJSON object individually and make a stream REST API call
