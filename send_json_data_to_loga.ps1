@@ -140,7 +140,7 @@ foreach ($JSONObj in $JSONData) {
         Write-Host "Error uploading: `n$body to the Log-A Custom Table `"$streamName`". Error: $RestError" -ForegroundColor Red
         exit 1
     } else {
-        Write-Host "CX dummy data `n$body - successfully uploaded to the Log-A Custom Table: `"$streamName`"." -ForegroundColor Green
+        Write-Host "CX dummy data: `n$body - successfully uploaded to the Log-A Custom Table: `"$streamName`"." -ForegroundColor Green
     
     }
 }
