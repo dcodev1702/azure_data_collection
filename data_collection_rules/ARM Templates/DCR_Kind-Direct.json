@@ -38,7 +38,7 @@
             "kind": "Direct",
             "properties": {
                 "streamDeclarations": {
-                    "[concat('Custom-', parameters('customLogName'), '_CL')]": {
+                    "[concat('Custom-', parameters('customLogName'))]": {
                         "columns": [
                             {
                                 "name": "Name",
@@ -94,7 +94,7 @@
                 "dataFlows": [
                     {
                         "streams": [
-                            "[concat('Custom-', parameters('customLogName'), '_CL')]"
+                            "[concat('Custom-', parameters('customLogName'))]"
                         ],
                         "destinations": [
                             "myworkspace"
