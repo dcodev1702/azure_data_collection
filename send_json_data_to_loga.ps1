@@ -18,6 +18,48 @@ Pre-requisites:
 7. Create a NDJSON file with the data you want to send to the CL and copy it to the $staticData variable in this script.
    -- The NDJSON file MUST be in the same format/schema as the CL in the DCR.
 #>
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$DataIngestFile
+)
+
+# Check if the file exists
+if (-not (Test-Path $DataIngestFile)) {
+    Write-Error "The file '$DataIngestFile' does not exist."
+    exit 1
+}
+
+# Read the file content
+$JSONData = Get-Content -Raw -Path $DataIngestFile
+
+# Determine if it's JSON or NDJSON
+$isValidJson = $false
+$JSONType = $null
+# Check if the file is standard JSON or NDJSON (newline-delimited JSON objects)
+try {
+    $parsed = $JSONData | ConvertFrom-Json -ErrorAction Stop
+    $isValidJson = $true
+    $JSONType = "json"
+} catch {
+    # If not standard JSON, try NDJSON (line-delimited JSON objects)
+    try {
+        $JSONData = Get-Content -Path $DataIngestFile
+        $JSONData | ForEach-Object {
+            $_ | ConvertFrom-Json -ErrorAction Stop | Out-Null
+        }
+        $isValidJson = $true
+        $JSONType = "ndjson"
+    } catch {
+        $isValidJson = $false
+    }
+}
+
+if (-not $isValidJson) {
+    Write-Error "The file '$DataIngestFile' is not valid JSON or NDJSON."
+    exit 1
+}
+
+Write-Host "Valid JSON/NDJSON file detected :: $DataIngestFile. Continuing..."
 
 # Information needed to authenticate to Entra ID and obtain a bearer token
 $tenantId  = "$((Get-AzContext).Tenant.Id)"
@@ -48,9 +90,11 @@ $NDJSONData = Get-Content -Path ".\data\dummy_data.ndjson"
 #------------ ONLY NEED IF DATA IS NOT IN NDJSON FORMAT  ----------------
 ## The JSON data must be in the same format as the CL in the DCR.
 ## The JSON data must be in SINGLE LINE format (no line breaks).
-#$staticData = @"
-#    $JSONData
-#"@
+if ($JSONType -eq "json") {
+    $body = @"
+    $JSONData
+"@
+}
 
 ### Step 3: Send the data to the Log Analytics workspace via the DCE.
 #$body    = $staticData
@@ -64,7 +108,12 @@ foreach ($NDJSONObj in $NDJSONData) {
     
     # Wrap the single line in square brackets to make it a valid JSON one dimensional array
     # This is REQUIRED (documented) to send a JSON array via the Log Analytics API. Not needed for AMA but for Stream REST API
-    $body = "[${NDJSONObj}]"  
+    if ($JSONType -eq "ndjson") {
+        $body = "[${JSONObj}]"
+    } else {
+        $body = $JSONObj
+    }
+    
     Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers -ErrorVariable RestError
     
     if ($RestError) {
