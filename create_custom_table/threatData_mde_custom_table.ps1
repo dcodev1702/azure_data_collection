@@ -159,7 +159,9 @@ $tableParams = @'
                     "type": "dynamic"
                 }
             ]
-        }
+        },
+        "retentionInDays": 120,
+        "totalRetentionInDays": 180
     }
 }
 '@
