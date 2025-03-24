@@ -120,8 +120,8 @@ $headers     = @{"Authorization"="Bearer $bearerToken";"Content-Type"="applicati
 #------------ ONLY NEED IF DATA IS NOT IN NDJSON FORMAT  ----------------
 
 # DCR Stream (Custom-PJL-HAWK) REST API ENDPOINT
-$uri = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
-
+$uri  = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
+$cntr = $null
 foreach ($JSONObj in $JSONData) {
 
     if ($JSONType -eq 'json') { 
@@ -136,9 +136,10 @@ foreach ($JSONObj in $JSONData) {
     Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers -ErrorVariable RestError
     
     if ($RestError) {
-        Write-Host "Error uploading: `n$body to the Log-A Custom Table `"$streamName`". Error: $RestError" -ForegroundColor Red
-        exit 1
+       Write-Host "Error uploading: `n$body to the Log-A Custom Table `"$streamName`". Error: $RestError" -ForegroundColor Red
+       exit 1
     } else {
-        Write-Host "CX dummy data: `n$body - successfully uploaded to the Log-A Custom Table: `"$streamName`"." -ForegroundColor Green
+       $cntr = $cntr + 1
+       Write-Host "CX dummy data record::[$cntr]: `n$body - successfully uploaded to the Log-A Custom Table: `"$streamName`"." -ForegroundColor Green
     }
 }
