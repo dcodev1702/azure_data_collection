@@ -89,15 +89,13 @@ $uri = "https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token"
 $bearerToken = (Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers).access_token
 $headers = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/json"}
 
-#------------ ONLY NEED IF DATA IS NOT IN NDJSON FORMAT  ----------------
-## The JSON data must be in the same format as the CL in the DCR.
-## The JSON data must be in SINGLE LINE format (no line breaks).
-
+#----------------- JSON ESSENTIAL UNDERSTANDING  --------------------
+## JSON data source must be in the same format as the CL in the DCR.
+## Columns (Fields) ARE CASE SENSITIVE (e.g. 'hardware' != 'Hardware')
+## JSON data must be in SINGLE LINE (compressed) delimited by a new-line (NDJSON).
+#----------------- JSON ESSENTIAL UNDERSTANDING  --------------------
 
 ### Step 3: Send the data to the Log Analytics workspace via the DCE.
-#$body    = $staticData
-#------------ ONLY NEED IF DATA IS NOT IN NDJSON FORMAT  ----------------
-
 # DCR Stream REST API ENDPOINT
 $uri   = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
 
@@ -113,16 +111,7 @@ $uri     = "https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token"
 $bearerToken = (Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers).access_token
 $headers     = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/json"}
 
-
-### Step 2: Import Dummy NDJSON data from file.
-#------------ ONLY NEED IF DATA IS NOT IN NDJSON FORMAT  ----------------
-## The JSON data must be in the same format as the CL in the DCR.
-## The JSON data must be in SINGLE LINE format (no line breaks).
-
 ### Step 3: Send the data to the Log Analytics workspace via the DCE.
-#$body    = $staticData
-#------------ ONLY NEED IF DATA IS NOT IN NDJSON FORMAT  ----------------
-
 # DCR Stream (Custom-PJL-HAWK) REST API ENDPOINT
 $uri  = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
 $cntr = $null
