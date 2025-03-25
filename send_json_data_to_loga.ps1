@@ -77,7 +77,7 @@ $tenantId  = "$((Get-AzContext).Tenant.Id)"
 $appId     = "ENTER YOUR APP ID HERE"
 $appSecret = "ENTER YOUR APP SECRET HERE"
 
-# Information needed to send data to the DCR endpoint
+# Information needed to send data to the DCR/DCE endpoint
 $logIngestionEp = "ENTER YOUR DCE OR LOG INGESTION URI/ENDPOINT HERE"
 $dcrImmutableId = "ENTER YOUR DCR IMMUTABLE ID HERE"
 
@@ -95,12 +95,11 @@ $uri = "https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token"
 $bearerToken = (Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers).access_token
 $headers = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/json"}
 
-### Step 3: Send the data to the Log Analytics workspace via the DCE.
+### Step 2: Send the data to the Log Analytics workspace via the DCE.
 # DCR Stream REST API ENDPOINT
 $uri   = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
 
-# Loop over each NDJSON object individually and make a stream REST API call
-### Step 1: Obtain a bearer token used later to authenticate against the DCE.
+### Step 3: Obtain a bearer token used later to authenticate against the DCE.
 ### The App Registration must have the "Metrics Publishing" RBAC role assigned to the DCR and the DCE must be linked to the DCR.
 $scope = [System.Web.HttpUtility]::UrlEncode("https://monitor.azure.com//.default")   
 $body  = "client_id=${appId}&scope=${scope}&client_secret=${appSecret}&grant_type=client_credentials"
@@ -111,7 +110,7 @@ $uri     = "https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token"
 $bearerToken = (Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers).access_token
 $headers     = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/json"}
 
-### Step 3: Send the data to the Log Analytics workspace via the DCE.
+### Step 4: Send the data to the Log Analytics workspace via the DCE.
 # DCR Stream (Custom-PJL-HAWK) REST API ENDPOINT
 $uri  = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
 $cntr = $null
