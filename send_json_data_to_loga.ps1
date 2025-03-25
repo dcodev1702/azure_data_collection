@@ -81,7 +81,7 @@ $appSecret = "ENTER YOUR APP SECRET HERE"
 $logIngestionEp = "ENTER YOUR DCE OR LOG INGESTION URI/ENDPOINT HERE"
 $dcrImmutableId = "ENTER YOUR DCR IMMUTABLE ID HERE"
 
-$currentTime    = (Get-Date).ToString("yyyy-MM-ddTHH:mm:ssZ") # current time in UTC format
+# Stream name to send the data to via DCR which then sends it to the Custom Log Table (CL) in the Log Analytics workspace
 $streamName     = "Custom-PJL_HAWK" # name of the stream in the DCR that represents the destination table
 
 ### Step 1: Obtain a bearer token used later to authenticate against the DCE.
@@ -95,22 +95,8 @@ $uri = "https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token"
 $bearerToken = (Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers).access_token
 $headers = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/json"}
 
+
 ### Step 2: Send the data to the Log Analytics workspace via the DCE.
-# DCR Stream REST API ENDPOINT
-$uri   = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
-
-### Step 3: Obtain a bearer token used later to authenticate against the DCE.
-### The App Registration must have the "Metrics Publishing" RBAC role assigned to the DCR and the DCE must be linked to the DCR.
-$scope = [System.Web.HttpUtility]::UrlEncode("https://monitor.azure.com//.default")   
-$body  = "client_id=${appId}&scope=${scope}&client_secret=${appSecret}&grant_type=client_credentials"
-
-$headers = @{"Content-Type"="application/x-www-form-urlencoded"}
-$uri     = "https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token"
-
-$bearerToken = (Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers).access_token
-$headers     = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/json"}
-
-### Step 4: Send the data to the Log Analytics workspace via the DCE.
 # DCR Stream (Custom-PJL-HAWK) REST API ENDPOINT
 $uri  = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
 $cntr = $null
