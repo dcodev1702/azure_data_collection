@@ -18,6 +18,12 @@ Pre-requisites:
 7. Create a NDJSON file with the data you want to send to the CL and copy it to the $staticData variable in this script.
    -- The NDJSON file MUST be in the same format/schema as the CL in the DCR.
 
+#----------------- JSON ESSENTIAL UNDERSTANDING  --------------------
+## JSON data source must be in the same format as the CL in the DCR.
+## Columns (Fields) ARE CASE SENSITIVE (e.g. 'hardware' != 'Hardware')
+## JSON data must be in SINGLE LINE (compressed) delimited by a new-line (NDJSON).
+#----------------- JSON ESSENTIAL UNDERSTANDING  --------------------
+
 Usage:
 ./send_json_data_to_loga.ps1 -DataIngestFile ./data/dummy_data.[nd]json
 
@@ -88,12 +94,6 @@ $uri = "https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token"
 
 $bearerToken = (Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers).access_token
 $headers = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/json"}
-
-#----------------- JSON ESSENTIAL UNDERSTANDING  --------------------
-## JSON data source must be in the same format as the CL in the DCR.
-## Columns (Fields) ARE CASE SENSITIVE (e.g. 'hardware' != 'Hardware')
-## JSON data must be in SINGLE LINE (compressed) delimited by a new-line (NDJSON).
-#----------------- JSON ESSENTIAL UNDERSTANDING  --------------------
 
 ### Step 3: Send the data to the Log Analytics workspace via the DCE.
 # DCR Stream REST API ENDPOINT
