@@ -96,7 +96,7 @@ $bearerToken = (Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $h
 $headers = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/json"}
 
 
-### Step 2: Send the data to the Log Analytics workspace via the DCE.
+### Step 2: Send the telemetry (JSON Objects) to a Log Analytics Workspace via the DCR stream and Log Ingestion or DC Endpoint.
 # DCR Stream (Custom-PJL-HAWK) REST API ENDPOINT
 $uri  = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
 $cntr = $null
