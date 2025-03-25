@@ -17,6 +17,10 @@ Pre-requisites:
 6. Create a secret for the application registration and copy it to the $appSecret variable in this script.
 7. Create a NDJSON file with the data you want to send to the CL and copy it to the $staticData variable in this script.
    -- The NDJSON file MUST be in the same format/schema as the CL in the DCR.
+
+Usage:
+./send_json_data_to_loga.ps1 -DataIngestFile ./data/dummy_data.[nd]json
+
 #>
 param(
     [Parameter(Mandatory=$true)]
