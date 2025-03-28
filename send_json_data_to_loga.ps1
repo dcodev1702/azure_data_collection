@@ -39,6 +39,11 @@ if (-not (Test-Path $DataIngestFile)) {
     exit 1
 }
 
+if (-not (Get-AzContext)) {
+    Write-Error "Not logged into Azure. Please run Connect-AzAccount."
+    exit 1
+}
+
 # Read the file content
 $JSONData = Get-Content -Raw -Path $DataIngestFile
 
@@ -110,14 +115,12 @@ foreach ($JSONObj in $JSONData) {
     # Wrap the single line in square brackets to make it a valid JSON array
     # This required (documented) to send a JSON array via the Log Analytics API. Not needed for AMA but for DCR
     $body = "[${JSONObj}]"
-    
-    Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers -ErrorVariable RestError
-    
-    if ($RestError) {
-       Write-Host "Error uploading: `n$body to the Log-A Custom Table `"$streamName`". Error: $RestError" -ForegroundColor Red
-       exit 1
-    } else {
-       $cntr = $cntr + 1
+
+    try {
+       $cntr++
+       Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers -ErrorAction Stop
        Write-Host "CX dummy data record::[$cntr]: `n$body - successfully uploaded to the Log-A Custom Table: `"$streamName`"." -ForegroundColor Green
+    } catch {
+       Write-Host "Error uploading record::[$cntr] `n$body to the Log-A Custom Table `"$streamName`". Error: $RestError" -ForegroundColor Red
     }
 }
