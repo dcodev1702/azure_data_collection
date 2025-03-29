@@ -107,16 +107,16 @@ $uri  = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${strea
 $cntr = $null
 foreach ($JSONObj in $JSONData) {
 
-    if ($JSONType -eq 'json') { 
-        # Process each object separately & serialize the entire object to ensure proper formatting
-        $JSONObj = $JSONObj | ConvertTo-Json -Depth 25 -Compress
-    }
-    
-    # Wrap the single line in square brackets to make it a valid JSON array
-    # This required (documented) to send a JSON array via the Log Analytics API. Not needed for AMA but for DCR
-    $body = "[${JSONObj}]"
-
     try {
+       if ($JSONType -eq 'json') { 
+           # Process each object separately & serialize the entire object to ensure proper formatting
+           $JSONObj = $JSONObj | ConvertTo-Json -Depth 25 -Compress -ErrorAction Stop
+       }
+    
+       # Wrap the single line in square brackets to make it a valid JSON array
+       # This required (documented) to send a JSON array via the Log Analytics API. Not needed for AMA but for DCR
+       $body = "[${JSONObj}]"
+    
        $cntr++
        Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers -ErrorAction Stop
        Write-Host "CX dummy data record::[$cntr]: `n$body - successfully uploaded to the Log-A Custom Table: `"$streamName`"." -ForegroundColor Green
