@@ -1,7 +1,39 @@
 <#
+.SYNOPSIS
+    Author: DCODEV1702
+    Date: 03/31/2025
+    Version: 0.2.1beta
+
+    List-InTuneDevices retrieves Intune managed devices from Microsoft Graph API.
     Basic PowerShell script to retrieve all devices from Microsoft Graph API using the Microsoft Graph PowerShell SDK.
     The script checks if the user is authenticated, retrieves the devices, and outputs them in various formats.
     It also handles errors and provides feedback to the user.
+
+.DESCRIPTION
+    List-InTuneDevices will:
+    1) Determine the Microsoft Graph base URI based on the -Environment parameter
+    2) Connect to Graph with user-based delegated credentials
+    3) Retrieve all Intune Managed Devices (following nextLink if >100 devices)
+    4) Save the result to CSV & JSON, then return the in-memory objects
+
+.PARAMETER Environment
+    - USGov
+    - Germany
+    - USGovDoD
+    - Global
+
+.EXAMPLE
+    PS> List-InTuneDevices -Environment USGov
+
+    Retrieves Intune managed devices from the USGov environment 
+    (graph.microsoft.us), outputs to IntuneDevices.csv & IntuneDevices.json, 
+    and returns the device objects for further use in PowerShell.
+
+.EXAMPLE
+    PS> $devices = List-InTuneDevices -Environment Global
+    PS> $devices.Count
+    PS> $devices | Format-Table
+
 #>
 function List-InTuneDevices {
     [CmdletBinding()]
@@ -36,24 +68,9 @@ function List-InTuneDevices {
 
     Write-Host "Retrieving all devices from Microsoft Graph API..."
 
-    # Let's assume $response is from your Invoke-MgGraphRequest
-    # (i.e., $response = Invoke-MgGraphRequest -Uri '/v1.0/deviceManagement/managedDevices' ...)
-
-    # Create a list of PS custom objects, one per device
-    <# $devices = foreach ($item in $response.Value) {
-        # Build a hashtable of properties for the new custom object
-        $props = @{}
-        foreach ($kvp in $item.GetEnumerator()) {
-            $props[$kvp.Key] = $kvp.Value
-        }
-
-        # Convert to a PSCustomObject
-        New-Object -TypeName PSObject -Property $props
-    } 
-    #>
 
     # ------------------------------------------------------------------------
-    # 3) Query Intune Managed Devices (following nextLink for paging)
+    # 2) Query Intune Managed Devices (following nextLink for paging)
     # ------------------------------------------------------------------------
     $allDevices = @()
     $nextLink   = "$graphApiBaseUri/v1.0/deviceManagement/managedDevices"
@@ -76,7 +93,7 @@ function List-InTuneDevices {
     }
 
     # ------------------------------------------------------------------------
-    # 4) Output the devices to CSV and JSON
+    # 3) Output the devices to CSV and JSON
     # ------------------------------------------------------------------------
     $allDevices | Export-Csv -Path $CsvOutputPath -NoTypeInformation
     $allDevices | ConvertTo-Json -Depth 25 | Out-File $JsonOutputPath -Encoding UTF8
