@@ -54,8 +54,8 @@ function List-InTuneDevices {
     # ------------------------------------------------------------------------
     # 4) Output the devices to CSV and JSON
     # ------------------------------------------------------------------------
-    $allDevices | Export-Csv -Path $CsvOutputPath -NoTypeInformation
-    $allDevices | ConvertTo-Json -Depth 25 | Out-File $JsonOutputPath -Encoding UTF8
+    $devices | Export-Csv -Path $CsvOutputPath -NoTypeInformation
+    $devices | ConvertTo-Json -Depth 25 | Out-File $JsonOutputPath -Encoding UTF8
 
     Write-Host "Devices exported to CSV:   $CsvOutputPath"
     Write-Host "Devices exported to JSON: $JsonOutputPath"
