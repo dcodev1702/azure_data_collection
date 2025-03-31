@@ -16,7 +16,7 @@ function List-InTuneDevices {
         [string] $JsonOutputPath = "$PWD\InTuneDevices.json"
     )
 
-        # ------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
     # 1) Pick the correct Graph base URI for the chosen environment
     # ------------------------------------------------------------------------
     switch ($Environment) {
@@ -40,7 +40,7 @@ function List-InTuneDevices {
     # (i.e., $response = Invoke-MgGraphRequest -Uri '/v1.0/deviceManagement/managedDevices' ...)
 
     # Create a list of PS custom objects, one per device
-    $devices = foreach ($item in $response.Value) {
+    <# $devices = foreach ($item in $response.Value) {
         # Build a hashtable of properties for the new custom object
         $props = @{}
         foreach ($kvp in $item.GetEnumerator()) {
@@ -49,19 +49,42 @@ function List-InTuneDevices {
 
         # Convert to a PSCustomObject
         New-Object -TypeName PSObject -Property $props
+    } 
+    #>
+
+    # ------------------------------------------------------------------------
+    # 3) Query Intune Managed Devices (following nextLink for paging)
+    # ------------------------------------------------------------------------
+    $allDevices = @()
+    $nextLink   = "$graphApiBaseUri/v1.0/deviceManagement/managedDevices"
+
+    while ($nextLink) {
+        # Call Microsoft Graph using the dynamic base URL
+        $response = Invoke-MgGraphRequest -Uri $nextLink -Method GET
+
+        # Convert each returned hashtable into a PSCustomObject
+        $allDevices += foreach ($item in $response.Value) {
+            $props = @{}
+            foreach ($kvp in $item.GetEnumerator()) {
+                $props[$kvp.Key] = $kvp.Value
+            }
+            New-Object -TypeName PSObject -Property $props
+        }
+
+        # Move on to the next page if '@odata.nextLink' is present
+        $nextLink = $response.'@odata.nextLink'
     }
 
     # ------------------------------------------------------------------------
     # 4) Output the devices to CSV and JSON
     # ------------------------------------------------------------------------
-    $devices | Export-Csv -Path $CsvOutputPath -NoTypeInformation
-    $devices | ConvertTo-Json -Depth 25 | Out-File $JsonOutputPath -Encoding UTF8
+    $allDevices | Export-Csv -Path $CsvOutputPath -NoTypeInformation
+    $allDevices | ConvertTo-Json -Depth 25 | Out-File $JsonOutputPath -Encoding UTF8
 
     Write-Host "Devices exported to CSV:   $CsvOutputPath"
     Write-Host "Devices exported to JSON: $JsonOutputPath"
 
     # Return the collection as well, in case the caller wants to process them
     return $allDevices
-
     
 }
