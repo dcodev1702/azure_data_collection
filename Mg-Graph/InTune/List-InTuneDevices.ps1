@@ -57,8 +57,7 @@ function List-InTuneDevices {
         "Global"   { $graphApiBaseUri = "https://graph.microsoft.com" }
     }
 
-    $context = Get-MgContext
-    if ($context -eq $null) {
+    if ((Get-MgContext) -eq $null) {
         Write-Host "No context found. Please authenticate to Microsoft Graph."
         Connect-MgGraph -Scopes "User.Read.All", "Directory.Read.All", "DeviceManagementManagedDevices.Read.All" -TenantId 'c51a30d6-028b-45bd-9af6-09e0ab30cc80' -Environment $Environment
     }
