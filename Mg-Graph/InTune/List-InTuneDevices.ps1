@@ -23,6 +23,7 @@
     - Global
 
 .EXAMPLE
+    PS> . .\List-InTuneDevices.ps1
     PS> List-InTuneDevices -Environment USGov
 
     Retrieves Intune managed devices from the USGov environment 
@@ -30,6 +31,7 @@
     and returns the device objects for further use in PowerShell.
 
 .EXAMPLE
+    PS> . .\List-InTuneDevices.ps1
     PS> $devices = List-InTuneDevices -Environment Global
     PS> $devices.Count
     PS> $devices | Format-Table
