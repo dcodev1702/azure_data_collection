@@ -64,9 +64,7 @@ function List-InTuneDevices {
         Connect-MgGraph -Scopes "User.Read.All", "Directory.Read.All", "DeviceManagementManagedDevices.Read.All" -TenantId 'c51a30d6-028b-45bd-9af6-09e0ab30cc80' -Environment $Environment
     }
 
-    $response = Invoke-MgGraphRequest -Uri "$graphApiBaseUri/v1.0/deviceManagement/managedDevices" -Method GET
     Write-Host "Retrieving all devices from Microsoft Graph API..."
-
     # ------------------------------------------------------------------------
     # 2) Query Intune Managed Devices (following nextLink for paging)
     # ------------------------------------------------------------------------
