@@ -65,10 +65,7 @@ function List-InTuneDevices {
     }
 
     $response = Invoke-MgGraphRequest -Uri "$graphApiBaseUri/v1.0/deviceManagement/managedDevices" -Method GET
-
-
     Write-Host "Retrieving all devices from Microsoft Graph API..."
-
 
     # ------------------------------------------------------------------------
     # 2) Query Intune Managed Devices (following nextLink for paging)
