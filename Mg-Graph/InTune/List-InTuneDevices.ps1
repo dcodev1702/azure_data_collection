@@ -33,7 +33,6 @@
     PS> $devices = List-InTuneDevices -Environment Global
     PS> $devices.Count
     PS> $devices | Format-Table
-
 #>
 function List-InTuneDevices {
     [CmdletBinding()]
