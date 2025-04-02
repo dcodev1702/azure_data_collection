@@ -61,14 +61,14 @@ function List-InTuneDevices {
 
     if ((Get-MgContext) -eq $null) {
         Write-Host "No context found. Please authenticate to Microsoft Graph."
-        Connect-MgGraph -Scopes "User.Read.All", "Directory.Read.All", "DeviceManagementManagedDevices.Read.All" -TenantId 'c51a30d6-028b-45bd-9af6-09e0ab30cc80' -Environment $Environment
+        Connect-MgGraph -Scopes "User.Read.All", "Directory.Read.All", "DeviceManagementManagedDevices.Read.All" -TenantId 'c51a30d6-028b-45bd-9af6-09e0ab30cc80' -Environment $Environment -NoWelcome
     }
 
     Write-Host "Retrieving all devices from Microsoft Graph API..."
     # ------------------------------------------------------------------------
     # 2) Query Intune Managed Devices (following nextLink for paging)
     # ------------------------------------------------------------------------
-    $allDevices = @()
+    $allDevices = [System.Collections.Generic.List[psobject]]::new()
     $nextLink   = "$graphApiBaseUri/v1.0/deviceManagement/managedDevices"
 
     while ($nextLink) {
@@ -76,12 +76,13 @@ function List-InTuneDevices {
         $response = Invoke-MgGraphRequest -Uri $nextLink -Method GET
 
         # Convert each returned hashtable into a PSCustomObject
-        $allDevices += foreach ($item in $response.Value) {
+        foreach ($item in $response.Value) {
             $props = @{}
             foreach ($kvp in $item.GetEnumerator()) {
                 $props[$kvp.Key] = $kvp.Value
             }
-            New-Object -TypeName PSObject -Property $props
+            $psObject = New-Object -TypeName PSObject -Property $props
+            $allDevices.Add($psObject)
         }
 
         # Move on to the next page if '@odata.nextLink' is present
