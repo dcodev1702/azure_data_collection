@@ -21,10 +21,13 @@
     - Germany
     - USGovDoD
     - Global
+    
+.PARAMETER TenantId
+    - Provide your Azure Tenant Id, this can be found in Entra ID (UI) or (Get-MgContext).TenantId via the CLI.
 
 .EXAMPLE
     PS> . .\List-InTuneDevices.ps1
-    PS> List-InTuneDevices -Environment USGov
+    PS> List-InTuneDevices -Environment USGov -TenantId "your-tenant-id"
 
     Retrieves Intune managed devices from the USGov environment 
     (graph.microsoft.us), outputs to IntuneDevices.csv & IntuneDevices.json, 
@@ -32,7 +35,7 @@
 
 .EXAMPLE
     PS> . .\List-InTuneDevices.ps1
-    PS> $devices = List-InTuneDevices -Environment Global
+    PS> $devices = List-InTuneDevices -Environment Global -TenantId "your-tenant-id"
     PS> $devices.Count
     PS> $devices | Format-Table
 #>
@@ -43,6 +46,8 @@ function List-InTuneDevices {
         [Parameter(Mandatory = $true)]
         [ValidateSet("USGov", "Germany", "USGovDoD", "Global")]
         [string] $Environment,
+        [Parameter(Mandatory = $true)]
+        [string] $TenantId,
 
         # Optional parameters to control file output locations
         [string] $CsvOutputPath  = "$PWD\InTuneDevices.csv",
@@ -61,7 +66,7 @@ function List-InTuneDevices {
 
     if ((Get-MgContext) -eq $null) {
         Write-Host "No context found. Please authenticate to Microsoft Graph."
-        Connect-MgGraph -Scopes "User.Read.All", "Directory.Read.All", "DeviceManagementManagedDevices.Read.All" -TenantId 'c51a30d6-028b-45bd-9af6-09e0ab30cc80' -Environment $Environment -NoWelcome
+        Connect-MgGraph -Scopes "User.Read.All", "Directory.Read.All", "DeviceManagementManagedDevices.Read.All" -TenantId $TenantId -Environment $Environment -NoWelcome
     }
 
     Write-Host "Retrieving all devices from Microsoft Graph API..."
