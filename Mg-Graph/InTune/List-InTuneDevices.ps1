@@ -15,6 +15,7 @@
     2) Connect to Graph with user-based delegated credentials
     3) Retrieve all Intune Managed Devices (following nextLink if >100 devices)
     4) Save the result to CSV & JSON, then return the in-memory objects
+    5) https://learn.microsoft.com/en-us/graph/api/intune-devices-manageddevice-list?view=graph-rest-1.0
 
 .PARAMETER Environment
     - USGov
