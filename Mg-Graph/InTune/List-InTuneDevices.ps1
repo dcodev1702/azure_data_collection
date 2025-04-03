@@ -78,7 +78,7 @@ function List-InTuneDevices {
 
     while ($nextLink) {
         # Call Microsoft Graph using the dynamic base URL
-        $response = Invoke-MgGraphRequest -Uri $nextLink -Method GET
+        $response = Invoke-MgGraphRequest -Uri $nextLink -Method GET -ErrorAction SilentlyContinue
 
         # Convert each returned hashtable into a PSCustomObject
         foreach ($item in $response.Value) {
