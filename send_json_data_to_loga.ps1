@@ -113,7 +113,7 @@ foreach ($JSONObj in $JSONData) {
            $JSONObj = $JSONObj | ConvertTo-Json -Depth 50 -Compress -ErrorAction Stop
        }
     
-       # Wrap the single line in square brackets to make it a valid JSON array
+       # Wrap the single line in square brackets to make it a valid JSON array (NDJSON)
        # This is required (documented) to send a JSON array via the Log Analytics API. Not needed for AMA but is needed for Code/Logic App/etc.
        $body = "[${JSONObj}]"
     
