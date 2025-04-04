@@ -109,7 +109,7 @@ foreach ($JSONObj in $JSONData) {
 
     try {
        if ($JSONType -eq 'json') { 
-           # Process each object separately & serialize the entire object to ensure proper formatting
+           # Process each object separately & serialize the entire object to ensure proper formatting (NDJSON)
            $JSONObj = $JSONObj | ConvertTo-Json -Depth 50 -Compress -ErrorAction Stop
        }
     
