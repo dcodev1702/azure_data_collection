@@ -110,11 +110,11 @@ foreach ($JSONObj in $JSONData) {
     try {
        if ($JSONType -eq 'json') { 
            # Process each object separately & serialize the entire object to ensure proper formatting
-           $JSONObj = $JSONObj | ConvertTo-Json -Depth 25 -Compress -ErrorAction Stop
+           $JSONObj = $JSONObj | ConvertTo-Json -Depth 50 -Compress -ErrorAction Stop
        }
     
        # Wrap the single line in square brackets to make it a valid JSON array
-       # This required (documented) to send a JSON array via the Log Analytics API. Not needed for AMA but for DCR
+       # This is required (documented) to send a JSON array via the Log Analytics API. Not needed for AMA but is needed for Code/Logic App/etc.
        $body = "[${JSONObj}]"
     
        $cntr++
