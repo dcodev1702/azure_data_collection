@@ -1,0 +1,61 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dataCollectionRules_WinEvents_2_BlobStorage_DCR_name": {
+            "defaultValue": "WinEvents-2-BlobStorage-DCR",
+            "type": "string"
+        },
+        "storageAccounts_dataevents007_externalid": {
+            "defaultValue": "/subscriptions/1dd93b0d-9968-4d42-8d5b-510d621c7866/resourceGroups/MIR/providers/Microsoft.Storage/storageAccounts/dataevents007",
+            "type": "string"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Insights/dataCollectionRules",
+            "apiVersion": "2023-03-11",
+            "name": "[parameters('dataCollectionRules_WinEvents_2_BlobStorage_DCR_name')]",
+            "location": "eastus",
+            "tags": {
+                "createdBy": "DCODEV1702"
+            },
+            "kind": "AgentDirectToStore",
+            "properties": {
+                "dataSources": {
+                    "windowsEventLogs": [
+                        {
+                            "streams": [
+                                "Microsoft-Event"
+                            ],
+                            "xPathQueries": [
+                                "Security!*[System[(EventID=4656) or (EventID=4657) or (EventID=4658) or (EventID=4660) or (EventID=4663) or (EventID=4673) or (EventID=4674) or (EventID=4685) or (EventID=4985) or (EventID=5140) or (EventID=5142) or (EventID=5143) or (EventID=5144) or (EventID=5145) or (EventID=5168)]]"
+                            ],
+                            "name": "eventLogsDataSource"
+                        }
+                    ]
+                },
+                "destinations": {
+                    "storageBlobsDirect": [
+                        {
+                            "containerName": "seceventblob",
+                            "storageAccountResourceId": "[parameters('storageAccounts_dataevents007_externalid')]",
+                            "name": "SecEventBlob"
+                        }
+                    ]
+                },
+                "dataFlows": [
+                    {
+                        "streams": [
+                            "Microsoft-Event"
+                        ],
+                        "destinations": [
+                            "SecEventBlob"
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}
