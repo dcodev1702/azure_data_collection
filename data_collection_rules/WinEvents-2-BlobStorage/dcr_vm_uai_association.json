@@ -7,8 +7,8 @@
             "type": "string"
         },
         "location": {
-            "type": "string",
             "defaultValue": "[resourceGroup().location]",
+            "type": "string",
             "metadata": {
                 "description": "Location for all resources."
             }
@@ -21,15 +21,15 @@
             }
         },
         "dcraName": {
-            "type": "string",
             "defaultValue": "[concat(uniquestring(resourceGroup().id), 'DCRLink')]",
+            "type": "string",
             "metadata": {
                 "description": "Name of the association."
             }
         },
         "identityName": {
-            "type": "string",
             "defaultValue": "userevent2blobstorage",
+            "type": "string",
             "metadata": {
                 "description": "Managed Identity"
             }
