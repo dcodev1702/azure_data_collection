@@ -2,9 +2,20 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "dataCollectionRules_WinEvents_2_BlobStorage_DCR_name": {
-            "defaultValue": "WinEvents-2-BlobStorage-2-DCR",
+        "vmName": {
+            "defaultValue": "zolab-dc-1",
             "type": "string"
+        },
+        "dataCollectionRuleName": {
+            "defaultValue": "WinEvents-2-BlobStorage-DCR",
+            "type": "string"
+        },
+        "dcraName": {
+            "defaultValue": "[concat(uniquestring(resourceGroup().id), 'DCRLink')]",
+            "type": "string",
+            "metadata": {
+                "description": "Name of the association."
+            }
         },
         "storageAccountName": {
             "defaultValue": "datawinevents1702",
@@ -50,7 +61,7 @@
                 "forceUpdateTag": "1",
                 "azPowerShellVersion": "3.0",
                 "arguments": "",
-                "scriptContent": "Start-Sleep -Seconds 20",
+                "scriptContent": "Start-Sleep -Seconds 30",
                 "supportingScriptUris": [],
                 "timeout": "PT30M",
                 "cleanupPreference": "Always",
@@ -188,18 +199,33 @@
             }
         },
         {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2023-03-01",
+            "name": "[parameters('vmName')]",
+            "location": "[parameters('location')]",
+            "identity": {
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedIdentityName'))]": {}
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedIdentityName'))]"
+            ]
+        },
+        {
             "type": "Microsoft.Insights/dataCollectionRules",
             "apiVersion": "2023-03-11",
-            "name": "[parameters('dataCollectionRules_WinEvents_2_BlobStorage_DCR_name')]",
+            "name": "[parameters('dataCollectionRuleName')]",
             "location": "[parameters('location')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
-				"[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedIdentityName'))]"
-            ],
             "tags": {
                 "createdBy": "DCODEV1702"
             },
             "kind": "AgentDirectToStore",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedIdentityName'))]"
+            ],
             "properties": {
                 "dataSources": {
                     "windowsEventLogs": [
@@ -238,6 +264,45 @@
                         ]
                     }
                 ]
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/providers/dataCollectionRuleAssociations",
+            "name": "[concat(parameters('vmName'),'/microsoft.insights/', parameters('dcraName'))]",
+            "apiVersion": "2021-04-01",
+            "properties": {
+                "description": "Association of data collection rule. Deleting this association will break the data collection for this virtual machine.",
+                "dataCollectionRuleId": "[resourceID('Microsoft.Insights/dataCollectionRules', parameters('dataCollectionRuleName'))]"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Insights/dataCollectionRules', parameters('dataCollectionRuleName'))]",
+                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedIdentityName'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('vmName'), '/AzureMonitorWindowsAgent')]",
+            "apiVersion": "2020-06-01",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines/providers/dataCollectionRuleAssociations', parameters('vmName'), 'Microsoft.Insights', parameters('dcraName'))]",
+                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedIdentityName'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Azure.Monitor",
+                "type": "AzureMonitorWindowsAgent",
+                "typeHandlerVersion": "1.0",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "authentication": {
+                        "managedIdentity": {
+                            "identifier-name": "mi_res_id",
+                            "identifier-value": "[resourceID('Microsoft.ManagedIdentity/userAssignedIdentities/',parameters('userAssignedIdentityName'))]"
+                        }
+                    }
+                }
             }
         }
     ]
