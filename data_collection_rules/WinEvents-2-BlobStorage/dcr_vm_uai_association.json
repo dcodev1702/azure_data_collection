@@ -37,36 +37,36 @@
     },
     "resources": [
         {
-        "type": "Microsoft.Compute/virtualMachines/providers/dataCollectionRuleAssociations",
-        "name": "[concat(parameters('vmName'),'/microsoft.insights/', parameters('dcraName'))]",
-        "apiVersion": "2021-04-01",
-        "properties": {
-            "description": "Association of data collection rule. Deleting this association will break the data collection for this virtual machine.",
-            "dataCollectionRuleId": "[resourceID('Microsoft.Insights/dataCollectionRules',parameters('dataCollectionRulesName'))]"
-        }
+            "type": "Microsoft.Compute/virtualMachines/providers/dataCollectionRuleAssociations",
+            "name": "[concat(parameters('vmName'),'/microsoft.insights/', parameters('dcraName'))]",
+            "apiVersion": "2021-04-01",
+            "properties": {
+                "description": "Association of data collection rule. Deleting this association will break the data collection for this virtual machine.",
+                "dataCollectionRuleId": "[resourceID('Microsoft.Insights/dataCollectionRules',parameters('dataCollectionRulesName'))]"
+            }
         },
         {
-        "type": "Microsoft.Compute/virtualMachines/extensions",
-        "name": "[concat(parameters('vmName'), '/AMAExtension')]",
-        "apiVersion": "2020-06-01",
-        "location": "[parameters('location')]",
-        "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines/providers/dataCollectionRuleAssociations', parameters('vmName'), 'Microsoft.Insights', parameters('dcraName'))]"
-        ],
-        "properties": {
-            "publisher": "Microsoft.Azure.Monitor",
-            "type": "AzureMonitorWindowsAgent",
-            "typeHandlerVersion": "1.0",
-            "autoUpgradeMinorVersion": true,
-            "settings": {
-            "authentication": {
-                "managedIdentity": {
-                "identifier-name": "mi_res_id",
-                "identifier-value": "[resourceID('Microsoft.ManagedIdentity/userAssignedIdentities/',parameters('identityName'))]"
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('vmName'), '/AMAExtension')]",
+            "apiVersion": "2020-06-01",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines/providers/dataCollectionRuleAssociations', parameters('vmName'), 'Microsoft.Insights', parameters('dcraName'))]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Azure.Monitor",
+                "type": "AzureMonitorWindowsAgent",
+                "typeHandlerVersion": "1.0",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "authentication": {
+                        "managedIdentity": {
+                        "identifier-name": "mi_res_id",
+                        "identifier-value": "[resourceID('Microsoft.ManagedIdentity/userAssignedIdentities/',parameters('identityName'))]"
+                        }
+                    }
                 }
             }
-            }
-        }
         }
     ]
     }
