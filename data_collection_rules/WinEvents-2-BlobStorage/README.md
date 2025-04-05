@@ -2,6 +2,7 @@ Provisioning Order:
 -------------------
 1. User Assigned Identity
    - Associate UAI to Storage Account with [Storage Blob Data Contributor](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles)
+   - Associate UAI with Virtual Machine
    - Storage Blob Data Contributor Role: 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
 3. Storage Account
    - Blob (ALDSv2) (private)
