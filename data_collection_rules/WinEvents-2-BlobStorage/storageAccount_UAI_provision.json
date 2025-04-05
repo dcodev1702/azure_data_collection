@@ -2,24 +2,28 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "dataCollectionRules_WinEvents_2_BlobStorage_DCR_name": {
+            "defaultValue": "WinEvents-2-BlobStorage-2-DCR",
+            "type": "string"
+        },
         "storageAccountName": {
             "defaultValue": "datawinevents1702",
-            "type": "String"
+            "type": "string"
         },
         "saBlobContainerName": {
             "defaultValue": "secwineventsblob",
-            "type": "String"
+            "type": "string"
         },
         "location": {
             "defaultValue": "eastus2",
-            "type": "String",
+            "type": "string",
             "metadata": {
                 "description": "Location for all resources."
             }
         },
         "userAssignedIdentityName": {
             "defaultValue": "[concat('uai', uniqueString(resourceGroup().id))]",
-            "type": "String",
+            "type": "string",
             "metadata": {
                 "description": "Name of the user-assigned managed identity"
             }
@@ -46,7 +50,7 @@
                 "forceUpdateTag": "1",
                 "azPowerShellVersion": "3.0",
                 "arguments": "",
-                "scriptContent": "Start-Sleep -Seconds 120",
+                "scriptContent": "Start-Sleep -Seconds 20",
                 "supportingScriptUris": [],
                 "timeout": "PT30M",
                 "cleanupPreference": "Always",
@@ -181,6 +185,59 @@
                 "roleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe')]",
                 "principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedIdentityName')), '2023-01-31').principalId]",
                 "principalType": "ServicePrincipal"
+            }
+        },
+        {
+            "type": "Microsoft.Insights/dataCollectionRules",
+            "apiVersion": "2023-03-11",
+            "name": "[parameters('dataCollectionRules_WinEvents_2_BlobStorage_DCR_name')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+				"[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedIdentityName'))]"
+            ],
+            "tags": {
+                "createdBy": "DCODEV1702"
+            },
+            "kind": "AgentDirectToStore",
+            "properties": {
+                "dataSources": {
+                    "windowsEventLogs": [
+                        {
+                            "streams": [
+                                "Microsoft-Event"
+                            ],
+                            "xPathQueries": [
+                                "Security!*[System[(EventID=4656) or (EventID=4657) or (EventID=4658) or (EventID=4660) or (EventID=4663) or (EventID=4673) or (EventID=4674) or (EventID=4685) or (EventID=4985) or (EventID=5140) or (EventID=5142) or (EventID=5143) or (EventID=5144) or (EventID=5145) or (EventID=5168)]]"
+                            ],
+                            "name": "eventLogsDataSource"
+                        }
+                    ]
+                },
+                "destinations": {
+                    "storageBlobsDirect": [
+                        {
+                            "containerName": "[parameters('saBlobContainerName')]",
+                            "storageAccountResourceId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+                            "identity": {
+                                "userAssignedIdentity": {
+                                    "identityId": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedIdentityName'))]"
+                                }
+                            },
+                            "name": "SecEventBlob"
+                        }
+                    ]
+                },
+                "dataFlows": [
+                    {
+                        "streams": [
+                            "Microsoft-Event"
+                        ],
+                        "destinations": [
+                            "SecEventBlob"
+                        ]
+                    }
+                ]
             }
         }
     ]
