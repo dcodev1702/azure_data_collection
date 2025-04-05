@@ -61,8 +61,8 @@
                 "settings": {
                     "authentication": {
                         "managedIdentity": {
-                        "identifier-name": "mi_res_id",
-                        "identifier-value": "[resourceID('Microsoft.ManagedIdentity/userAssignedIdentities/',parameters('identityName'))]"
+                            "identifier-name": "mi_res_id",
+                            "identifier-value": "[resourceID('Microsoft.ManagedIdentity/userAssignedIdentities/',parameters('identityName'))]"
                         }
                     }
                 }
