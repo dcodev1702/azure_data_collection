@@ -67,12 +67,11 @@ evaluate infer_storage_schema(options) //result = records:dynamic
   EventDescription: string,
   RenderingInfo: string,
   EventRecordId: string,
-  Keywords: string,
-  StreamId: string
+  Keywords: string
 )
 kind=storage
-partition by (idx:string = StreamId, IngestTime:datetime)
-pathformat = ("i=" idx "/" datetime_pattern('y={yyyy}/m={MM}/d={dd}/h={HH}/m={mm}',IngestTime))
+partition by (StreamId:string, IngestTime:datetime)
+pathformat = ("i=" StreamId "/" datetime_pattern('y={yyyy}/m={MM}/d={dd}/h={HH}/m={mm}',IngestTime))
 dataformat = multijson //required for json arrays (e.g. records[])
 (
   h@'https://datawinevents1799.blob.core.windows.net/secwineventsblob;managed_identity=70c71c41-cc48-4b73-89e7-69ff6760d5aa'
