@@ -20,9 +20,70 @@ Provisioning Order:
 
 [Windows Events to Storage](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-samples)
 
-7. Map ADLSv2 blob storage to ADX as an external table via a user assigned identity (UAI) -> map_uai_2_adx.json. </br>
+## ADX EXTERNAL TABLE via ADLSv2 CONFIGURATION
+1. Map ADLSv2 blob storage to ADX as an external table via a user assigned identity (UAI) -> map_uai_2_adx.json. </br>
    - Windows Events pulled from an Azure VM associated to a DCR that sends Windows Events directly to an ADLSv2 Blob container. </br>
    - The ADLSv2 blob container is mapped to ADX as an external table via a user assigned identity. </br>
 ![image](https://github.com/user-attachments/assets/4e071a55-c92d-4b64-9946-b6a19efaae28)
 
-
+```sql
+// 2. ASSIGN THE PERMISSIONS TO THE MANAGED IDENTITY TO USE EXTERNAL TABLES
+.alter-merge cluster policy managed_identity ```[
+    {
+        "ObjectId": "70c71c41-cc48-4b73-89e7-69ff6760d5aa",
+        "AllowedUsages": "ExternalTable"
+    }
+]```
+```
+```sql
+// 3: Create an external data source pointing to your storage account
+let options = dynamic({
+  'StorageContainers': [
+    h@'https://datawinevents1799.blob.core.windows.net/secwineventsblob/i=56cc5340e30806d24a8691cb02ee613f/y=2025/m=04/d=06/h=03/m=00;impersonate'
+  ],
+  'fileExtension': '.json',
+  'kind': 'storage',
+  'partition': '(MinuteBin:datetime = bin(time:datetime, 1m))',
+  'pathformat': '("i=[0-9a-f]{32}/" datetime_pattern("y={yyyy}/m={MM}/d={dd}/h={hh}/m={mm}",MinuteBin))',
+  'dataformat': 'json',
+  'mode': 'all'
+});
+evaluate infer_storage_schema(options) //result = records:dynamic
+```
+```sql
+// 4: Create external table and map to blob storage via a user assigned identity
+.create-or-alter external table WinEventsEXT (
+  TimeGenerated: datetime,
+  PublisherId: string,
+  TimeCreated: datetime,
+  PublisherName: string,
+  Channel: string,
+  LoggingComputer: string,
+  EventID: string,
+  EventCategory: string,
+  EventLevel: string,
+  UserName: string,
+  RawXml: string,
+  EventDescription: string,
+  RenderingInfo: string,
+  EventRecordId: string,
+  Keywords: string,
+  StreamId: string
+)
+kind=storage
+partition by (idx:string = StreamId, IngestTime:datetime)
+pathformat = ("i=" idx "/" datetime_pattern('y={yyyy}/m={MM}/d={dd}/h={HH}/m={mm}',IngestTime))
+dataformat = multijson //required for json arrays (e.g. records[])
+(
+  h@'https://datawinevents1799.blob.core.windows.net/secwineventsblob;managed_identity=70c71c41-cc48-4b73-89e7-69ff6760d5aa'
+)
+with (filesPreview = true, fileExtension = '.json')
+```
+```sql
+// 5: Create a map to the external WinEventsEXT table (e.g {Column: TimeGenerated -> "Properties":{"Path":"$.records[0].time"}})
+.create-or-alter external table WinEventsEXT mapping "Mapping1" '[{"Column":"TimeGenerated","Properties":{"Path":"$.records[0].time"}},{"Column":"PublisherId","Properties":{"Path":"$.records[0].PublisherId"}},{"Column":"TimeCreated","Properties":{"Path":"$.records[0].TimeCreated"}},{"Column":"PublisherName","Properties":{"Path":"$.records[0].PublisherName"}},{"Column":"Channel","Properties":{"Path":"$.records[0].Channel"}},{"Column":"LoggingComputer","Properties":{"Path":"$.records[0].LoggingComputer"}},{"Column":"EventID","Properties":{"Path":"$.records[0].EventNumber"}},{"Column":"EventCategory","Properties":{"Path":"$.records[0].EventCategory"}},{"Column":"EventLevel","Properties":{"Path":"$.records[0].EventLevel"}},{"Column":"UserName","Properties":{"Path":"$.records[0].UserName"}},{"Column":"RawXml","Properties":{"Path":"$.records[0].RawXml"}},{"Column":"EventDescription","Properties":{"Path":"$.records[0].EventDescription"}},{"Column":"RenderingInfo","Properties":{"Path":"$.records[0].RenderingInfo"}},{"Column":"EventRecordId","Properties":{"Path":"$.records[0].EventRecordId"}},{"Column":"Keywords","Properties":{"Path":"$.records[0].Keywords"}}]'
+```
+```sql
+// 6: Query the external table!
+external_table('WinEventsEXT')
+```
