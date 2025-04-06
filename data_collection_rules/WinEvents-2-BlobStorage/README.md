@@ -20,12 +20,12 @@ Provisioning Order:
 
 [Windows Events to Storage](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-samples)
 
+![image](https://github.com/user-attachments/assets/4e071a55-c92d-4b64-9946-b6a19efaae28)
 ## ADX EXTERNAL TABLE via ADLSv2 CONFIGURATION
 1. Map ADLSv2 blob storage to ADX as an external table via a user assigned identity (UAI) -> map_uai_2_adx.json. </br>
    - Windows Events pulled from an Azure VM associated to a DCR that sends Windows Events directly to an ADLSv2 Blob container. </br>
    - The ADLSv2 blob container is mapped to ADX as an external table via a user assigned identity. </br>
-![image](https://github.com/user-attachments/assets/4e071a55-c92d-4b64-9946-b6a19efaae28)
-
+   
 ```sql
 // 2. ASSIGN THE PERMISSIONS TO THE MANAGED IDENTITY TO USE EXTERNAL TABLES
 .alter-merge cluster policy managed_identity ```[
