@@ -87,3 +87,11 @@ with (filesPreview = true, fileExtension = '.json')
 // 6: Query the external table!
 external_table('WinEventsEXT')
 ```
+```sql
+// THIS WILL DROP THE EXTERNAL TABLE AND IT'S MAPPING
+.drop external table WinEventsEXT
+
+.show external table WinEventsEXT mappings 
+
+.drop external table WinEventsEXT mapping "Mapping1"
+```
