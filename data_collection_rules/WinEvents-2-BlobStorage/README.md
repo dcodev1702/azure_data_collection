@@ -27,7 +27,7 @@ Provisioning Order:
    - The ADLSv2 blob container is mapped to ADX as an external table via a user assigned identity. </br>
    
 ```sql
-// 2. ASSIGN THE PERMISSIONS TO THE MANAGED IDENTITY TO USE EXTERNAL TABLES
+// 2. GRANT PERMISSIONS TO THE USER MANAGED IDENTITY (OBJ ID) TO USE EXTERNAL TABLES
 .alter-merge cluster policy managed_identity ```[
     {
         "ObjectId": "70c71c41-cc48-4b73-89e7-69ff6760d5aa",
