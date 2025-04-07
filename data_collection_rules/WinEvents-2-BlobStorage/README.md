@@ -30,7 +30,7 @@ Provisioning Order:
 // 2. GRANT PERMISSIONS TO THE USER MANAGED IDENTITY (OBJ ID) TO USE EXTERNAL TABLES
 .alter-merge cluster policy managed_identity ```[
     {
-        "ObjectId": "70c71c41-cc48-4b73-89e7-69ff6760d5aa",
+        "ObjectId": "23c71c41-cc48-4b73-89e7-69ff6760c9fe",
         "AllowedUsages": "ExternalTable"
     }
 ]```
@@ -45,42 +45,27 @@ let options = dynamic({
   'kind': 'storage',
   'partition': '(MinuteBin:datetime = bin(time:datetime, 1m))',
   'pathformat': '("i=[0-9a-f]{32}/" datetime_pattern("y={yyyy}/m={MM}/d={dd}/h={hh}/m={mm}",MinuteBin))',
-  'dataformat': 'json',
-  'mode': 'all'
+  'dataformat': 'json'
 });
 evaluate infer_storage_schema(options) //result = records:dynamic
 ```
 ```sql
 // 4: Create external table and map to blob storage via a user assigned identity
-.create-or-alter external table WinEventsEXT (
-  TimeGenerated: datetime,
-  PublisherId: string,
-  TimeCreated: datetime,
-  PublisherName: string,
-  Channel: string,
-  LoggingComputer: string,
-  EventID: string,
-  EventCategory: string,
-  EventLevel: string,
-  UserName: string,
-  RawXml: string,
-  EventDescription: string,
-  RenderingInfo: string,
-  EventRecordId: string,
-  Keywords: string
+.create external table WinEventsEXT (
+  records:dynamic
 )
 kind=storage
-partition by (StreamId:string, IngestTime:datetime)
-pathformat = ("i=" StreamId "/" datetime_pattern('y={yyyy}/m={MM}/d={dd}/h={HH}/m={mm}',IngestTime))
+partition by (InstanceId:string, IngestTime:datetime)
+pathformat = ("i=" InstanceId "/" datetime_pattern('y={yyyy}/m={MM}/d={dd}/h={HH}/m={mm}',IngestTime))
 dataformat = multijson //required for json arrays (e.g. records[])
 (
-  h@'https://datawinevents1799.blob.core.windows.net/secwineventsblob;managed_identity=70c71c41-cc48-4b73-89e7-69ff6760d5aa'
+  h@'https://datawinevents1799.blob.core.windows.net/secwineventsblob;managed_identity=23c71c41-cc48-4b73-89e7-69ff6760c9fe'
 )
 with (filesPreview = true, fileExtension = '.json')
 ```
 ```sql
 // 5: Create a map to the external WinEventsEXT table (e.g {Column: TimeGenerated -> "Properties":{"Path":"$.records[0].time"}})
-.create-or-alter external table WinEventsEXT mapping "Mapping1" '[{"Column":"TimeGenerated","Properties":{"Path":"$.records[0].time"}},{"Column":"PublisherId","Properties":{"Path":"$.records[0].PublisherId"}},{"Column":"TimeCreated","Properties":{"Path":"$.records[0].TimeCreated"}},{"Column":"PublisherName","Properties":{"Path":"$.records[0].PublisherName"}},{"Column":"Channel","Properties":{"Path":"$.records[0].Channel"}},{"Column":"LoggingComputer","Properties":{"Path":"$.records[0].LoggingComputer"}},{"Column":"EventID","Properties":{"Path":"$.records[0].EventNumber"}},{"Column":"EventCategory","Properties":{"Path":"$.records[0].EventCategory"}},{"Column":"EventLevel","Properties":{"Path":"$.records[0].EventLevel"}},{"Column":"UserName","Properties":{"Path":"$.records[0].UserName"}},{"Column":"RawXml","Properties":{"Path":"$.records[0].RawXml"}},{"Column":"EventDescription","Properties":{"Path":"$.records[0].EventDescription"}},{"Column":"RenderingInfo","Properties":{"Path":"$.records[0].RenderingInfo"}},{"Column":"EventRecordId","Properties":{"Path":"$.records[0].EventRecordId"}},{"Column":"Keywords","Properties":{"Path":"$.records[0].Keywords"}}]'
+.create-or-alter external table WinEventsEXT mapping "Mapping1" '[{"Column":"Records","Properties":{"Path":"$.records"}}]'
 ```
 ```sql
 // 6: Query the external table!
