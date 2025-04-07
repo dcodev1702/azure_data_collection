@@ -64,7 +64,7 @@ dataformat = multijson //required for json arrays (e.g. records[])
 with (filesPreview = true, fileExtension = '.json')
 ```
 ```sql
-// 5: Create a map to the external WinEventsEXT table (e.g {Column: TimeGenerated -> "Properties":{"Path":"$.records[0].time"}})
+// 5: Create a map to the external WinEventsEXT table (e.g {Column: Records -> "Properties":{"Path":"$.records"}})
 .create-or-alter external table WinEventsEXT mapping "Mapping1" '[{"Column":"Records","Properties":{"Path":"$.records"}}]'
 ```
 ```sql
