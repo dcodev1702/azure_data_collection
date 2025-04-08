@@ -1,3 +1,6 @@
+// Resources:
+// https://learn.microsoft.com/en-us/kusto/management/update-policy?view=azure-data-explorer#example-of-extract-transform-load
+
 // This solution will require an Event Grid to dynamically ingest the data from the blob container.
 // Creating the Event Grid is the last step in this process.  The tables, mapping, and function have to be implemented first.
 
