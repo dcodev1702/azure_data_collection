@@ -2,13 +2,13 @@
 // Creating the Event Grid is the last step in this process.  The tables, mapping, and function have to be implemented first.
 
 // 1. INTERNAL TABLE | BLOB CONTAINER SOLUTION
-.create table WinSecEventsRaw (Records:dynamic)
+.create table WinSecEventsRaw (records:dynamic)
 
 // 2. Set the ingest json mapping ..this puts each JSON object as it's own record
-.create table WinSecEventsRaw ingestion json mapping 'WinSecEventsRawMapping' '[{"column":"Records","Properties":{"path":"$.records"}}]'
+.create table WinSecEventsRaw ingestion json mapping 'WinSecEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
 
 // 3. Set the retention policy
-.alter-merge table EventRaw policy retention softdelete = 0d
+.alter-merge table WinSecEventsRaw policy retention softdelete = 0d
 
 // 4. Create the internal table
 .create table WinSecEvents (
@@ -27,34 +27,30 @@
     RenderingInfo: string,
     EventRecordId: string,
     Keywords: string,
-    InstanceId: string,
-    IngestTime: datetime,
     Type: string
 )
 
 // 5. Create the Expand function that will process each record
 .create-or-alter function WinSecEventsExpand() {
     WinSecEventsRaw
-    | mv-expand events = Records 
-    | where isnotempty(todatetime(events.['time']))
+    | mv-expand event = records 
+    | where isnotempty(todatetime(event.['time']))
     | project
-        TimeGenerated = todatetime(events['time']),
-        PublisherId = tostring(events.PublisherId),
-        TimeCreated = todatetime(events.TimeCreated),
-        PublisherName = tostring(events.PublisherName),
-        Channel = tostring(events.Channel),
-        LoggingComputer = tostring(events.LoggingComputer),
-        EventID = tostring(events.EventNumber),
-        EventCategory = tostring(events.EventCategory),
-        EventLevel = tostring(events.EventLevel),
-        UserName = tostring(events.UserName),
-        RawXml = tostring(events.RawXml),
-        EventDescription = tostring(events.EventDescription),
-        RenderingInfo = tostring(events.RenderingInfo),
-        EventRecordId = tostring(events.EventRecordId),
-        Keywords = tostring(events.Keywords),
-        InstanceId = tostring(events.InstanceId),
-        IngestTime = todatetime(events.IngestTime),
+        TimeGenerated = todatetime(event['time']),
+        PublisherId = tostring(event.PublisherId),
+        TimeCreated = todatetime(event.TimeCreated),
+        PublisherName = tostring(event.PublisherName),
+        Channel = tostring(event.Channel),
+        LoggingComputer = tostring(event.LoggingComputer),
+        EventID = tostring(event.EventNumber),
+        EventCategory = tostring(event.EventCategory),
+        EventLevel = tostring(event.EventLevel),
+        UserName = tostring(event.UserName),
+        RawXml = tostring(event.RawXml),
+        EventDescription = tostring(event.EventDescription),
+        RenderingInfo = tostring(event.RenderingInfo),
+        EventRecordId = tostring(event.EventRecordId),
+        Keywords = tostring(event.Keywords),
         Type = 'WinSecEvents'
 }
 
