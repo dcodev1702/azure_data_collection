@@ -64,12 +64,14 @@ dataformat = multijson //required for json arrays (e.g. records[])
 with (filesPreview = true, fileExtension = '.json')
 ```
 ```sql
-// 5: Create a map to the external WinEventsEXT table (e.g {Column: Records -> "Properties":{"Path":"$.records"}})
-.create-or-alter external table WinEventsEXT mapping "Mapping1" '[{"Column":"Records","Properties":{"Path":"$.records"}}]'
+// 5: Create a map to the external WinEventsEXT table (e.g {Column: records -> "Properties":{"Path":"$.records"}})
+.create-or-alter external table WinEventsEXT mapping "Mapping1" '[{"Column":"records","Properties":{"Path":"$.records"}}]'
 ```
 ```sql
 // 6: Query the external table!
 external_table('WinEventsEXT')
+| mv-expand records
+| evaluate bag_unpack(records)
 ```
 ```sql
 // THIS WILL DROP THE EXTERNAL TABLE AND IT'S MAPPING
