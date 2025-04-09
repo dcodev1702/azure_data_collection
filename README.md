@@ -145,9 +145,9 @@ File: dummy_data.json
 
 
 -------------------
-THIS JSON (ABOVE) HAS TO BE ENCAPSULATED IN A STRING OR ELSE LOG-A WILL DROP IT.
+THIS JSON (ABOVE) HAS TO BE ENCAPSULATED AS A SINGLE STRING OR COMPRESSED, OTHERWISE LOG-A WILL DROP IT!
 
-```python
+```powershell
 $JSONData = Get-Content -Path ".\mde_data\dummy_data.json" -Raw
 
 $body = @"
