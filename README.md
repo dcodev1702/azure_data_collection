@@ -183,7 +183,7 @@ PowerShell Solution
 -------------------
 ```powershell
 # Read the JSON file as a single string and convert it to objects
-$JSONData = Get-Content ".\data\dummy_data_100.json" -Raw | ConvertFrom-Json
+$JSONData = Get-Content ".\data\dummy_data_100.json" -Raw | ConvertFrom-Json -Depth 50
 
 ### Step 2: Send the telemetry (JSON Objects) to a Log Analytics Workspace via the DCR stream and Log Ingestion or DC Endpoint.
 # DCR Stream (Custom-PJL-HAWK) REST API ENDPOINT
