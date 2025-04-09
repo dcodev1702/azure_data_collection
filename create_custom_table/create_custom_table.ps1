@@ -9,6 +9,9 @@
 
   2. Be sure to CHANGE the table name at the bottom towards the end of the REST API call!!
 
+  3. If you're so included, you can create a CL table via ARM Templates/Bicep/Terraform
+     Link: https://learn.microsoft.com/en-us/azure/templates/microsoft.operationalinsights/workspaces/tables?pivots=deployment-language-arm-template
+
   Helpful Hints:
   --------------
   1. Your Custom Table has to be created first before creating data collection rules and endpoints
