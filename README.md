@@ -183,18 +183,31 @@ PowerShell Solution
 -------------------
 ```powershell
 # Read the JSON file as a single string and convert it to objects
-$data = Get-Content ".\data\dummy_data_100.json" -Raw | ConvertFrom-Json
+$JSONData = Get-Content ".\data\dummy_data_100.json" -Raw | ConvertFrom-Json
 
-# Convert each object to a compact JSON string
-$compactEntries = $data | ForEach-Object { $_ | ConvertTo-Json -Compress }
+### Step 2: Send the telemetry (JSON Objects) to a Log Analytics Workspace via the DCR stream and Log Ingestion or DC Endpoint.
+# DCR Stream (Custom-PJL-HAWK) REST API ENDPOINT
+$uri  = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
+$cntr = $null
+foreach ($JSONObj in $JSONData) {
 
-# Build the output: start with "[", then join entries with ",`n", and close with "]"
-$output = @("[")
-$output += ($compactEntries -join ",`n")
-$output += ("]")
-
-# Write the output to a new file
-$output | Set-Content ".\data\dummy_data_100_sl.json"
+    try {
+       if ($JSONType -eq 'json') { 
+           # Process each object separately & serialize the entire object to ensure proper formatting (NDJSON)
+           $JSONObj = $JSONObj | ConvertTo-Json -Depth 50 -Compress -ErrorAction Stop
+       }
+    
+       # Wrap the single line in square brackets to make it a valid JSON array (NDJSON)
+       # This is required (documented) to send a JSON array via the Log Analytics API. Not needed for AMA but is needed for Code/Logic App/etc.
+       $body = "[${JSONObj}]"
+    
+       $cntr++
+       Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers -ErrorAction Stop
+       Write-Host "CX dummy data record::[$cntr]: `n$body - successfully uploaded to the Log-A Custom Table: `"$streamName`"." -ForegroundColor Green
+    } catch {
+       Write-Host "Error uploading record::[$cntr] `n$body to the Log-A Custom Table `"$streamName`". Error: $RestError" -ForegroundColor Red
+    }
+}
 ```
 
 Python Solution
