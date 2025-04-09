@@ -84,8 +84,8 @@ File: dummy_data.ndjson
 -- Azure Monitor Agent: No furthre action required </br>
 -- REST API Call to DCR Log Ingestion / DCR Uri: BODY = "[$NDJSONObj]" </br>
 
-## EXAMPLE 1
-------------
+## RAW JSON - EXAMPLE 1
+-----------------------
 File: dummy_data.json
 ```json
 [
