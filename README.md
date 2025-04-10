@@ -26,7 +26,7 @@
    - Select Transformation Editor and import JSON
      - Make required KQL adjustments for the DCR. This is the transformKql (KQL commands are limited)
      - [https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-transformations-kql](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-transformations-kql)
-   - The UI will create the DCR columns **AND** Custom Log columns with matching names and dataTypes
+   - The UI will create the DCR columns **AND** Custom Log columns with matching names and dataTypes </br>
    - **THE CUSTOM LOG TABLE AND DCR COLUMN NAMES AND DATATYPES HAVE TO MATCH!!!!!**
    - **YOU CANNOT MAKE CHANGES TO ONE WITHOUT CHANGING THE OTHER TO THE EXACT SAME DATATYPE!!!**
    - THIS THEORY WAS TESTED & VALIDATED ON MARCH 16 2025
@@ -70,8 +70,8 @@ In order for data to be ingested correctly into a Log Analytics Custom Table the
    -- Azure Monitor Agent w/ custom logs will ingest NDJSON w/o any further modification. </br>
    -- Sending NDJSON via REST API requires EACH NDJSON Object to be wrapped as a 1D JSON Array -> "[$NDJSONObj]" in the body of the Rest API call! </br>
 4. **Standard JSON objects can be encapsulated as an entire string, however, it is best that they are in SINGLE LINE FORMAT.**  
-   -- Otherwise Log-A will drop the data at the door and you will ONLY see TimeGenerated, TenantId, and Table Type.
-      -- This is intentional by design and is Log Analytics way of telling you that your content is MALFORMED and DROPPED.
+   -- Otherwise Log-A will drop the data at the door and you will ONLY see TimeGenerated, TenantId, and Table Type. </br>
+      -- This is intentional by design and is Log Analytics way of telling you that your content is MALFORMED and DROPPED. </br>
 6. **If Standard JSON is in its RAW form, it will have to be encapsulated as a STRING IN ORDER FOR IT TO BE INGESTED PROPERLY!!!**  
    OTHERWISE, YOU WILL SEE NO DATA IN THE CUSTOM LOG TABLE.
 
