@@ -65,10 +65,10 @@
 In order for data to be ingested correctly into a Log Analytics Custom Table there are a couple rules of the road that are in order.
 
 1. **DCR TABLE SCHEMA AND CUSTOM LOG TABLE SCHEMA HAVE TO MATCH (EXACTLY) IN NAME:TYPE**
-2. **Log Analytics Workspace processes NDJSON by default, this is the optimal format and method to employ.
-   -- Ensure the LAST NDJSON object is followed by a NEW LINE otherwise it will NOT get ingested.
-   -- Azure Monitor Agent w/ custom logs will ingest NDJSON w/o any further modification.
-   -- Sending NDJSON via REST API and code requires that EACH NDJSON Object will require square brackets -> "[$NDJSONObj]" in the body of the Rest API call
+2. **Log Analytics Workspace processes NDJSON by default, this is the optimal format and method to employ. </br>
+   -- Ensure the LAST NDJSON object is followed by a NEW LINE otherwise it will NOT get ingested. </br>
+   -- Azure Monitor Agent w/ custom logs will ingest NDJSON w/o any further modification. </br>
+   -- Sending NDJSON via REST API and code requires that EACH NDJSON Object will require square brackets -> "[$NDJSONObj]" in the body of the Rest API call </br>
 4. **Standard JSON objects are not encapsulated as an entire string, they have to be in SINGLE LINE FORMAT.**  
    -- Otherwise Log-A will drop the data at the door and you will ONLY see TimeGenerated, TenantId, and Table Type.
 5. **If Standard JSON is in it's free form, it will have to be encapsulated as a STRING IN ORDER FOR IT TO BE INGESTED PROPERLY!!!**  
