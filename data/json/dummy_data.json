@@ -1,5 +1,6 @@
-[
-    {
+{
+    "record": [
+      {
        
         "Name": "DCODEV - Cloud Hunter",
         "Version": "14.8.0987",
@@ -56,4 +57,5 @@
         "GenAI": "Anthropic / Claude 3.7 Sonnet"
        
     }
-]
+  ]
+}
