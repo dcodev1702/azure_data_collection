@@ -1,6 +1,7 @@
 [
     {
         "Name": "DCODEV - Cloud Hunter",
+        "Source":"CLI - REST API",
         "Version": "14.8.0987",
         "OS": "Gentoo - GNU/Linux",
         "Hardware": {
@@ -24,6 +25,7 @@
     {
        
         "Name": "T0pCyber - Hawk",
+        "Source":"CLI - REST API",
         "Version": "8.8.6.2304",
         "OS": "Macbook Pro",
         "OSVersion": "macOS Ventura - 15.3.26100.3476",
@@ -41,6 +43,7 @@
     {
        
         "Name": "JJ-BOTTLES - Hawk",
+        "Source":"CLI - REST API",
         "Version": "3.7.6.0004",
         "OS": "Windows 11 24H2",
         "OSVersion": "10.0.26100.3476",
