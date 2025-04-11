@@ -46,6 +46,11 @@
                                 "description": "The name of the Hacker"
                             },
                             {
+                                "name": "Source",
+                                "type": "string",
+                                "description": "The computer they use to hack"
+                            },
+                            {
                                 "name": "Version",
                                 "type": "string",
                                 "description": "The computer they use to hack"
