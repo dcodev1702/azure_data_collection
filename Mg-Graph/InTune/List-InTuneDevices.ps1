@@ -35,6 +35,7 @@
     and returns the device objects for further use in PowerShell.
 
 .EXAMPLE
+    PS> Connect-MgGraph -Scopes "User.Read.All", "Directory.Read.All, DeviceManagementManagedDevices.Read.All" -TenantId 'TENANT_ID' -Environment USGov
     PS> . .\List-InTuneDevices.ps1
     PS> $devices = List-InTuneDevices -Environment Global -TenantId "your-tenant-id"
     PS> $devices.Count
@@ -45,7 +46,7 @@ function List-InTuneDevices {
     param(
         # Restrict valid environment choices
         [Parameter(Mandatory = $true)]
-        [ValidateSet("USGov", "Germany", "USGovDoD", "Global")]
+        [ValidateSet("USGov", "USGovDoD", "Global")]
         [string] $Environment,
         [Parameter(Mandatory = $true)]
         [string] $TenantId,
