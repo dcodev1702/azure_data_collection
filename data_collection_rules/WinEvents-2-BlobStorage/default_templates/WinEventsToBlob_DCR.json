@@ -6,7 +6,7 @@
             "defaultValue": "WinEvents-2-BlobStorage-DCR",
             "type": "string"
         },
-        "storageAccountName": {
+        "storageAccountResourceId": {
             "defaultValue": "/subscriptions/1dd93b0d-9968-4d42-8d5b-510d621c7866/resourceGroups/MIR/providers/Microsoft.Storage/storageAccounts/dataevents007",
             "type": "string"
         },
@@ -44,7 +44,7 @@
                     "storageBlobsDirect": [
                         {
                             "containerName": "[parameters('saContainerName')]",
-                            "storageAccountResourceId": "[parameters('storageAccountName')]",
+                            "storageAccountResourceId": "[parameters('storageAccountResourceId')]",
                             "name": "SecEventBlob"
                         }
                     ]
