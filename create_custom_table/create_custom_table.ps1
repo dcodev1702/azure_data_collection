@@ -82,5 +82,5 @@ $tableParams = @'
 }
 '@
 
-$url = "/subscriptions/${subscription}/resourcegroups/${rgName}/providers/microsoft.operationalinsights/workspaces/${wsName}/tables/${cTable}?api-version=2025-02-01"
+$url = "/subscriptions/${subscription}/resourcegroups/${rgName}/providers/microsoft.operationalinsights/workspaces/${wsName}/tables/${cTable}?api-version=2023-01-01-preview"
 Invoke-AzRestMethod -Path $url -Method PUT -payload $tableParams
