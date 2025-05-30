@@ -22,7 +22,7 @@
 $subscription = $(Get-AzContext).Subscription.Id
 $rgName = 'RCC-E'
 $wsName = 'rccelab-law'
-$cTable = "PJL_HAWK_CL"
+$cTable = "PJL_HAWK_AUX_CL"
 
 
 $tableParams = @'
@@ -77,7 +77,9 @@ $tableParams = @'
                     "description": "The GenAI they use to hack with"
                 }
             ]
-        }
+        },
+        "totalRetentionInDays": 730,
+        "plan": "Auxiliary"
     }
 }
 '@
