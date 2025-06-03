@@ -1,5 +1,5 @@
 <#
-  Date: 3/19/2025
+  Date: 6/2/2025
   
   Link: https://learn.microsoft.com/en-us/azure/azure-monitor/logs/tutorial-logs-ingestion-api?tabs=dce
   Run script this via the Azure Cloud Shell or PowerShell CLI w/ Az Module installed on your VM/Machine
