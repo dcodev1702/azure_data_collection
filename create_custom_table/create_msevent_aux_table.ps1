@@ -55,7 +55,7 @@ $tableParams = @'
                 },
                 {
                     "name": "EventLevel",
-                    "type": "string",
+                    "type": "int",
                     "description": "Numeric level indicating event severity"
                 },
                 {
@@ -75,7 +75,7 @@ $tableParams = @'
                 },
                 {
                     "name": "EventID",
-                    "type": "string",
+                    "type": "int",
                     "description": "Identifier of the event"
                 },
                 {
@@ -95,7 +95,7 @@ $tableParams = @'
                 },
                 {
                     "name": "EventCategory",
-                    "type": "string",
+                    "type": "int",
                     "description": "Category of the event"
                 },
                 {
@@ -107,11 +107,6 @@ $tableParams = @'
                     "name": "Message",
                     "type": "string",
                     "description": "Message content of the event"
-                },
-                {
-                    "name": "MG",
-                    "type": "string",
-                    "description": "Management group ID"
                 },
                 {
                     "name": "ManagementGroupName",
