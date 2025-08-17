@@ -67,13 +67,7 @@ Save this as `dcr-ama-agent-settings.json`:
         }
       }
     }
-  ],
-  "outputs": {
-    "dataCollectionRuleId": {
-      "type": "string",
-      "value": "[resourceId('Microsoft.Insights/dataCollectionRules', parameters('dcrName'))]"
-    }
-  }
+  ]
 }
 ```
 
