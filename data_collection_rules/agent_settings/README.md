@@ -19,7 +19,7 @@ This ARM template provisions a Data Collection Rule of kind `AgentSettings` to c
 
 ## 📝 ARM Template
 
-Save this as `dcr-ama-agent-settings.json`:
+Save this as `ama-agent-settings-dcr.json`:
 
 ```json
 {
