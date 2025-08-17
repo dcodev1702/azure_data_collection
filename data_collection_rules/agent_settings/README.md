@@ -9,7 +9,7 @@ This ARM template provisions a Data Collection Rule of kind `AgentSettings` to c
 ## 📍 Disk Cache Locations
 
 ### Linux 🐧
-- **Location:** `/var/opt/microsoft/azuremonitoragent/config-cache/configchunks`
+- **Location:** `/etc/opt/microsoft/azuremonitoragent/config-cache/configchunks/`
 - **Default Size:** 10GB (10240 MB)
 
 ### Windows 🪟
@@ -21,14 +21,17 @@ This ARM template provisions a Data Collection Rule of kind `AgentSettings` to c
 ### On Linux VM:
 ```bash
 # SSH into your Linux VM and check the current configuration
-cat /var/opt/microsoft/azuremonitoragent/config-cache/configchunks | jq '.'
+# Search through all JSON files in configchunks directory for the disk quota setting
+grep -h "MaxDiskQuotaInMB" /etc/opt/microsoft/azuremonitoragent/config-cache/configchunks/*.json | jq .
 
-# Look for the AgentSettings section:
-# "kind": "AgentSettings",
-# "settings": [
+# Or to see the full AgentSettings configuration:
+grep -l "MaxDiskQuotaInMB" /etc/opt/microsoft/azuremonitoragent/config-cache/configchunks/*.json | xargs cat | jq '.settings'
+
+# Expected output:
+# [
 #   {
 #     "name": "MaxDiskQuotaInMB",
-#     "value": "10000"
+#     "value": "15360"
 #   }
 # ]
 ```
