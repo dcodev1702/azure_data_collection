@@ -16,31 +16,6 @@ This ARM template provisions a Data Collection Rule of kind `AgentSettings` to c
 - **Location:** `C:\WindowsAzure\Resources\AMADataStore\Configuration\`
 - **Default Size:** 10GB (10240 MB)
 
-## 🔍 Verifying Current Settings
-
-### On Linux VM:
-```bash
-# SSH into your Linux VM and check the current configuration
-# Search through all JSON files in configchunks directory for the disk quota setting
-grep -h "MaxDiskQuotaInMB" /etc/opt/microsoft/azuremonitoragent/config-cache/configchunks/*.json | jq .
-
-# Or to see the full AgentSettings configuration:
-grep -l "MaxDiskQuotaInMB" /etc/opt/microsoft/azuremonitoragent/config-cache/configchunks/*.json | xargs cat | jq '.settings'
-
-# Expected output:
-# [
-#   {
-#     "name": "MaxDiskQuotaInMB",
-#     "value": "15360"
-#   }
-# ]
-```
-
-### On Windows VM:
-```powershell
-# Check the AMA configuration
-Get-Content "C:\WindowsAzure\Resources\AMADataStore\Configuration\configchunks.json" | ConvertFrom-Json
-```
 
 ## 📝 ARM Template
 
@@ -155,6 +130,32 @@ az monitor data-collection rule association list \
 az monitor data-collection rule association show \
   --name agentSettings \
   --resource /subscriptions/{subscription-id}/resourceGroups/{rg-name}/providers/Microsoft.Compute/virtualMachines/{vm-name}
+```
+
+## 🔍 Verifying AMA Disk Cache Settings
+
+### On Linux VM:
+```bash
+# SSH into your Linux VM and check the current configuration
+# Search through all JSON files in configchunks directory for the disk quota setting
+grep -h "MaxDiskQuotaInMB" /etc/opt/microsoft/azuremonitoragent/config-cache/configchunks/*.json | jq .
+
+# Or to see the full AgentSettings configuration:
+grep -l "MaxDiskQuotaInMB" /etc/opt/microsoft/azuremonitoragent/config-cache/configchunks/*.json | xargs cat | jq '.settings'
+
+# Expected output:
+# [
+#   {
+#     "name": "MaxDiskQuotaInMB",
+#     "value": "15360"
+#   }
+# ]
+```
+
+### On Windows VM:
+```powershell
+# Check the AMA configuration
+Get-Content "C:\WindowsAzure\Resources\AMADataStore\Configuration\configchunks.json" | ConvertFrom-Json
 ```
 
 ## 📊 Example Scenarios
