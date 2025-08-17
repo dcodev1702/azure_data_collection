@@ -97,8 +97,8 @@ az deployment group create \
 
 ### 2️⃣ Associate DCR with Virtual Machine
 
-⚠️ **IMPORTANT:** DCR <-> VM associations have to be completed via the CLI (e.g. az cli or PowerShell Az Module) <br/>
-⚠️ **IMPORTANT:** The association name MUST be `agentSettings` - this is hardcoded and the command will fail with any other value!
+⚠️ **IMPORTANT:**  DCR <-> VM associations have to be completed via the CLI (e.g. az cli or PowerShell Az Module) <br/>
+⚠️ **IMPORTANT:**  The association name MUST be `agentSettings` - this is hardcoded and the command will fail with any other value!
 
 ```bash
 # Linux VM example
