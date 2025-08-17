@@ -6,7 +6,7 @@ Configure Azure Monitor Agent (AMA) disk cache settings using Data Collection Ru
 
 This ARM template provisions a Data Collection Rule of kind `AgentSettings` to control the disk cache size for Azure Monitor Agent. By default, AMA uses 10GB for disk cache - this DCR allows you to customize that value from 4GB to 1TB.
 
-## 📍 Disk Cache Locations
+## 📍 Disk Cache Configuration Locations
 
 ### Linux 🐧
 - **Location:** `/etc/opt/microsoft/azuremonitoragent/config-cache/configchunks/`
