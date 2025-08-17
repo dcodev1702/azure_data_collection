@@ -28,7 +28,7 @@ Save this as `dcr-ama-agent-settings.json`:
   "parameters": {
     "dcrName": { 
       "type": "string", 
-      "defaultValue": "dcr-agent-settings-linux",
+      "defaultValue": "ama-agent-settings-dcr",
       "metadata": {
         "description": "Name of the Data Collection Rule for Agent Settings"
       }
