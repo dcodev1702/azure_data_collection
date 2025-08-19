@@ -5,6 +5,8 @@
 # Universal AMA Cache Check Script for Ubuntu and RHEL
 # This script checks both log files and XML configuration files
 
+# Usage: sudo ./ama_disk_cache_reporting.sh
+
 # Color codes for better readability
 RED='\033[0;31m'
 GREEN='\033[0;32m'
