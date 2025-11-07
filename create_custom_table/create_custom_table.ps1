@@ -20,16 +20,17 @@
 
 #>
 $subscription = $(Get-AzContext).Subscription.Id
-$rgName = 'RCC-E'
-$wsName = 'rccelab-law'
-$cTable = "PJL_HAWK_AUX_CL"
+$rgName       = 'RCC-E'
+$wsName       = 'rccelab-law'
+$cTable       = "PJL_HAWK_AUX_CL"
+$apiVersion   = '2023-01-01-preview'
 
 
-$tableParams = @'
+$tableParams = @"
 {
     "properties": {
         "schema": {
-            "name": "PJL_HAWK_CL",
+            "name": "$cTable",
             "columns": [
                 {
                     "name": "TimeGenerated",
@@ -82,7 +83,7 @@ $tableParams = @'
         "plan": "Auxiliary"
     }
 }
-'@
+"@
 
-$url = "/subscriptions/${subscription}/resourcegroups/${rgName}/providers/microsoft.operationalinsights/workspaces/${wsName}/tables/${cTable}?api-version=2023-01-01-preview"
+$url = "/subscriptions/${subscription}/resourcegroups/${rgName}/providers/microsoft.operationalinsights/workspaces/${wsName}/tables/${cTable}?api-version=${apiVersion}"
 Invoke-AzRestMethod -Path $url -Method PUT -payload $tableParams
