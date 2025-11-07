@@ -42,7 +42,7 @@ $tableParams = @'
                 }
             ]
         },
-        "retentionInDays": 120
+        "retentionInDays": 180
     }
 }
 '@
