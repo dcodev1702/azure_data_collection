@@ -1,5 +1,5 @@
 <#
-  Date: 6 NOV 2025
+  Date: 3/19/2025
   
   Link: https://learn.microsoft.com/en-us/azure/azure-monitor/logs/tutorial-logs-ingestion-api?tabs=dce
   Run script this via the Azure Cloud Shell or PowerShell CLI w/ Az Module installed on your VM/Machine
@@ -20,17 +20,18 @@
 
 #>
 $subscription = $(Get-AzContext).Subscription.Id
-$rgName = 'SecOps'
-$wsName = 'SecOps-LA'
+$rgName       = 'SecOps'
+$wsName       = 'SecOps-LA'
+$tableName    = 'SuricataTmp_CL'
 
 # Use a recent supported API version
-$apiVersion = '2025-07-01'
+$apiVersion   = '2025-07-01'
 
-$tableParams = @'
+$tableParams = @"
 {
     "properties": {
         "schema": {
-            "name": "Suricata_CL",
+            "name": "$tableName",
             "columns": [
                 {
                     "name": "TimeGenerated",
@@ -42,10 +43,10 @@ $tableParams = @'
                 }
             ]
         },
-        "retentionInDays": 180
+        "retentionInDays": 120
     }
 }
-'@
+"@
 
-$url = "/subscriptions/${subscription}/resourcegroups/${rgName}/providers/microsoft.operationalinsights/workspaces/${wsName}/tables/Suricata_CL?api-version=${apiVersion}"
+$url = "/subscriptions/${subscription}/resourcegroups/${rgName}/providers/microsoft.operationalinsights/workspaces/${wsName}/tables/${tableName}?api-version=${apiVersion}"
 Invoke-AzRestMethod -Path $url -Method PUT -payload $tableParams
