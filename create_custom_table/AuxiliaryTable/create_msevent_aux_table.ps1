@@ -17,16 +17,16 @@
 
 #>
 $subscription = $(Get-AzContext).Subscription.Id
-$rgName = 'SecOps'
-$wsName = 'SecOps-LA'
-$cTable = 'MSEVENT_AUX_CL'
+$rgName       = 'SecOps'
+$wsName       = 'SecOps-LA'
+$cTable       = 'MSEVENT_AUX_CL'
+$apiVersion   = '2023-01-01-preview'
 
-
-$tableParams = @'
+$tableParams = @"
 {
     "properties": {
         "schema": {
-            "name": "MSEVENT_AUX_CL",
+            "name": "$cTable",
             "columns": [
                 {
                     "name": "SourceSystem",
@@ -119,7 +119,7 @@ $tableParams = @'
         "plan": "Auxiliary"
     }
 }
-'@
+"@
 
-$url = "/subscriptions/${subscription}/resourcegroups/${rgName}/providers/microsoft.operationalinsights/workspaces/${wsName}/tables/${cTable}?api-version=2023-01-01-preview"
+$url = "/subscriptions/${subscription}/resourcegroups/${rgName}/providers/microsoft.operationalinsights/workspaces/${wsName}/tables/${cTable}?api-version=${apiVersion}"
 Invoke-AzRestMethod -Path $url -Method PUT -payload $tableParams
