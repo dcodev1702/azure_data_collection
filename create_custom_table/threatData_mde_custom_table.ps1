@@ -22,13 +22,15 @@
 $subscription = $(Get-AzContext).Subscription.Id
 $rgName = 'RCC-E'
 $wsName = 'rccelab-law'
+$apiVersion = '2025-07-01'
+$cTable = 'ThreatData_MDE_CL'
 
 
-$tableParams = @'
+$tableParams = @"
 {
     "properties": {
         "schema": {
-            "name": "ThreatData_MDE_CL",
+            "name": "$cTable",
             "columns": [
                 {
                     "name": "TimeGenerated",
@@ -164,7 +166,7 @@ $tableParams = @'
         "totalRetentionInDays": 180
     }
 }
-'@
+"@
 
-$url = "/subscriptions/${subscription}/resourcegroups/${rgName}/providers/microsoft.operationalinsights/workspaces/${wsName}/tables/ThreatData_MDE_CL?api-version=2025-02-01"
+$url = "/subscriptions/${subscription}/resourcegroups/${rgName}/providers/microsoft.operationalinsights/workspaces/${wsName}/tables/${cTable}?api-version=${apiVersion}"
 Invoke-AzRestMethod -Path $url -Method PUT -payload $tableParams
