@@ -19,7 +19,7 @@
 
 .PARAMETER Environment
     - USGov
-    - Germany
+    - Germany (deprecated in Microsoft Graph cloud selection; retained for older environments)
     - USGovDoD
     - Global
     
@@ -46,7 +46,7 @@ function List-InTuneDevices {
     param(
         # Restrict valid environment choices
         [Parameter(Mandatory = $true)]
-        [ValidateSet("USGov", "USGovDoD", "Global")]
+        [ValidateSet("USGov", "USGovDoD", "Global", "Germany")]
         [string] $Environment,
         [Parameter(Mandatory = $true)]
         [string] $TenantId,
@@ -80,7 +80,7 @@ function List-InTuneDevices {
 
     while ($nextLink) {
         # Call Microsoft Graph using the dynamic base URL
-        $response = Invoke-MgGraphRequest -Uri $nextLink -Method GET -ErrorAction SilentlyContinue
+        $response = Invoke-MgGraphRequest -Uri $nextLink -Method GET -ErrorAction Stop
 
         # Convert each returned hashtable into a PSCustomObject
         foreach ($item in $response.Value) {

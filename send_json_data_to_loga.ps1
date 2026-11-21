@@ -1,126 +1,111 @@
-# Author: DCODEV1702
-# Date: 03/18/2025
-### Step 0: Set variables required for the rest of the script.
-# This script sends data to a Custom Log (CL) via Log Analytics Workspace w/ a Data Collection Endpoint (DCE) using a Data Collection Rule (DCR).
-# Create an application registration and give it the Metrics Publishing RBAC role to the DCR!
-
 <#
-Pre-requisites:
-1. Ensure you have an Azure subscription and appropriate role based access.
-2. IF your DCR is 'kind' = 'direct', you do NOT need a DCE. You can use the log ingestion uri (API: 2023-03-11)
-   - Create a Data Collection Endpoint (DCE) in the Azure portal.
-   - The DCE must be in the same region as the Log Analytics workspace.
-   - The DCE must be assigned to a Data Collection Rule (DCR).
-3. Create a Data Collection Rule (DCR) in the Azure portal and assign it to the DCE.
-4. Create a Custom Log (CL) in the Azure portal and assign it to the DCR. The CL must have the same name as the stream name in the DCR.
-5. Create an application registration in Entra ID and assign it the Metrics Publishing RBAC role to the DCR.
-6. Create a secret for the application registration and copy it to the $appSecret variable in this script.
-7. Create a NDJSON file with the data you want to send to the CL and copy it to the $staticData variable in this script.
-   -- The NDJSON file MUST be in the same format/schema as the CL in the DCR.
+.SYNOPSIS
+Sends a JSON array or NDJSON file to an Azure Monitor Logs Ingestion endpoint.
 
-#----------------- JSON ESSENTIAL UNDERSTANDING  --------------------
-## JSON data source must be in the same format as the CL in the DCR.
-## Columns (Fields) ARE CASE SENSITIVE (e.g. 'hardware' != 'Hardware')
-## JSON data must be in SINGLE LINE (compressed) delimited by a new-line (NDJSON).
-#----------------- JSON ESSENTIAL UNDERSTANDING  --------------------
+.DESCRIPTION
+The script uses the current Azure PowerShell context, validates every input record,
+serializes batches as JSON arrays, and stops on any failed request. It supports both
+Direct DCR endpoints and DCE endpoints; the caller supplies the correct endpoint.
 
-Usage:
-./send_json_data_to_loga.ps1 -DataIngestFile ./data/dummy_data.[nd]json
-
+.EXAMPLE
+./send_json_data_to_loga.ps1 `
+  -DataIngestFile ./data/json/dummy_data.json `
+  -LogsIngestionEndpoint https://example.ingest.monitor.azure.com `
+  -DcrImmutableId dcr-immutable-id `
+  -StreamName Custom-CsaTraining
 #>
+[CmdletBinding()]
 param(
-    [Parameter(Mandatory=$true)]
-    [string]$DataIngestFile
+    [Parameter(Mandatory)]
+    [ValidateScript({ Test-Path $_ -PathType Leaf })]
+    [string]$DataIngestFile,
+
+    [Parameter(Mandatory)]
+    [uri]$LogsIngestionEndpoint,
+
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string]$DcrImmutableId,
+
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string]$StreamName,
+
+    [ValidateRange(1, 1000)]
+    [int]$BatchSize = 100,
+
+    [ValidateRange(1, 8)]
+    [int]$MaxAttempts = 4,
+
+    [ValidateRange(1, 60)]
+    [int]$RetryDelaySeconds = 2
 )
 
-# Check if the file exists
-if (-not (Test-Path $DataIngestFile)) {
-    Write-Error "The file '$DataIngestFile' does not exist."
-    exit 1
+$ErrorActionPreference = 'Stop'
+
+if (-not (Get-AzContext -ErrorAction SilentlyContinue)) {
+    throw 'Connect-AzAccount before sending data.'
 }
 
-if (-not (Get-AzContext)) {
-    Write-Error "Not logged into Azure. Please run Connect-AzAccount."
-    exit 1
-}
-
-# Read the file content
-$JSONData = Get-Content -Raw -Path $DataIngestFile
-
-# Determine if it's JSON or NDJSON
-$isValidJson = $false
-$JSONType    = $null
-# Check if the file is standard JSON or NDJSON (newline-delimited JSON objects)
-try {
-    $JSONData = $JSONData | ConvertFrom-Json -Depth 25 -ErrorAction Stop
-
-    $isValidJson = $true
-    $JSONType    = 'json'
+$raw = Get-Content -Path $DataIngestFile -Raw
+$records = try {
+    $parsed = $raw | ConvertFrom-Json -Depth 100 -ErrorAction Stop
+    @($parsed)
 } catch {
-    # If not standard JSON, try NDJSON (line-delimited JSON objects)
-    try {
-        $JSONData = Get-Content -Path $DataIngestFile
-        $JSONData | ForEach-Object {
-            $_ | ConvertFrom-Json -ErrorAction Stop | Out-Null
+    $lines = Get-Content -Path $DataIngestFile | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+    @(
+        for ($lineNumber = 0; $lineNumber -lt $lines.Count; $lineNumber++) {
+            try {
+                $lines[$lineNumber] | ConvertFrom-Json -Depth 100 -ErrorAction Stop
+            } catch {
+                throw "Invalid NDJSON at line $($lineNumber + 1): $($_.Exception.Message)"
+            }
         }
-        $isValidJson = $true
-        $JSONType    = 'ndjson'
-    } catch {
-        $isValidJson = $false
-    }
+    )
 }
 
-if (-not $isValidJson) {
-    Write-Error "The file '$DataIngestFile' is not valid JSON or NDJSON."
-    exit 1
+if ($records.Count -eq 0) {
+    throw "The file '$DataIngestFile' contains no records."
 }
 
-Write-Host "Valid JSON/NDJSON file detected :: $DataIngestFile. Continuing..."
+$token = (Get-AzAccessToken -ResourceUrl 'https://monitor.azure.com/' -AsSecureString).Token
+$tokenText = if ($token -is [System.Security.SecureString]) {
+    [System.Net.NetworkCredential]::new('', $token).Password
+} else {
+    [string]$token
+}
 
-# Information needed to authenticate to Entra ID and obtain a bearer token
-$tenantId  = "$((Get-AzContext).Tenant.Id)"
-$appId     = "ENTER YOUR APP ID HERE"
-$appSecret = "ENTER YOUR APP SECRET HERE"
+$endpoint = $LogsIngestionEndpoint.AbsoluteUri.TrimEnd('/')
+$streamUri = "$endpoint/dataCollectionRules/$DcrImmutableId/streams/$StreamName`?api-version=2023-01-01"
+$headers = @{
+    Authorization = "Bearer $tokenText"
+    'Content-Type' = 'application/json'
+}
 
-# Information needed to send data to the DCR/DCE endpoint
-$logIngestionEp = "ENTER YOUR DCE OR LOG INGESTION URI/ENDPOINT HERE"
-$dcrImmutableId = "ENTER YOUR DCR IMMUTABLE ID HERE"
+for ($offset = 0; $offset -lt $records.Count; $offset += $BatchSize) {
+    $count = [Math]::Min($BatchSize, $records.Count - $offset)
+    $batch = @($records[$offset..($offset + $count - 1)])
+    $body = ConvertTo-Json -InputObject $batch -Depth 100 -Compress
+    for ($attempt = 1; $attempt -le $MaxAttempts; $attempt++) {
+        $statusCode = 0
+        try {
+            $response = Invoke-RestMethod -Uri $streamUri -Method POST -Headers $headers -Body $body -SkipHttpErrorCheck -StatusCodeVariable statusCode
+        } catch {
+            if ($attempt -eq $MaxAttempts) {
+                throw "Batch beginning at offset $offset failed after $MaxAttempts attempts: $($_.Exception.Message)"
+            }
+            Start-Sleep -Seconds ($RetryDelaySeconds * $attempt)
+            continue
+        }
 
-# Stream name to send the data to via DCR which then sends it to the Custom Log Table (CL) in the Log Analytics workspace
-$streamName     = "Custom-PJL_HAWK" # name of the stream in the DCR that represents the destination table
-
-### Step 1: Obtain a bearer token used later to authenticate against the DCE.
-### The App Registration must have the "Metrics Publishing" RBAC role assigned to the DCR and the DCE must be linked to the DCR.
-$scope = [System.Web.HttpUtility]::UrlEncode("https://monitor.azure.com//.default")   
-$body  = "client_id=${appId}&scope=${scope}&client_secret=${appSecret}&grant_type=client_credentials"
-
-$headers = @{"Content-Type"="application/x-www-form-urlencoded"}
-$uri = "https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token"
-
-$bearerToken = (Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers).access_token
-$headers = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/json"}
-
-
-### Step 2: Send the telemetry (JSON Objects) to a Log Analytics Workspace via the DCR stream and Log Ingestion or DC Endpoint.
-# DCR Stream (Custom-PJL-HAWK) REST API ENDPOINT
-$uri  = "${logIngestionEp}/dataCollectionRules/${dcrImmutableId}/streams/${streamName}?api-version=2023-01-01"
-$cntr = $null
-foreach ($JSONObj in $JSONData) {
-
-    try {
-       if ($JSONType -eq 'json') { 
-           # Process each object separately & serialize the entire object to ensure proper formatting (NDJSON)
-           $JSONObj = $JSONObj | ConvertTo-Json -Depth 50 -Compress -ErrorAction Stop
-       }
-    
-       # Wrap the single line in square brackets to make it a valid JSON array (NDJSON)
-       # This is required (documented) to send a JSON array via the Log Analytics API. Not needed for AMA but is needed for Code/Logic App/etc.
-       $body = "[${JSONObj}]"
-    
-       $cntr++
-       Invoke-RestMethod -Uri $uri -Method POST -Body $body -Headers $headers -ErrorAction Stop
-       Write-Host "CX dummy data record::[$cntr]: `n$body - successfully uploaded to the Log-A Custom Table: `"$streamName`"." -ForegroundColor Green
-    } catch {
-       Write-Host "Error uploading record::[$cntr] `n$body to the Log-A Custom Table `"$streamName`". Error: $RestError" -ForegroundColor Red
+        if ($statusCode -in 200, 202, 204) {
+            break
+        }
+        $transient = $statusCode -eq 429 -or $statusCode -ge 500
+        if (-not $transient -or $attempt -eq $MaxAttempts) {
+            throw "Batch beginning at offset $offset failed with HTTP ${statusCode}: $response"
+        }
+        Start-Sleep -Seconds ($RetryDelaySeconds * $attempt)
     }
+    Write-Host "Uploaded $count record(s), starting at offset $offset." -ForegroundColor Green
 }

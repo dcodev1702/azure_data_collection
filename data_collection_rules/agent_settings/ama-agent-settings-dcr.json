@@ -2,8 +2,23 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "dcrName": { "type": "string", "defaultValue": "agent-disk-cache-settings-dcr" },
-    "location": { "type": "string", "defaultValue": "eastus" }
+    "dcrName": {
+      "type": "string",
+      "defaultValue": "ama-cache-training"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "diskCacheSizeMB": {
+      "type": "int",
+      "defaultValue": 15360,
+      "minValue": 4000,
+      "maxValue": 1000000,
+      "metadata": {
+        "description": "AMA MaxDiskQuotaInMB."
+      }
+    }
   },
   "resources": [
     {
@@ -13,13 +28,22 @@
       "location": "[parameters('location')]",
       "kind": "AgentSettings",
       "properties": {
-        "description": "Set AMA disk cache to 20 GB",
+        "description": "Training DCR for AMA disk cache settings",
         "agentSettings": {
           "logs": [
-            { "name": "MaxDiskQuotaInMB", "value": "20000" }
+            {
+              "name": "MaxDiskQuotaInMB",
+              "value": "[string(parameters('diskCacheSizeMB'))]"
+            }
           ]
         }
       }
     }
-  ]
+  ],
+  "outputs": {
+    "agentSettingsDcrResourceId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Insights/dataCollectionRules', parameters('dcrName'))]"
+    }
+  }
 }

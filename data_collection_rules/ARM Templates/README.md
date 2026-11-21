@@ -1,29 +1,46 @@
-### Data Collection Rule & Endpoint creation via ARM Template Deployment (Azure UI)
----------------------------------------
-- [Stream Declarations](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-structure#input-streams) in a DCR HAVE TO MATCH the stream in your REST API call.  Not the Custom Log Table, the Stream! </br>
-  ![image](https://github.com/user-attachments/assets/98c4cd7f-0100-4ce9-bcd0-e0f7addeee9a)
+# DCE and DCR ARM examples
 
-- Order of operations when it comes to Application Registration, Custom Log Tables, Data Collection Rules, etc
-  ![image](https://github.com/user-attachments/assets/0f9a6ec0-7e79-4e65-ad75-f297be6c2318)
+Choose the template that matches the ingestion path:
 
+| Template | DCR kind | DCE | Purpose |
+|---|---|---|---|
+| [DCE-Template.json](DCE-Template.json) | N/A | Creates it | Regional endpoint resource |
+| [DCR_Kind-Direct.json](DCR_Kind-Direct.json) | `Direct` | No | Direct Logs Ingestion API |
+| [DCR-Template.json](DCR-Template.json) | `Windows` | Yes | AMA JSON/text file collection |
+| [AuxiliaryTable/msevent_aux_cl.json](AuxiliaryTable/msevent_aux_cl.json) | `Windows` | No | Native Windows events to an Auxiliary table |
+| [ThreatData/TD_MDE_DCR_Direct.json](ThreatData/TD_MDE_DCR_Direct.json) | `Direct` | No | Renaming and typed fields |
 
-- DCR's of Kind:DIRECT -- DO NOT REQUIRE A DCE! [use the logsIngestion Uri embedded in the DCR] </br>
-   * Azure Monitor -> Data Collection Rules -> Your DCR. Select the latest API: 2023-03-11 to see the LogIngestion REST API Endpoint. </br>
-   ![image](https://github.com/user-attachments/assets/d81ab64e-75c2-4601-87d0-4197143f9d2d)
+## Direct DCR contract
 
+A `Direct` DCR exposes its own `logsIngestion` endpoint. Send to:
 
-- [Data Stream](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-ingestion-api-overview#endpoint) names within a DCR matter when it comes to sending data via REST API </br>
+```text
+<logsIngestion endpoint>/dataCollectionRules/<immutable DCR ID>/streams/<input stream>?api-version=2023-01-01
+```
 
-  When sending telemetry via REST API, it's vitally important to ensure the STREAMS match!! (highlighted in red) </br>
-  ![image](https://github.com/user-attachments/assets/3b8fb6f1-82a0-497c-8325-9fd686358999)
+Do not add a DCE solely because the sender uses REST.
 
+## DCE-backed agent collection
 
+AMA file/event collection examples use a DCR kind of `Windows` or `Linux` and reference the DCE with `dataCollectionEndpointId`. The monitored resource is connected to the DCR through a DCR association.
 
-  ![image](https://github.com/user-attachments/assets/93814f84-d41b-4a05-9f52-28a28e1d0531)
+## Input versus output streams
 
+For a table named `TrainingFiles_CL`:
 
-- [DCE / DCR ARM Deployment Tutorial](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/tutorial-logs-ingestion-api?tabs=dce) </br>
+- Input stream: `Custom-TrainingFiles`
+- REST URL stream: `Custom-TrainingFiles`
+- Output stream: `Custom-TrainingFiles_CL`
 
-### Edit Data Collection Rules in place using ARM Deployment (Azure UI)
----------------------------------------
-- [Edit Data Collection Rules via ARM Template](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-create-edit?tabs=cli#strategies-to-edit-and-test-a-dcr)
+The `streamDeclarations` section describes the input stream. The `dataFlows.outputStream` value selects the destination custom table.
+
+## Deployment order
+
+1. Create the workspace table.
+2. For a DCE-backed path, deploy `DCE-Template.json`.
+3. Deploy the matching DCR template.
+4. For agent collection, associate the DCR and confirm AMA.
+5. Send one test record.
+6. Validate the table with KQL.
+
+Use `az deployment group validate` and `az deployment group what-if` before applying an ARM template.

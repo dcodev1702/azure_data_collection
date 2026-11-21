@@ -17,7 +17,7 @@
         },
         "location": {
             "type": "string",
-            "defaultValue": "eastus2",
+            "defaultValue": "[resourceGroup().location]",
             "metadata": {
                 "description": "Specifies the location in which to create the Data Collection Rule."
             }
@@ -58,7 +58,7 @@
                             },
                             {
                                 "name": "severity",
-                                "type": "dynamic"
+                                "type": "string"
                             },
                             {
                                 "name": "status",
@@ -86,7 +86,7 @@
                             },
                             {
                                 "name": "category",
-                                "type": "dynamic"
+                                "type": "string"
                             },
                             {
                                 "name": "threatFamilyName",
@@ -126,7 +126,7 @@
                             },
                             {
                                 "name": "computerDnsName",
-                                "type": "datetime"
+                                "type": "string"
                             },
                             {
                                 "name": "rbacGroupName",
@@ -183,7 +183,7 @@
                         "destinations": [
                             "myworkspace"
                         ],
-                        "transformKql": "source | extend TimeGenerated = now() | project-rename threatTitle = ['title']\n",
+                        "transformKql": "source | extend TimeGenerated = now() | project-rename ThreatTitle = ['title']",
                         "outputStream": "[concat('Custom-', parameters('customLogName'), '_CL')]"
                     }
                 ]

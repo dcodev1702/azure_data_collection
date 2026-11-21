@@ -11,7 +11,7 @@
 .create table WinSecEventsRaw ingestion json mapping 'WinSecEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
 
 // 3. Set the retention policy
-.alter-merge table WinSecEventsRaw policy retention softdelete = 0d
+.alter-merge table WinSecEventsRaw policy retention softdelete = 1d
 
 // 4. Create the internal table
 .create table WinSecEvents (

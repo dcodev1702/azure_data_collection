@@ -1,83 +1,116 @@
-Provisioning Order:
--------------------
-1. User Assigned Identity
-   - Associate UAI to Storage Account with [Storage Blob Data Contributor](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles)
-   - Associate UAI with Virtual Machine
-   - Storage Blob Data Contributor Role: 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
-3. Storage Account
-   - Blob (ALDSv2) (private)
-     - Hot Tier / Block Blob
-   - Files (private)
-   - Entra ID Auth (default)
-   - Anonymous Access Disabled
-4. Data Collection Rule (AgenDirectToStore)
-   - Associate Storage Account with DCR as destination
-5. Associate DCR with VM
-6. Provision AzureMonitorAgent (AMA) extension on VM via User Assigned Identity (UAI)
+# Capstone: Windows events directly to Blob Storage and ADX
 
+## Goal
 
-[Setup](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/send-event-hubs-storage?tabs=windows%2Cwindows-1)
+Use an `AgentDirectToStore` DCR to route selected Windows Security events to Azure Storage, then either query the files as an ADX external table or ingest them into an ADX internal table.
 
-[Windows Events to Storage](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-collection-rule-samples)
+This is an advanced lab. Complete the Direct DCR and AMA concepts first.
 
-![image](https://github.com/user-attachments/assets/499e80fc-df5b-4b78-8ebf-41ab9d34e4b4)
-## ADX EXTERNAL TABLE via ADLSv2 CONFIGURATION
-1. Map ADLSv2 blob storage to ADX as an external table via a user assigned identity (UAI) -> map_uai_2_adx.json. </br>
-   - Windows Events pulled from an Azure VM associated to a DCR that sends Windows Events directly to an ADLSv2 Blob container. </br>
-   - The ADLSv2 blob container is mapped to ADX as an external table via a user assigned identity. </br>
-   
-```sql
-// 2. GRANT PERMISSIONS TO THE USER MANAGED IDENTITY (OBJ ID) TO USE EXTERNAL TABLES
-.alter-merge cluster policy managed_identity ```[
-    {
-        "ObjectId": "23c71c41-cc48-4b73-89e7-69ff6760c9fe",
-        "AllowedUsages": "ExternalTable"
-    }
-]```
+## Staged architecture
+
+1. [PoC_provision.json](PoC_provision.json) creates:
+   - User-assigned managed identity
+   - StorageV2 account and private blob container
+   - Storage Blob Data Contributor assignment
+   - `AgentDirectToStore` DCR
+2. Assign the identity to the existing VM:
+
+```bash
+az vm identity assign \
+  --resource-group <resource-group> \
+  --name <vm-name> \
+  --identities <user-assigned-identity-resource-id>
 ```
-```sql
-// 3: Create an external data source pointing to your storage account
+
+3. Deploy [default_templates/dcr_to_vm_association.json](default_templates/dcr_to_vm_association.json) to:
+   - Associate the DCR with the VM
+   - Configure/upgrade the Azure Monitor Windows Agent to use the identity
+4. Generate one of the selected Windows events and verify the container receives JSON.
+5. Choose an ADX path:
+   - [ADX/InternalTableSolution.kql](ADX/InternalTableSolution.kql) for Event Grid ingestion and an internal table
+   - The external-table query below for query-at-rest on Blob Storage
+
+Separating resource creation from VM modification is intentional. ARM templates should not attempt to PUT an existing VM with only a subset of its normal compute configuration.
+
+## Stage 1 deployment
+
+```bash
+az deployment group what-if \
+  --resource-group <resource-group> \
+  --template-file PoC_provision.json \
+  --parameters storageAccountName=<globally-unique-name>
+
+az deployment group create \
+  --resource-group <resource-group> \
+  --template-file PoC_provision.json \
+  --parameters storageAccountName=<globally-unique-name>
+```
+
+Use `--parameters` for any names that must differ. Do not edit hard-coded resource IDs.
+
+## Stage 2 validation
+
+Check:
+
+- The DCR kind is `AgentDirectToStore`.
+- The storage destination includes the intended container and identity.
+- The identity has Storage Blob Data Contributor at the storage account scope.
+- The VM has the identity.
+- The VM has the DCR association and AMA extension.
+- Blob public access and shared-key access are disabled.
+
+## External ADX table
+
+First attach the identity to ADX with [map_uai_2_adx.json](map_uai_2_adx.json), then allow that identity to use `ExternalTable` in the cluster policy. Use the real managed-identity object ID and storage endpoint.
+
+```kusto
 let options = dynamic({
   'StorageContainers': [
-    h@'https://datawinevents1799.blob.core.windows.net/secwineventsblob/i=56cc5340e30806d24a8691cb02ee613f/y=2025/m=04/d=06/h=03/m=00;impersonate'
+    h@'https://<storage-account>.blob.core.windows.net/<container>;impersonate'
   ],
   'fileExtension': '.json',
   'kind': 'storage',
-  'partition': '(MinuteBin:datetime = bin(time:datetime, 1m))',
-  'pathformat': '("i=[0-9a-f]{32}/" datetime_pattern("y={yyyy}/m={MM}/d={dd}/h={hh}/m={mm}",MinuteBin))',
   'dataformat': 'json'
 });
-evaluate infer_storage_schema(options) //result = records:dynamic
+evaluate infer_storage_schema(options)
 ```
-```sql
-// 4: Create external table and map to blob storage via a user assigned identity
-.create external table WinEventsEXT (
-  records:dynamic
-)
+
+Create the external table only after inspecting the actual generated path and schema. Replace the partition and `pathformat` clauses with the path pattern observed in your container:
+
+```kusto
+.create external table WinEventsEXT (records: dynamic)
 kind=storage
 partition by (InstanceId:string, IngestTime:datetime)
-pathformat = ("i=" InstanceId "/" datetime_pattern('y={yyyy}/m={MM}/d={dd}/h={HH}/m={mm}',IngestTime))
-dataformat = multijson //required for json arrays (e.g. records[])
+pathformat = ("i=" InstanceId "/" datetime_pattern("y={yyyy}/m={MM}/d={dd}/h={HH}/m={mm}", IngestTime))
+dataformat = multijson
 (
-  h@'https://datawinevents1799.blob.core.windows.net/secwineventsblob;managed_identity=23c71c41-cc48-4b73-89e7-69ff6760c9fe'
+  h@'https://<storage-account>.blob.core.windows.net/<container>;managed_identity=<identity-object-id>'
 )
-with (filesPreview = true, fileExtension = '.json')
+with (filesPreview=true, fileExtension=".json")
 ```
-```sql
-// 5: Create a map to the external WinEventsEXT table (e.g {Column: records -> "Properties":{"Path":"$.records"}})
-.create-or-alter external table WinEventsEXT mapping "Mapping1" '[{"Column":"records","Properties":{"Path":"$.records"}}]'
-```
-```sql
-// 6: Query the external table!
-external_table('WinEventsEXT')
+
+```kusto
+external_table("WinEventsEXT")
 | mv-expand records
 | evaluate bag_unpack(records)
 ```
-```sql
-// THIS WILL DROP THE EXTERNAL TABLE AND IT'S MAPPING
-.drop external table WinEventsEXT
 
-.show external table WinEventsEXT mappings 
+## Internal ADX table
 
-.drop external table WinEventsEXT mapping "Mapping1"
-```
+The internal-table solution uses:
+
+1. Raw staging table
+2. JSON ingestion mapping
+3. Typed destination table
+4. Expand function
+5. Update policy
+6. Event Grid ingestion connection created after the preceding resources exist
+
+Do not create the Event Grid connection first; the target table, mapping, and update policy must already exist.
+
+## Troubleshooting
+
+- No blobs: inspect identity assignment, RBAC propagation, DCR association, selected XPath, and AMA health.
+- Blobs exist but ADX returns none: inspect path format, container URL, identity usage, and `multijson` requirements.
+- ADX sees rows but fields are missing: compare actual blob records with the expansion function and update mapping.
+- Deployment fails at storage authorization: verify the principal deploying the template can create role assignments.

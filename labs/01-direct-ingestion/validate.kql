@@ -1,0 +1,14 @@
+CsaTraining_CL
+| where TimeGenerated > ago(30m)
+| project
+    TimeGenerated,
+    Name,
+    Source,
+    Version,
+    OS,
+    Hardware,
+    Distro,
+    OSVersion,
+    OSArchitecture,
+    GenAI
+| order by TimeGenerated desc

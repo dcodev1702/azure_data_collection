@@ -1,0 +1,31 @@
+[
+  {
+    "EventId": 1001,
+    "Count": 42,
+    "CountAsText": "42",
+    "OccurredAt": "2025-11-21T03:00:00Z",
+    "Device": {
+      "Name": "lab-node-01",
+      "Tags": ["training", "windows"]
+    },
+    "OptionalNote": null
+  },
+  {
+    "EventId": 1002,
+    "Count": "43",
+    "CountAsText": "43",
+    "OccurredAt": "2025-11-21T03:01:00Z",
+    "Device": {
+      "Name": "lab-node-02",
+      "Tags": ["training", "linux"]
+    }
+  },
+  {
+    "EventId": 1003,
+    "Count": 44,
+    "CountAsText": "not-a-number",
+    "OccurredAt": "2025-11-21T03:02:00+00:00",
+    "Device": null,
+    "OptionalNote": "Conversion should yield a null or explicit error field"
+  }
+]

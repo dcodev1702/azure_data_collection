@@ -1,0 +1,43 @@
+name: Validate training repository
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run repository validation
+        shell: pwsh
+        run: ./tests/validate-repository.ps1
+
+      - name: Validate shell syntax
+        shell: bash
+        run: bash -n data_collection_rules/agent_settings/ama_disk_cache_reporting.sh
+
+      - name: Install and run PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          $gallery = Get-PSRepository -Name PSGallery -ErrorAction SilentlyContinue
+          if (-not $gallery) {
+            Register-PSRepository -Name PSGallery `
+              -SourceLocation 'https://www.powershellgallery.com/api/v2' `
+              -ScriptSourceLocation 'https://www.powershellgallery.com/api/v2/items/psscript' `
+              -PublishLocation 'https://www.powershellgallery.com/api/v2/package/' `
+              -ScriptPublishLocation 'https://www.powershellgallery.com/api/v2/package/' `
+              -InstallationPolicy Trusted `
+              -PackageManagementProvider NuGet
+          }
+          Install-Module -Name PSScriptAnalyzer `
+            -Repository PSGallery `
+            -Scope CurrentUser `
+            -Force `
+            -ErrorAction Stop
+          Import-Module PSScriptAnalyzer -ErrorAction Stop
+          $results = Invoke-ScriptAnalyzer -Path . -Recurse -Severity Error
+          $results | Format-Table -AutoSize
+          if ($results) { throw "PSScriptAnalyzer found $($results.Count) error(s)." }
